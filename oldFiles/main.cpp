@@ -12,10 +12,7 @@ using namespace std;
 int main(int argc, char* argv[]) {
   initializeDB();
   printDBPrimary();
-  create_table("movies", "id", 6,
-               "id", "integer",
-               "title", "char(32)",
-               "length", "smallint");
+  create_table("movies", "id", 6, "id", "integer", "title", "char(32)", "length", "smallint");
 
   void* blk = calloc(BLOCK_SIZE, 1);
 
@@ -44,9 +41,6 @@ int main(int argc, char* argv[]) {
   */
 
   // can we fill in a string all at once given it's length?
-  char buffer1[1024];
-  memset(buffer1, '\0', 1024);
-  cout << "buffer1 strlen: " << strlen(buffer1) << endl;
 
   // perfect!
   strncpy((char*)ptr, "hello", strlen("hello"));
@@ -71,7 +65,6 @@ int main(int argc, char* argv[]) {
   // now can we print out the whole word at once?
   // strncpy to a buffer and return that? or just strncpy?
   char buffer[256];
-  memset(buffer, '\0', 256);
   strncpy(buffer, (char*)blk, 5);
   cout << buffer << endl;
 
