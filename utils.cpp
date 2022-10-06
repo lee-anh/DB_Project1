@@ -47,6 +47,7 @@ void checkSpaceAdd(int spaceNeeded, void* curr, void* currEnd, int currBlockCoun
   }
 }
 
+// for non-spanning blocks
 bool checkSpaceSearch(int fixedLength, void* currRead, void* currReadEnd) {
   // if variable, then we have to search for the terminating character
   if (fixedLength == -1) {  // variable length
@@ -130,6 +131,7 @@ void printDBPrimary() {
 
     // 1 int
     cout << *(int*)ptr << " ";
+    ((int*&)ptr)++;
     cout << endl;
   }
   // eventually for binary search we'll have to know how many records it's holding
@@ -205,6 +207,70 @@ int getN(char* str) {
   return atoi(toInt);
 }
 
+int calculateMaxRecordSize(int* dbAttrArr) {
+  int count = dbAttrArr[0];
+  int toReturn = 0;
+  for (int i = 1; i < count; i++) {
+    int check = dbAttrArr[i];
+    if (check == VARCHAR || check == CHAR) {
+      i++;
+      toReturn += dbAttrArr[i];
+    } else if (check == SMALLINT) {
+      toReturn += 2;
+    } else if (check == INTEGER || check == REAL) {
+      toReturn += 4;
+    }
+  }
+  return toReturn;
+}
+
+// can adapt to a linear search
+void* retrieveDBPrimaryRecord(char* table_name) {
+  // the offset
+  int recordSize = TABLE_NAME_SIZE + 4 * (sizeof(void*)) + sizeof(int);
+
+  void* ptr = db_primary;
+  void* ptrEnd = (void*)(((long*)((uintptr_t)ptr + (uintptr_t)BLOCK_SIZE)) - 1);
+  for (int i = 0; i < db_primary_records; i++) {
+    checkSpaceSearch(recordSize, ptr, ptrEnd);  // TODO: check edge case
+
+    char buffer[TABLE_NAME_SIZE];
+    strncpy(buffer, (char*)ptr, TABLE_NAME_SIZE);
+    if (strcmp(buffer, table_name) == 0) {
+      cout << "found db_primary record for " << buffer << endl;
+      return ptr;
+    }
+    ptr = (void*)((uintptr_t)ptr + recordSize);  // add the recordSizeOffset
+  }
+  return NULL;  // the record was not found
+}
+
+// TODO: !!!!!! I think I did DBAttr wrong !!!!!!!!!! poopie 🥲
+// define some globals
+// we could define some helper variables so we aren't always having to do sizeof
+// need table_name | attribute_name | attribute_type | variable length
+
+// TODO: we are retrieving the record after for some reason
+int* retrieveDBAttrRecord(void* dbAttrPtr) {
+  // count up how many values there are
+  void* temp = dbAttrPtr;
+  int counter = 1;  // start at 1 for the negative
+  while (*(int*)temp >= 0) {
+    counter++;
+    ((int*&)temp)++;
+  }
+  int* toReturn = (int*)malloc(sizeof(int) * counter);  // TODO: free this
+  toReturn[0] = counter;
+  cout << "retrieve DBAttrRecord count: " << counter << endl;
+  for (int i = 1; i < counter; i++) {
+    toReturn[i] = *(int*)dbAttrPtr;
+    cout << toReturn[i] << " ";
+    ((int*&)dbAttrPtr)++;
+  }
+
+  return toReturn;
+}
+
 void create_table(const char* table_name, const char* key, int length, ...) {
   va_list arg_list;
   va_start(arg_list, length);
@@ -227,6 +293,7 @@ void create_table(const char* table_name, const char* key, int length, ...) {
   // the negative character will indicate the end of the record
   // if -1 we know its variable
   // if -2 we know its fixed
+
   if (variable) {
     *(int*)db_attr_curr = -1;
   } else {
@@ -248,14 +315,105 @@ void insert(const char* table_name, int length, ...) {
   // now we have to worry about the setting we are using
   va_list arg_list;
   va_start(arg_list, length);
-  cout << "INSERT INTO " << table_name << "VALUES ";
+  cout << "INSERT INTO " << table_name << " VALUES ";
+  // first find the table that we want to insert into
+  void* record = retrieveDBPrimaryRecord((char*)table_name);
+  if (record == NULL) {
+    cerr << "table name is incorrect" << endl;
+    return;
+  }
+  char buffer[TABLE_NAME_SIZE];
+  strncpy(buffer, (char*)record, TABLE_NAME_SIZE);
+  void* temp = record;
+
+  void* dbAttrRecord = (void*)*(long*)((char*&)temp + TABLE_NAME_SIZE);
+  cout << "dbAttrRecord " << dbAttrRecord << endl;
+  int* attrArr = retrieveDBAttrRecord(dbAttrRecord);
+  cout << "attrArr: ";
+  for (int i = 1; i < attrArr[0]; i++) {
+    cout << attrArr[i] << " ";
+  }
+  void* tempBuffer = malloc(sizeof(calculateMaxRecordSize(attrArr)));
+  void* tempBufferPtr = tempBuffer;
+  int attrArrIndex = 1;
+
+  cout << "length: " << length << endl;
 
   for (int i = 0; i < length; i++) {
-    cout << va_arg(arg_list, char*) << " ";
+    // we have to know the dataType that's coming in
+    int type = attrArr[attrArrIndex];
+    if (type == VARCHAR) {
+      cout << "varchar" << endl;
+      char* at = va_arg(arg_list, char*);
+      cout << at << " " << endl;
+      attrArrIndex++;
+      int n = attrArr[attrArrIndex];
+      // copy as is, trim down if necessary
+      if (strlen(at) > n) {
+        strncpy((char*)tempBufferPtr, at, n);
+        (char*&)tempBufferPtr += n;
+      } else {
+        strncpy((char*)tempBufferPtr, at, strlen(at));
+        (char*&)tempBufferPtr += strlen(at);
+      }
+    } else if (type == CHAR) {
+      cout << "char" << endl;
+      char* at = va_arg(arg_list, char*);
+      cout << at << " ";
+      attrArrIndex++;
+      int n = attrArr[attrArrIndex];
+      // copy with filler, trim down if necessary
+      char bufferN[n];
+      memset(bufferN, '\0', n);
+      if (strlen(at) > n) {
+        strncpy(bufferN, at, n);
+      } else {
+        strncpy(bufferN, at, strlen(at));
+      }
+      strncpy((char*)tempBufferPtr, bufferN, n);
+      (char*&)tempBufferPtr += n;
+
+    } else if (type == SMALLINT) {
+      cout << "smallint" << endl;
+      short at = (short)va_arg(arg_list, int);
+      cout << at << " ";
+      *(short*)tempBufferPtr = at;
+      ((short*&)tempBufferPtr)++;
+
+    } else if (type == INTEGER) {
+      cout << "integer" << endl;
+      int at = va_arg(arg_list, int);
+      cout << at << " ";
+      *(int*)tempBufferPtr = at;
+      ((int*&)tempBufferPtr)++;
+
+    } else if (type == REAL) {
+      cout << "real" << endl;
+      double at = va_arg(arg_list, double);
+      cout << at << " ";
+      *(double*)tempBufferPtr = at;
+      ((double*&)tempBufferPtr)++;
+    }
+    attrArrIndex++;
+    // check each of these arguments against the db_attr
   }
+  int variable = attrArr[attrArrIndex];
+  /*
+  TODO: fix this
+  if (length != dbAttrArr[0] - 1) {  // of course these are not going to be correct
+    cerr << "Incorrect number of attributes specified" << endl;
+  }
+  */
+
+  // I was thinking of using a try catch for something
+
   // we don't know what the values are going to be
 
   // TODO: different insertion methods
+  // unordered
+  // ordered
+  // hashing
+  // write everything at once (should the primary key????)
 
   va_end(arg_list);
 }
@@ -266,6 +424,9 @@ void update(const char* table_name, int length, ...) {
 
 void select(const char* table_name, int length, ...) {
   // TODO: different search methods
+
+  // will have to parse the WHERE
+
   // unordered: linear
   // ordered: fixed - binary search, variable - linear
   // hashing : ???

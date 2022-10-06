@@ -50,8 +50,15 @@ void printDBPrimary();
 bool writeDataTypeToDBAttr(char* typeStr);
 void printDBAttr();
 
+// should we make these references
+void addUnorderedToTable(void* root);
+
 dataType getDataType(char* type);
 int getN(char* str);
+int calculateMaxRecordSize(int* dbAttrArr);
+
+void* retrieveDBPrimaryRecord(char* table_name);
+int* retrieveDBAttrRecord(void* dbAttrPtr);
 
 void create_table(const char* table_name, const char* key, int length, ...);
 void insert(const char* table_name, int length, ...);

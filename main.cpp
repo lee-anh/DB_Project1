@@ -10,12 +10,21 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
+  double hi = 12.123;
+  cout << "SIZE OF DOUBLE " << sizeof(hi) << endl;
   initializeDB();
   printDBPrimary();
   create_table("movies", "id", 6,
                "id", "integer",
                "title", "char(32)",
                "length", "smallint");
+
+  create_table("stars", "id", 6,
+               "id", "integer",
+               "fname", "char(32)",
+               "lname", "char(32)");
+
+  insert("movies", 3, 27, "Star Wars", 120);
 
   void* blk = calloc(BLOCK_SIZE, 1);
 
@@ -27,21 +36,6 @@ int main(int argc, char* argv[]) {
 
   cout << (uintptr_t)blkEnd - (uintptr_t)blk << endl;  // check the block size
   cout << sizeof(void*) << endl;
-  // need some way to check the end - helper function
-  // fill it with chars
-  /*
-  *(char*)ptr = 'h';
-  ((char*&)ptr)++;
-  *(char*)ptr = 'e';
-  ((char*&)ptr)++;
-  *(char*)ptr = 'l';
-  ((char*&)ptr)++;
-  *(char*)ptr = 'l';
-  ((char*&)ptr)++;
-  *(char*)ptr = 'o';
-  ((char*&)ptr)++;
-  *(char*)ptr = '\0';
-  */
 
   // can we fill in a string all at once given it's length?
   char buffer1[1024];
