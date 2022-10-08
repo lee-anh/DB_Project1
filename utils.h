@@ -8,18 +8,20 @@
 // cpp
 #include <iostream>
 
+#include "macros.h"
+
 using namespace std;
+
+// maybe we can still stick all of these guys in a class!
+enum insertionMethod { ORDERED,
+                       UNORDERED,
+                       HASH };
 enum dataType { VARCHAR,
                 CHAR,
                 SMALLINT,
                 INTEGER,
                 REAL,
                 INVALID };
-
-inline const int BLOCK_SIZE = 1024;
-inline const int TABLE_NAME_SIZE = 64;
-inline const int TEXT_MAX_SIZE = 256;
-inline const char END_RECORD_CHAR = '~';
 
 void initializeDB();
 void initializeNewBlock(void*& root, void*& curr, void*& currEnd, int& currBlockCount);
@@ -42,23 +44,22 @@ bool checkSpaceSearch(int fixedLength, void* currRead, void* currReadEnd);
 // pointer arithmetic? keep going
 // we could also keep track of how many blocks we have
 
-// dbPrimary is not spanning
-void addToDBPrimary(char* name, void* dbAttributes);
+void addToDBPrimary(char* name, void* dbAttributes, int numAttributes, int primaryKeyNum);
 void printDBPrimary();
+void* retrieveDBPrimaryRecord(char* table_name);
 
-// dbAttr is going to be spanning
-bool writeDataTypeToDBAttr(char* typeStr);
+int addToDBAttr(char* attrName, char* typeStr);
 void printDBAttr();
 
 // should we make these references
-void addUnorderedToTable(void* root);
-
+void addFixedToTable(void* bufferToWrite, int recordSize, void* dbPrimaryPtr);
+void addUnorderedToTable(void* bufferToWrite, int recordSize, void* dataRoot, void*& dataCurr, void*& dataCurrEnd, int& dataCurrBlockCount);
+bool primaryKeyIsUnique();  // make sure that the primary key is unique in insertion
 dataType getDataType(char* type);
 int getN(char* str);
-int calculateMaxRecordSize(int* dbAttrArr);
+int calculateMaxDataRecordSize(void* ptrToFirstAttribute, int numberOfAttributes);
 
-void* retrieveDBPrimaryRecord(char* table_name);
-int* retrieveDBAttrRecord(void* dbAttrPtr);
+void printTable(char* table_name);  // very closely aligned with select
 
 void create_table(const char* table_name, const char* key, int length, ...);
 void insert(const char* table_name, int length, ...);
