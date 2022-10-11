@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -g -Wall -std=c++20
 
-OBJS = main.o utils.o
+OBJS = main.o Database.o
 
 all: $(OBJS)
 	$(CC) $(CFLAGS) -o p1 *.o 
@@ -11,9 +11,9 @@ clean:
 	rm ./p1
 	rm *.o 
 
-main.o: main.cpp utils.h
+main.o: main.cpp Database.h
 	$(CC) $(CFLAGS) -c main.cpp
 
-utils.o: utils.cpp utils.h 
-	$(CC) $(CFLAGS) -c utils.cpp
+Database.o: Database.cpp Database.h 
+	$(CC) $(CFLAGS) -c Database.cpp
 

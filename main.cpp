@@ -6,25 +6,57 @@
 #include <iostream>
 
 // local
-#include "utils.h"
+#include "Database.h"
+
 using namespace std;
 
 int main(int argc, char* argv[]) {
   cout << "SIZE OF FLOAT " << sizeof(float) << endl;
-  initializeDB();
-  printDBPrimary();
-  create_table("movies", "id", 6,
-               "id", "integer",
-               "title", "char(32)",
-               "length", "smallint");
+  Database* db = new Database(UNORDERED);
+  db->printDBPrimary();
+  db->create_table("movies", "id", 6,
+                   "id", "integer",
+                   "title", "char(32)",
+                   "rating", "real");
 
-  create_table("stars", "id", 6,
-               "id", "integer",
-               "fname", "char(32)",
-               "lname", "char(32)");
+  db->create_table("stars", "id", 6,
+                   "id", "integer",
+                   "fname", "char(32)",
+                   "lname", "char(32)");
 
-  insert("movies", 3, 27, "Star Wars", 120);
-  printDBPrimary();
+  // load test
+  db->create_table("astars", "id", 6,
+                   "id", "integer",
+                   "fname", "char(32)",
+                   "lname", "char(32)");
+  db->create_table("bstars", "id", 6,
+                   "id", "integer",
+                   "fname", "char(32)",
+                   "lname", "char(32)");
+  db->create_table("cstars", "id", 6,
+                   "id", "integer",
+                   "fname", "char(32)",
+                   "lname", "char(32)");
+  db->create_table("dstars", "id", 6,
+                   "id", "integer",
+                   "fname", "char(32)",
+                   "lname", "char(32)");
+  db->create_table("estars", "id", 6,
+                   "id", "integer",
+                   "fname", "char(32)",
+                   "lname", "char(32)");
+  db->create_table("fstars", "id", 6,
+                   "id", "integer",
+                   "fname", "char(32)",
+                   "lname", "char(32)");
+  db->create_table("gstars", "id", 6,
+                   "id", "integer",
+                   "fname", "char(32)",
+                   "lname", "char(32)");
+
+  db->insert("movies", 3, 27, "Star Wars", 4.2);
+  db->insert("movies", 3, 28, "Rouge One", 3.0);
+  db->printDBPrimary();
 
   void* blk = calloc(BLOCK_SIZE, 1);
 
