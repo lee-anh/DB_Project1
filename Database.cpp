@@ -58,8 +58,8 @@ void Database::insert(const char* table_name, int length, ...) {
 
   void* dbAttrRecord = (void*)*(long*)((char*&)record + db_primary_db_attr_offset);
   int numAttributes = *(int*)((uintptr_t)record + db_primary_num_db_attr_offset);
+  int pkNumber = *(int*)((uintptr_t)record + primary_key_offset);
   int maxDataRecordSize = calculateMaxDataRecordSize(dbAttrRecord, numAttributes);
-  cout << "maxDataRecord Size: " << maxDataRecordSize << endl;
   void* tempBuffer = calloc(maxDataRecordSize, 1);
   void* tempBufferPtr = tempBuffer;
 
@@ -67,6 +67,8 @@ void Database::insert(const char* table_name, int length, ...) {
     cerr << "Number of attributes does not match" << endl;
   }
   bool variable = false;
+  void* pk = nullptr;
+  int pkLength = 0;
   for (int i = 0; i < length; i++) {
     // we have to know the dataType that's coming in
     dbAttrRecord = (void*)((uintptr_t)dbAttrRecord + TABLE_NAME_SIZE);
@@ -81,16 +83,30 @@ void Database::insert(const char* table_name, int length, ...) {
 
       // copy as is, trim down if necessary
       if (strlen(at) > n - 1) {
+        char* temp = (char*)tempBufferPtr;
         strncpy((char*)tempBufferPtr, at, n - 1);
         (char*&)tempBufferPtr += (n - 1);
         *(char*)tempBufferPtr = END_FIELD_CHAR;  // add end of field char
         ((char*&)tempBufferPtr)++;
 
+        if (i == pkNumber) {
+          pk = calloc(n - 1, sizeof(char));
+          pkLength = n - 1;
+          strncpy((char*)pk, temp, n - 1);
+        }
+
       } else {
+        char* temp = (char*)tempBufferPtr;
         strncpy((char*)tempBufferPtr, at, strlen(at));
         (char*&)tempBufferPtr += strlen(at);
         *(char*)tempBufferPtr = END_FIELD_CHAR;  // add end of field char
         ((char*&)tempBufferPtr)++;
+
+        if (i == pkNumber) {
+          pk = calloc(strlen(at) + 1, sizeof(char));
+          pkLength = strlen(at);
+          strncpy((char*)pk, temp, strlen(at));
+        }
       }
 
       variable = true;
@@ -110,12 +126,22 @@ void Database::insert(const char* table_name, int length, ...) {
       strncpy((char*)tempBufferPtr, bufferN, n);
       (char*&)tempBufferPtr += n;
 
+      if (i == pkNumber) {
+        pk = calloc(n, sizeof(char));
+        strncpy((char*)pk, bufferN, n);
+      }
+
     } else if (type == SMALLINT) {
       // cout << "smallint ";
       short at = (short)va_arg(arg_list, int);
       cout << at;
       *(short*)tempBufferPtr = at;
       ((short*&)tempBufferPtr)++;
+
+      if (i == pkNumber) {
+        pk = malloc(sizeof(short));
+        *(short*)pk = at;
+      }
 
     } else if (type == INTEGER) {
       // cout << "integer ";
@@ -124,12 +150,22 @@ void Database::insert(const char* table_name, int length, ...) {
       *(int*)tempBufferPtr = at;
       ((int*&)tempBufferPtr)++;
 
+      if (i == pkNumber) {
+        pk = malloc(sizeof(int));
+        *(int*)pk = at;
+      }
+
     } else if (type == REAL) {
       // cout << "real ";
       float at = va_arg(arg_list, double);  // we have to read in as double, but can cast to a float
       cout << at;
       *(float*)tempBufferPtr = (float)at;
       ((float*&)tempBufferPtr)++;
+
+      if (i == pkNumber) {
+        pk = malloc(sizeof(float));
+        *(float*)pk = at;
+      }
     }
     ((int*&)dbAttrRecord)++;
     if (i == length - 1) {
@@ -141,7 +177,7 @@ void Database::insert(const char* table_name, int length, ...) {
 
   if (!variable) {  // fixed
 
-    addFixedToTable(tempBuffer, maxDataRecordSize, record);
+    addFixedToTable(pk, tempBuffer, maxDataRecordSize, record);
   } else {  // variable
     // TODO: variable
     *(char*)tempBufferPtr = END_RECORD_CHAR;
@@ -455,13 +491,12 @@ void* Database::findEndOfRecord(void* currRecord) {
   return nullptr;
 }
 
-void Database::addFixedToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr) {
-  // figure out all the pointer arithmetic here
-  // TODO: FIGURE OUT IF THE PRIMARY KEY IS UNIQUE
-
+void Database::addFixedToTable(void* primaryKey, void* bufferToWrite, int recordSize, void*& dbPrimaryPtr) {
+  if (findPrimaryKeyFixed(dbPrimaryPtr, primaryKey) != nullptr) {
+    cerr << "insertion error: duplicate primary key" << endl;
+    return;
+  }
   if (method == UNORDERED) {
-    // cout << "mom " << (dataCurrPtr) << endl;
-    //  addUnorderedToTable(bufferToWrite, recordSize, dataRoot, dataCurr, dataCurrEnd, dataCurrBlockCount);
     addUnorderedToTable(bufferToWrite, recordSize, dbPrimaryPtr);
   }
 
@@ -471,6 +506,8 @@ void Database::addFixedToTable(void* bufferToWrite, int recordSize, void*& dbPri
 void Database::addVariableToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr) {
   // figure out the actual recordSize
   int actualRecordSize = 0;
+
+  // TODO: check the primary key
 
   char* bufferPtr = (char*)bufferToWrite;
   for (int i = 0; i < recordSize; i++) {
@@ -500,25 +537,71 @@ void Database::addUnorderedToTable(void* bufferToWrite, int recordSize, void*& d
   *(int*)((uintptr_t)dbPrimaryPtr + data_record_count_offset) = dataRecordCount + 1;
 }
 
-bool Database::primaryKeyIsUnique(void* dataRoot, int numDataRecords, void* pkTry, int pkOffset, dataType pkType, int pkLength) {
-  // we have to worry about variable and fixed!
-  for (int i = 0; i < numDataRecords; i++) {
-    if (pkType == VARCHAR) {
-      // we have to find the end of attribute character
-    } else if (pkType == CHAR) {
-      // cast and compare
+// primary key can be modified to be a search for a certain attribute?
+void* Database::findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind) {
+  // find out the type of primary key
+  void* dbAttrPtr = (void*)*(long*)((uintptr_t)dbPrimaryPtr + db_primary_db_attr_offset);
+  int numDbAttr = *(int*)((uintptr_t)dbPrimaryPtr + db_primary_num_db_attr_offset);
+  int primaryKeyNumber = *(int*)((uintptr_t)dbPrimaryPtr + primary_key_offset);
+
+  void* readDbAttr = dbAttrPtr;
+  void* readDbAttrEnd = findEndOfRecord(readDbAttr);
+  // find the type of primary key and calculate the offset
+  int offset = 0;
+  dataType pkType = INVALID;
+  int pkSize = 0;
+  for (int i = 0; i < numDbAttr; i++) {
+    checkSpaceSearch(db_attr_record_size, readDbAttr, readDbAttrEnd);
+
+    dataType type = *(dataType*)((uintptr_t)readDbAttr + attr_type_offset);
+    if (i == primaryKeyNumber) {
+      pkType = type;
+      break;
+    }
+    if (type == CHAR) {  // technically we shouldn't be able to get a varchar here
+      int size = *(int*)((uintptr_t)readDbAttr + attr_length_offset);
+      offset += size;
+      pkSize = size;
+    } else if (type == SMALLINT) {
+      offset += sizeof(short);
+    } else if (type == INTEGER || type == REAL) {
+      offset += sizeof(int);
+    }
+    // on to the next record
+    readDbAttr = (void*)((uintptr_t)readDbAttr + db_attr_record_size);
+  }
+  int fixedSize = calculateMaxDataRecordSize(dbAttrPtr, numDbAttr);
+  void* dataRoot = (void*)*(long*)((uintptr_t)dbPrimaryPtr + data_root_offset);
+
+  int dataCurrRecordCount = *(int*)((uintptr_t)dbPrimaryPtr + data_record_count_offset);
+
+  void* dataRead = dataRoot;
+  void* dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
+  for (int i = 0; i < dataCurrRecordCount; i++) {
+    checkSpaceSearch(fixedSize, dataRead, dataReadEnd);
+    void* pk = (void*)((uintptr_t)dataRead + offset);
+    if (pkType == CHAR) {
+      if (strncmp((char*)pk, (char*)pkToFind, pkSize) == 0) {
+        return dataRead;
+      }
 
     } else if (pkType == SMALLINT) {
-      // cast and compare
-
+      if (*(short*)pkToFind == *(short*)pk) {
+        return dataRead;
+      }
     } else if (pkType == INTEGER) {
-      // cast and compare
+      if (*(int*)pkToFind == *(int*)pk) {
+        return dataRead;
+      }
     } else if (pkType == REAL) {
-      // cast and compare
+      if (*(float*)pkToFind == *(float*)pk) {
+        return dataRead;
+      }
     }
+    // increment to the next record
+    dataRead = (void*)((intptr_t)dataRead + fixedSize);
   }
-
-  return true;
+  return nullptr;
 }
 
 void Database::printTable(char* table_name) {
@@ -535,15 +618,8 @@ void Database::printTable(char* table_name) {
   bool variable = false;  // useful to know I guess... how are we going to do variable records? special ending for a varchar and special ending for a record?
   dataType attrTypes[numAttr];
   void* attrRecords[numAttr];  // pointer to each attribute
-  // TODO: need a current read head and curr end read head
   void* readDBAttr = dbAttrRecord;
   void* readDBAttrEnd = findEndOfRecord(dbAttrRecord);
-
-  // we would have no idea where the end is, yikes
-  // 🤔 how could we find the end of this? we need one more piece of information
-  // is there a way we could get around this problem for now? we can iterate through db_attr find the end of the record
-  // oh wait this isn't fully accurate
-  // void* readDBAttrEnd = (void*)(((long*)((uintptr_t)dbAttrRecord + (uintptr_t)BLOCK_SIZE)) - 1);
 
   // print out the headers
   for (int i = 0; i < numAttr; i++) {

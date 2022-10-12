@@ -80,12 +80,13 @@ class Database {
   void* findEndOfRecord(void* currRecord);
 
   // DataTable
-  void addFixedToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
+  void addFixedToTable(void* primaryKey, void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
   void addVariableToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
   void addUnorderedToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
   // void addUnorderedToTable(void* bufferToWrite, int recordSize, void* dataRoot, void*& dataCurr, void*& dataCurrEnd, int& dataCurrBlockCount);
   bool primaryKeyIsUnique(void* dataRoot, int numDataRecords, void* pkTry, int pkOffset, dataType pkType, int pkLength);  // make sure that the primary key is unique in insertion
-  void printTable(char* table_name);                                                                                      // very closely aligned with select
+  void* findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind);
+  void printTable(char* table_name);  // very closely aligned with select
 
   // other helper functions
   dataType getDataType(char* type);

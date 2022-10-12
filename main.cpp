@@ -124,6 +124,8 @@ int main(int argc, char* argv[]) {
     */
   db->insert("movies", 3, 27, "Star Wars", 4.2);
   db->insert("movies", 3, 28, "Rouge One", 3.0);
+  db->insert("movies", 3, 27, "Star Wars", 4.2);
+  db->insert("movies", 3, 28, "Rouge One", 3.0);
 
   db->printDBPrimary();
   cout << "Num db primary blocks " << db->db_primary_blocks << endl;
