@@ -25,6 +25,7 @@ int main(int argc, char* argv[]) {
                    "lname", "char(32)");
 
   // load test
+
   db->create_table("astars", "id", 6,
                    "id", "integer",
                    "fname", "char(32)",
@@ -33,6 +34,7 @@ int main(int argc, char* argv[]) {
                    "id", "integer",
                    "fname", "char(32)",
                    "lname", "char(32)");
+
   db->create_table("cstars", "id", 6,
                    "id", "integer",
                    "fname", "char(32)",
