@@ -23,98 +23,116 @@ int main(int argc, char* argv[]) {
                    "id", "integer",
                    "fname", "char(32)",
                    "lname", "char(32)");
+  db->printDBPrimary();
+
+  db->create_table("critics", "id", 6,
+                   "id", "integer",
+                   "fname", "varchar(32)",
+                   "lname", "varchar(32)");
+  db->printDBPrimary();
+  db->printDBAttr();
+
+  db->insert("stars", 3, 13, "Harrison", "Ford");
+  db->insert("critics", 3, 123, "Mario", "Bros");
 
   // load test
 
-  db->create_table("astars", "id", 6,
-                   "id", "integer",
-                   "fname", "char(32)",
-                   "lname", "char(32)");
-  db->create_table("bstars", "id", 6,
-                   "id", "integer",
-                   "fname", "char(32)",
-                   "lname", "char(32)");
+  /*
+    db->create_table("astars", "id", 6,
+                     "id", "integer",
+                     "fname", "char(32)",
+                     "lname", "char(32)");
+    db->create_table("bstars", "id", 6,
+                     "id", "integer",
+                     "fname", "char(32)",
+                     "lname", "char(32)");
 
-  db->create_table("cstars", "id", 6,
-                   "id", "integer",
-                   "fname", "char(32)",
-                   "lname", "char(32)");
-  db->create_table("dstars", "id", 6,
-                   "id", "integer",
-                   "fname", "char(32)",
-                   "lname", "char(32)");
-  db->create_table("estars", "id", 6,
-                   "id", "integer",
-                   "fname", "char(32)",
-                   "lname", "char(32)");
-  db->create_table("fstars", "id", 6,
-                   "id", "integer",
-                   "fname", "char(32)",
-                   "lname", "char(32)");
-  db->create_table("gstars", "id", 6,
-                   "id", "integer",
-                   "fname", "char(32)",
-                   "lname", "char(32)");
-  db->create_table("aastars", "id", 6,
-                   "id", "integer",
-                   "fname", "char(32)",
-                   "lname", "char(32)");
-  db->create_table("bastars", "id", 6,
-                   "id", "integer",
-                   "fname", "char(32)",
-                   "lname", "char(32)");
+    db->create_table("cstars", "id", 6,
+                     "id", "integer",
+                     "fname", "char(32)",
+                     "lname", "char(32)");
+    db->create_table("dstars", "id", 6,
+                     "id", "integer",
+                     "fname", "char(32)",
+                     "lname", "char(32)");
+    db->create_table("estars", "id", 6,
+                     "id", "integer",
+                     "fname", "char(32)",
+                     "lname", "char(32)");
+    db->create_table("fstars", "id", 6,
+                     "id", "integer",
+                     "fname", "char(32)",
+                     "lname", "char(32)");
+    db->create_table("gstars", "id", 6,
+                     "id", "integer",
+                     "fname", "char(32)",
+                     "lname", "char(32)");
+    db->create_table("aastars", "id", 6,
+                     "id", "integer",
+                     "fname", "char(32)",
+                     "lname", "char(32)");
+    db->create_table("bastars", "id", 6,
+                     "id", "integer",
+                     "fname", "char(32)",
+                     "lname", "char(32)");
 
-  db->create_table("castars", "id", 6,
-                   "id", "integer",
-                   "fname", "char(32)",
-                   "lname", "char(32)");
-  db->create_table("dastars", "id", 6,
-                   "id", "integer",
-                   "fname", "char(32)",
-                   "lname", "char(32)");
-  db->create_table("eastars", "id", 6,
-                   "id", "integer",
-                   "fname", "char(32)",
-                   "lname", "char(32)");
-  db->create_table("fastars", "id", 6,
-                   "id", "integer",
-                   "fname", "char(32)",
-                   "lname", "char(32)");
-  db->create_table("gastars", "id", 6,
-                   "id", "integer",
-                   "fname", "char(32)",
-                   "lname", "char(32)");
+    db->create_table("castars", "id", 6,
+                     "id", "integer",
+                     "fname", "char(32)",
+                     "lname", "char(32)");
+    db->create_table("dastars", "id", 6,
+                     "id", "integer",
+                     "fname", "char(32)",
+                     "lname", "char(32)");
+    db->create_table("eastars", "id", 6,
+                     "id", "integer",
+                     "fname", "char(32)",
+                     "lname", "char(32)");
+    db->create_table("fastars", "id", 6,
+                     "id", "integer",
+                     "fname", "char(32)",
+                     "lname", "char(32)");
+    db->create_table("gastars", "id", 6,
+                     "id", "integer",
+                     "fname", "char(32)",
+                     "lname", "char(32)");
 
-  // we aren't worrying about primary keys yet
+    // we aren't worrying about primary keys yet
 
-  db->insert("movies", 3, 27, "Star Wars", 4.2);
-  db->insert("movies", 3, 28, "Rouge One", 3.0);
-  db->insert("movies", 3, 27, "Star Wars", 4.2);
-  db->insert("movies", 3, 28, "Rouge One", 3.0);
-  db->insert("movies", 3, 27, "Star Wars", 4.2);
-  db->insert("movies", 3, 28, "Rouge One", 3.0);
-  db->insert("movies", 3, 27, "Star Wars", 4.2);
-  db->insert("movies", 3, 28, "Rouge One", 3.0);
-  db->insert("movies", 3, 27, "Star Wars", 4.2);
-  db->insert("movies", 3, 28, "Rouge One", 3.0);
-  db->insert("movies", 3, 27, "Star Wars", 4.2);
-  db->insert("movies", 3, 28, "Rouge One", 3.0);
-  db->insert("movies", 3, 27, "Star Wars", 4.2);
-  db->insert("movies", 3, 28, "Rouge One", 3.0);
-  db->insert("movies", 3, 27, "Star Wars", 4.2);
-  db->insert("movies", 3, 28, "Rouge One", 3.0);
-  db->insert("movies", 3, 27, "Star Wars", 4.2);
-  db->insert("movies", 3, 28, "Rouge One", 3.0);
-  db->insert("movies", 3, 27, "Star Wars", 4.2);
-  db->insert("movies", 3, 28, "Rouge One", 3.0);
-  db->insert("movies", 3, 27, "Star Wars", 4.2);
-  db->insert("movies", 3, 28, "Rouge One", 3.0);
+    db->insert("movies", 3, 27, "Star Wars", 4.2);
+    db->insert("movies", 3, 28, "Rouge One", 3.0);
+    db->insert("movies", 3, 27, "Star Wars", 4.2);
+    db->insert("movies", 3, 28, "Rouge One", 3.0);
+    db->insert("movies", 3, 27, "Star Wars", 4.2);
+    db->insert("movies", 3, 28, "Rouge One", 3.0);
+    db->insert("movies", 3, 27, "Star Wars", 4.2);
+    db->insert("movies", 3, 28, "Rouge One", 3.0);
+    db->insert("movies", 3, 27, "Star Wars", 4.2);
+    db->insert("movies", 3, 28, "Rouge One", 3.0);
+    db->insert("movies", 3, 27, "Star Wars", 4.2);
+    db->insert("movies", 3, 28, "Rouge One", 3.0);
+    db->insert("movies", 3, 27, "Star Wars", 4.2);
+    db->insert("movies", 3, 28, "Rouge One", 3.0);
+    db->insert("movies", 3, 27, "Star Wars", 4.2);
+    db->insert("movies", 3, 28, "Rouge One", 3.0);
+    db->insert("movies", 3, 27, "Star Wars", 4.2);
+    db->insert("movies", 3, 28, "Rouge One", 3.0);
+    db->insert("movies", 3, 27, "Star Wars", 4.2);
+    db->insert("movies", 3, 28, "Rouge One", 3.0);
+    db->insert("movies", 3, 27, "Star Wars", 4.2);
+    db->insert("movies", 3, 28, "Rouge One", 3.0);
+    */
   db->insert("movies", 3, 27, "Star Wars", 4.2);
   db->insert("movies", 3, 28, "Rouge One", 3.0);
 
   db->printDBPrimary();
+  cout << "Num db primary blocks " << db->db_primary_blocks << endl;
 
   cout << "Num db attribute blocks " << db->db_attr_blocks << endl;
+  cout << "db_attr " << db->db_attr << endl;
+  cout << "db_attr_curr_end " << db->db_attr_curr_end << endl;
+
+  /*
   void* blk = calloc(BLOCK_SIZE, 1);
 
   void* ptr = blk;
@@ -141,13 +159,12 @@ int main(int argc, char* argv[]) {
   cout << "dataType: " << *(dataType*)ptr << endl;
   ((dataType*&)ptr)++;
 
-  /*
   void* ptr2 = blk;
   for (int i = 0; i < 6; i++) {
     cout << *(char*)ptr2 << endl;
     ((char*&)ptr2)++;
   }
-  */
+
 
   cout << (char*)blk << endl;
 
@@ -201,6 +218,7 @@ int main(int argc, char* argv[]) {
   free(test1);
   free(test2);
   free(blk);
+  */
 
   return 0;
 }

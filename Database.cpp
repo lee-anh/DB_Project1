@@ -53,15 +53,13 @@ void Database::insert(const char* table_name, int length, ...) {
     return;
   }
 
-  void* temp = record;  // level of protection
   char buffer[TABLE_NAME_SIZE];
-  strncpy(buffer, (char*)temp, TABLE_NAME_SIZE);
+  strncpy(buffer, (char*)record, TABLE_NAME_SIZE);
 
-  // HOW TO GET A POINTER OUT THE RIGHT WAY:
-  void* dbAttrRecord = (void*)*(long*)((char*&)temp + db_primary_db_attr_offset);
-  // cout << "dbAttrRecord " << dbAttrRecord << endl;
-  int numAttributes = *(int*)((uintptr_t)temp + db_primary_num_db_attr_offset);
+  void* dbAttrRecord = (void*)*(long*)((char*&)record + db_primary_db_attr_offset);
+  int numAttributes = *(int*)((uintptr_t)record + db_primary_num_db_attr_offset);
   int maxDataRecordSize = calculateMaxDataRecordSize(dbAttrRecord, numAttributes);
+  cout << "maxDataRecord Size: " << maxDataRecordSize << endl;
   void* tempBuffer = calloc(maxDataRecordSize, 1);
   void* tempBufferPtr = tempBuffer;
 
@@ -80,14 +78,21 @@ void Database::insert(const char* table_name, int length, ...) {
       char* at = va_arg(arg_list, char*);
       cout << at;
       int n = *(int*)dbAttrRecord;
+
       // copy as is, trim down if necessary
-      if (strlen(at) > n) {
-        strncpy((char*)tempBufferPtr, at, n);
-        (char*&)tempBufferPtr += n;
+      if (strlen(at) > n - 1) {
+        strncpy((char*)tempBufferPtr, at, n - 1);
+        (char*&)tempBufferPtr += (n - 1);
+        *(char*)tempBufferPtr = END_FIELD_CHAR;  // add end of field char
+        ((char*&)tempBufferPtr)++;
+
       } else {
         strncpy((char*)tempBufferPtr, at, strlen(at));
         (char*&)tempBufferPtr += strlen(at);
+        *(char*)tempBufferPtr = END_FIELD_CHAR;  // add end of field char
+        ((char*&)tempBufferPtr)++;
       }
+
       variable = true;
     } else if (type == CHAR) {
       // cout << "char ";
@@ -121,7 +126,6 @@ void Database::insert(const char* table_name, int length, ...) {
 
     } else if (type == REAL) {
       // cout << "real ";
-      // maybe an int would be better?
       float at = va_arg(arg_list, double);  // we have to read in as double, but can cast to a float
       cout << at;
       *(float*)tempBufferPtr = (float)at;
@@ -136,9 +140,13 @@ void Database::insert(const char* table_name, int length, ...) {
   }
 
   if (!variable) {  // fixed
+
     addFixedToTable(tempBuffer, maxDataRecordSize, record);
   } else {  // variable
     // TODO: variable
+    *(char*)tempBufferPtr = END_RECORD_CHAR;
+
+    addVariableToTable(tempBuffer, maxDataRecordSize, record);
   }
 
   // I was thinking of using a try catch for something... what was it?
@@ -151,6 +159,7 @@ void Database::insert(const char* table_name, int length, ...) {
 void Database::update(const char* table_name, int length, ...) {
   // update fixed is easy
   // to find a data record
+  // very much based on select
 
   // update variable is hard because it might involve shifting all the records (do the same thing as sorted)
 }
@@ -184,7 +193,6 @@ void Database::initializeDB() {
   initializeNewBlock(db_attr, db_attr_curr, db_attr_curr_end, db_attr_blocks);
 }
 
-// TODO: change level of these pointers? I'm not sure if it's going to work how we think
 void Database::initializeNewBlock(void*& root, void*& curr, void*& currEnd, int& currBlockCount) {
   root = (void*)calloc(BLOCK_SIZE, 1);
   curr = root;
@@ -192,10 +200,6 @@ void Database::initializeNewBlock(void*& root, void*& curr, void*& currEnd, int&
   currBlockCount = 1;
 }
 
-// already initialized block, root doesn't change
-
-// curr and currEnd need to be pointers to that part of db_primary
-// Ok so I'm just going to make new functions, that's easier!
 void Database::addNewBlock(void*& curr, void*& currEnd, int& currBlockCount) {
   if (curr == NULL || currEnd == NULL) {
     // error
@@ -220,27 +224,26 @@ void Database::addNewDataBlock(void*& dbPrimaryPtr) {
   *(long*)((uintptr_t)dbPrimaryPtr + data_curr_end_offset) = (uintptr_t)toAdd + (uintptr_t)BLOCK_SIZE - sizeof(long);  // put dataCurrEnd in the right place
 }
 
-// TODO: check this
-// curr and currEnd are the actual pointers to the beginning and end
-// where are we using these/ are values preserved how we think they are?
 void Database::checkSpaceAdd(int spaceNeeded, void*& curr, void*& currEnd, int& currBlockCount) {
   if ((uintptr_t)currEnd - (uintptr_t)curr < spaceNeeded) {
     addNewBlock(curr, currEnd, currBlockCount);
   }
 }
 
-// TODO: agh these also need to be changed to pointers I think 😬
 bool Database::checkSpaceSearch(int fixedLength, void*& currRead, void*& currReadEnd) {
   if (fixedLength == -1) {  // variable length
     // search in the current block for a record terminating character
     // if we can't find it, then
     int spaceToCheck = (uintptr_t)currReadEnd - (uintptr_t)currRead;
     bool found = false;
+    char* currReadPtr = (char*)currRead;
     for (int i = 0; i < spaceToCheck; i++) {
-      if (*(char*)currRead == END_RECORD_CHAR) {
+      // cout << "*currReadPtr " << *currReadPtr << endl;
+      if (*currReadPtr == END_RECORD_CHAR) {
         found = true;
         break;
       }
+      currReadPtr++;
     }
     if (!found) {
       // time to get to the next block
@@ -334,10 +337,9 @@ void Database::printDBPrimary() {
   // read heads
   void* ptr = db_primary;
   void* ptrEnd = (void*)(((long*)((uintptr_t)ptr + (uintptr_t)BLOCK_SIZE)) - 1);
-  cout << "name| void* db_attr | int num_db_attr | int primary_key_num | void* data_root | void* data_curr | void* data end | int numDataBlocks| int numDataRecords" << endl;
+  cout << "name | void* db_attr | int num_db_attr | int primary_key_num | void* data_root | void* data_curr | void* data end | int numDataBlocks| int numDataRecords" << endl;
 
   for (int i = 0; i < db_primary_records; i++) {
-    // edge case: make sure our pointers are in the right place according to the blocks
     checkSpaceSearch(db_primary_record_size, ptr, ptrEnd);
     // 1 name
     char buffer[TABLE_NAME_SIZE];
@@ -379,11 +381,12 @@ void* Database::retrieveDBPrimaryRecord(char* table_name) {
     checkSpaceSearch(db_primary_record_size, ptr, ptrEnd);
     char buffer[TABLE_NAME_SIZE];
     strncpy(buffer, (char*)ptr, TABLE_NAME_SIZE);
+
     if (strcmp(buffer, table_name) == 0) {
       // cout << "found db_primary record for " << buffer << endl;
       return ptr;
     }
-    ptr = (void*)((uintptr_t)ptr + db_primary_records);  // add the recordSizeOffset
+    ptr = (void*)((uintptr_t)ptr + db_primary_record_size);  // add the recordSizeOffset
   }
   return nullptr;  // the record was not found
 }
@@ -429,13 +432,27 @@ void Database::printDBAttr() {
     (char*&)ptr += TABLE_NAME_SIZE;
 
     // type
-    cout << *(int*)ptr << " | ";
-    ((int*&)ptr)++;
+    cout << *(dataType*)ptr << " | ";
+    ((dataType*&)ptr)++;
 
     // length
     cout << *(int*)ptr << endl;
     ((int*&)ptr)++;
   }
+}
+
+// TODO: get rid of this!
+void* Database::findEndOfRecord(void* currRecord) {
+  void* currRead = db_attr;
+  void* currReadEnd = (void*)(((long*)((uintptr_t)currRead + (uintptr_t)BLOCK_SIZE)) - 1);
+  for (int i = 0; i < db_attr_records; i++) {
+    checkSpaceSearch(db_attr_records, currRead, currReadEnd);
+    if (currRead == currRecord) {
+      return currReadEnd;
+    }
+    currRead = (void*)((uintptr_t)currRead + db_attr_record_size);  // go on to the next record
+  }
+  return nullptr;
 }
 
 void Database::addFixedToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr) {
@@ -446,6 +463,24 @@ void Database::addFixedToTable(void* bufferToWrite, int recordSize, void*& dbPri
     // cout << "mom " << (dataCurrPtr) << endl;
     //  addUnorderedToTable(bufferToWrite, recordSize, dataRoot, dataCurr, dataCurrEnd, dataCurrBlockCount);
     addUnorderedToTable(bufferToWrite, recordSize, dbPrimaryPtr);
+  }
+
+  free(bufferToWrite);
+}
+
+void Database::addVariableToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr) {
+  // figure out the actual recordSize
+  int actualRecordSize = 0;
+
+  char* bufferPtr = (char*)bufferToWrite;
+  for (int i = 0; i < recordSize; i++) {
+    if (*bufferPtr == END_RECORD_CHAR) {
+      break;
+    }
+    actualRecordSize++;
+  }
+  if (method == UNORDERED) {
+    addUnorderedToTable(bufferToWrite, actualRecordSize, dbPrimaryPtr);
   }
 
   free(bufferToWrite);
@@ -465,7 +500,27 @@ void Database::addUnorderedToTable(void* bufferToWrite, int recordSize, void*& d
   *(int*)((uintptr_t)dbPrimaryPtr + data_record_count_offset) = dataRecordCount + 1;
 }
 
-// TODO: improve formatting to be like CREATE_TABLE
+bool Database::primaryKeyIsUnique(void* dataRoot, int numDataRecords, void* pkTry, int pkOffset, dataType pkType, int pkLength) {
+  // we have to worry about variable and fixed!
+  for (int i = 0; i < numDataRecords; i++) {
+    if (pkType == VARCHAR) {
+      // we have to find the end of attribute character
+    } else if (pkType == CHAR) {
+      // cast and compare
+
+    } else if (pkType == SMALLINT) {
+      // cast and compare
+
+    } else if (pkType == INTEGER) {
+      // cast and compare
+    } else if (pkType == REAL) {
+      // cast and compare
+    }
+  }
+
+  return true;
+}
+
 void Database::printTable(char* table_name) {
   // just do a select all from table? maybe do a select helper
   void* record = retrieveDBPrimaryRecord(table_name);
@@ -480,18 +535,27 @@ void Database::printTable(char* table_name) {
   bool variable = false;  // useful to know I guess... how are we going to do variable records? special ending for a varchar and special ending for a record?
   dataType attrTypes[numAttr];
   void* attrRecords[numAttr];  // pointer to each attribute
+  // TODO: need a current read head and curr end read head
+  void* readDBAttr = dbAttrRecord;
+  void* readDBAttrEnd = findEndOfRecord(dbAttrRecord);
+
+  // we would have no idea where the end is, yikes
+  // 🤔 how could we find the end of this? we need one more piece of information
+  // is there a way we could get around this problem for now? we can iterate through db_attr find the end of the record
+  // oh wait this isn't fully accurate
+  // void* readDBAttrEnd = (void*)(((long*)((uintptr_t)dbAttrRecord + (uintptr_t)BLOCK_SIZE)) - 1);
+
   // print out the headers
   for (int i = 0; i < numAttr; i++) {
-    // what are we doing here?
-    attrRecords[i] = dbAttrRecord;
+    checkSpaceSearch(db_attr_record_size, readDBAttr, readDBAttrEnd);
+
+    attrRecords[i] = readDBAttr;
 
     char attrName[TABLE_NAME_SIZE];
-    strncpy(attrName, (char*)dbAttrRecord, TABLE_NAME_SIZE);
-    dbAttrRecord = (void*)((uintptr_t)dbAttrRecord + TABLE_NAME_SIZE);
+    strncpy(attrName, (char*)attrRecords[i], TABLE_NAME_SIZE);
 
-    dataType type = *(dataType*)dbAttrRecord;
+    dataType type = *(dataType*)((uintptr_t)attrRecords[i] + attr_type_offset);
     attrTypes[i] = type;
-    ((dataType*&)dbAttrRecord)++;
     if (type == VARCHAR) {
       variable = true;
     }
@@ -506,8 +570,8 @@ void Database::printTable(char* table_name) {
       cout << " | ";
     }
 
-    ((int*&)dbAttrRecord)++;  // skip over the size too
     // the next is our next record
+    readDBAttr = (void*)((uintptr_t)readDBAttr + db_attr_record_size);
   }
 
   // set up read heads
@@ -520,13 +584,14 @@ void Database::printTable(char* table_name) {
   }
   // we just need the attribute types so we know what to cast it into
   for (int i = 0; i < dataCurrRecordCount; i++) {
-    checkSpaceSearch(fixedLength, dataRead, dataReadEnd);  // TODO: replace with new
+    checkSpaceSearch(fixedLength, dataRead, dataReadEnd);
+
     // cout << "dataReadHead 2: " << dataRead << endl;
     for (int j = 0; j < numAttr; j++) {
       dataType type = attrTypes[j];
       if (type == VARCHAR) {
         // get max, set up a buffer
-        int buffSize = *(int*)((uintptr_t)attrRecords[j] + TABLE_NAME_SIZE + sizeof(dataType));
+        int buffSize = *(int*)((uintptr_t)attrRecords[j] + attr_length_offset);
         char buff[buffSize];
         memset(buff, '\0', buffSize);
 
@@ -535,19 +600,17 @@ void Database::printTable(char* table_name) {
         for (int k = 0; k < buffSize; k++) {
           char a = *(char*)dataRead;
           ((char*&)dataRead)++;  // move on to next byte regardless
-          if (a == END_RECORD_CHAR) {
+          if (a == END_FIELD_CHAR) {
             break;
           }
           buff[k] = a;
         }
         // cout
         cout << buff;
-        // while loop to append - go fix
-        // cout
 
       } else if (type == CHAR) {
         // get char length, set up a buffer
-        int buffSize = *(int*)((uintptr_t)attrRecords[j] + TABLE_NAME_SIZE + sizeof(dataType));
+        int buffSize = *(int*)((uintptr_t)attrRecords[j] + attr_length_offset);
         char buff[buffSize];
         memset(buff, '\0', buffSize);
 
@@ -635,12 +698,19 @@ int Database::getN(char* str) {
 
 int Database::calculateMaxDataRecordSize(void* ptrToFirstAttribute, int numberOfAttributes) {
   void* ptr = ptrToFirstAttribute;  // just precautionary
+  void* ptrEnd = findEndOfRecord(ptr);
   int toReturn = 0;
+  bool variable = false;
   for (int i = 0; i < numberOfAttributes; i++) {
+    checkSpaceSearch(db_attr_record_size, ptr, ptrEnd);
     ptr = (void*)((uintptr_t)ptr + TABLE_NAME_SIZE);
     dataType dt = *(dataType*)ptr;
     if (dt == VARCHAR || dt == CHAR) {
+      if (dt == VARCHAR) {
+        variable = true;
+      }
       ((dataType*&)ptr)++;
+
       toReturn += *(int*)ptr;
       ((int*&)ptr)++;
     } else if (dt == SMALLINT) {
@@ -653,6 +723,8 @@ int Database::calculateMaxDataRecordSize(void* ptrToFirstAttribute, int numberOf
       ((int*&)ptr)++;
     }
   }
+  // if variable, we have to add 1 for the END_RECORD_CHAR
+  if (variable) toReturn++;
 
   return toReturn;
 }
@@ -663,7 +735,6 @@ bool Database::compare(char* targetValue, char* comparator, void* candidate, int
   // we can strstr to find
   // would be good to parse the before, the after and know the type (only varchar and char will be different)
 
-  // how will we know the length of the VARCHAR? 😢
   if (type == VARCHAR || type == CHAR) {
     char str[candidateLength];
     memset(str, '\0', candidateLength);  // for good measure

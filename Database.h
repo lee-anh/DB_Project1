@@ -24,10 +24,8 @@ class Database {
   // TODO: make everything under here private - how does this affect the testing suite?
   // instance variables
   insertionMethod method;
-  // pointers to important blocks and some useful information
+
   // db_primary format:
-  // would we also want the number of records? yeah that's super useful for binary search
-  // I think we'll just calculate the max size of the db_attr every time, that's ok
   // char(TABLE_NAME_SIZE) table_name | (void*) db_attr (first) | (int) num_db_attr | (int) primary_key_num  | (void*) data_root | (void*) dataCurr | (void*) dataEnd  | (int) numCurrBlockCount| (int) currRecordCount
   void* db_primary = NULL;
   void* db_primary_curr = NULL;
@@ -47,7 +45,6 @@ class Database {
   int db_primary_record_size = TABLE_NAME_SIZE + 4 * (sizeof(void*)) + 4 * sizeof(int);
   int db_attr_record_size = TABLE_NAME_SIZE + 2 * sizeof(int);
 
-  // why didn't we do this earlier 🤦🏻‍♀️
   int db_primary_db_attr_offset = TABLE_NAME_SIZE;
   int db_primary_num_db_attr_offset = TABLE_NAME_SIZE + sizeof(void*);
   int primary_key_offset = TABLE_NAME_SIZE + sizeof(void*) + sizeof(int);
@@ -80,13 +77,15 @@ class Database {
   // DBAttr
   int addToDBAttr(char* attrName, char* typeStr);
   void printDBAttr();
+  void* findEndOfRecord(void* currRecord);
 
   // DataTable
   void addFixedToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
+  void addVariableToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
   void addUnorderedToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
   // void addUnorderedToTable(void* bufferToWrite, int recordSize, void* dataRoot, void*& dataCurr, void*& dataCurrEnd, int& dataCurrBlockCount);
-  bool primaryKeyIsUnique();          // make sure that the primary key is unique in insertion
-  void printTable(char* table_name);  // very closely aligned with select
+  bool primaryKeyIsUnique(void* dataRoot, int numDataRecords, void* pkTry, int pkOffset, dataType pkType, int pkLength);  // make sure that the primary key is unique in insertion
+  void printTable(char* table_name);                                                                                      // very closely aligned with select
 
   // other helper functions
   dataType getDataType(char* type);
