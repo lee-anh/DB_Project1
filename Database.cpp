@@ -11,6 +11,11 @@ Database::Database(insertionMethod method) {
 }
 
 void Database::create_table(const char* table_name, const char* key, int length, ...) {
+  void* test = retrieveDBPrimaryRecord((char*)table_name);
+  if (test != nullptr) {
+    cerr << "Table of same name has already been created" << endl;
+    return;
+  }
   va_list arg_list;
   va_start(arg_list, length);
   cout << "CREATE TABLE " << table_name << endl;
@@ -33,14 +38,11 @@ void Database::create_table(const char* table_name, const char* key, int length,
   printf(" %-20s %s, \n", "PRIMARY KEY", key);
 
   addToDBPrimary((char*)table_name, dbAttrStart, length / 2, primKey);
-  printDBPrimary();
-  printDBAttr();
 
   va_end(arg_list);
 }
 
 void Database::insert(const char* table_name, int length, ...) {
-  // now we have to worry about the setting we are using
   va_list arg_list;
   va_start(arg_list, length);
   cout << "INSERT INTO " << table_name << " VALUES ";
@@ -56,9 +58,9 @@ void Database::insert(const char* table_name, int length, ...) {
   strncpy(buffer, (char*)temp, TABLE_NAME_SIZE);
 
   // HOW TO GET A POINTER OUT THE RIGHT WAY:
-  void* dbAttrRecord = (void*)*(long*)((char*&)temp + TABLE_NAME_SIZE);
+  void* dbAttrRecord = (void*)*(long*)((char*&)temp + db_primary_db_attr_offset);
   // cout << "dbAttrRecord " << dbAttrRecord << endl;
-  int numAttributes = *(int*)((uintptr_t)temp + TABLE_NAME_SIZE + sizeof(void*));
+  int numAttributes = *(int*)((uintptr_t)temp + db_primary_num_db_attr_offset);
   int maxDataRecordSize = calculateMaxDataRecordSize(dbAttrRecord, numAttributes);
   void* tempBuffer = calloc(maxDataRecordSize, 1);
   void* tempBufferPtr = tempBuffer;
@@ -67,7 +69,6 @@ void Database::insert(const char* table_name, int length, ...) {
     cerr << "Number of attributes does not match" << endl;
   }
   bool variable = false;
-  // can't separate out b/c of the va_arg
   for (int i = 0; i < length; i++) {
     // we have to know the dataType that's coming in
     dbAttrRecord = (void*)((uintptr_t)dbAttrRecord + TABLE_NAME_SIZE);
@@ -148,6 +149,10 @@ void Database::insert(const char* table_name, int length, ...) {
 
 // TODO: do this one last
 void Database::update(const char* table_name, int length, ...) {
+  // update fixed is easy
+  // to find a data record
+
+  // update variable is hard because it might involve shifting all the records (do the same thing as sorted)
 }
 
 void Database::select(const char* table_name, int length, ...) {
@@ -155,6 +160,8 @@ void Database::select(const char* table_name, int length, ...) {
   // TODO: do we have to do *
   // AND OR
   void* recordPtr = retrieveDBPrimaryRecord((char*)table_name);
+
+  // parsing the conditional string is difficult and requires multiple layers of functions
 
   // have to read in the attribute names that we're interested in
   // have to account for the wild card
@@ -188,6 +195,7 @@ void Database::initializeNewBlock(void*& root, void*& curr, void*& currEnd, int&
 // already initialized block, root doesn't change
 
 // curr and currEnd need to be pointers to that part of db_primary
+// Ok so I'm just going to make new functions, that's easier!
 void Database::addNewBlock(void*& curr, void*& currEnd, int& currBlockCount) {
   if (curr == NULL || currEnd == NULL) {
     // error
@@ -202,27 +210,14 @@ void Database::addNewBlock(void*& curr, void*& currEnd, int& currBlockCount) {
   currEnd = (void*)(((long*)((uintptr_t)toAdd + (uintptr_t)BLOCK_SIZE)) - 1);  // update the end to be this new end
   *(long*)currEnd = NULL;                                                      // set currEnd to be NULL for now
   currBlockCount++;
+}
 
-  // new - with curr and currEnd being pointers
-  /*
-  void* toAdd = (void*)calloc(BLOCK_SIZE, 1);                         // allocate space for this new block
-  *(long*)(*(long*)currEnd) = (uintptr_t)toAdd;                       // add pointer to new block to the end of this block
-  *(long*)curr = (uintptr_t)toAdd;                                    // update curr to be the beginning of this new block
-  currEnd = (void*)(((uintptr_t)toAdd + (uintptr_t)BLOCK_SIZE) - 1);  // update the end to be this new end
-  *(long*)(*(long*)currEnd) = NULL;                                   // set currEnd to be NULL for now
-  currBlockCount++;
-  */
-
-  /*
-    // maybe we can switch out and in for good measure
-    // 🚨 now everything is zeroed out, great
-    void* toAdd = (void*)calloc(BLOCK_SIZE, 1);                                      // allocate space for this new block
-    **(long**)(&currEnd) = (uintptr_t)toAdd;                                         // add pointer to new block to the end of this block
-    *(&curr) = toAdd;                                                                // update curr to be the beginning of this new block
-    *(&currEnd) = (void*)(((long*)((uintptr_t)toAdd + (uintptr_t)BLOCK_SIZE)) - 1);  // update the end to be this new end
-    **(long**)(&currEnd) = NULL;                                                     // set currEnd to be NULL for now
-    currBlockCount++;
-    */
+void Database::addNewDataBlock(void*& dbPrimaryPtr) {
+  void* toAdd = (void*)calloc(BLOCK_SIZE, 1);
+  **(long**)((uintptr_t)dbPrimaryPtr + data_curr_end_offset) = (uintptr_t)toAdd;                                       // *dataCurrEnd = toAdd
+  *(long*)((uintptr_t)dbPrimaryPtr + data_curr_offset) = (uintptr_t)toAdd;                                             // dataCurr = toadd
+  *(int*)((uintptr_t)dbPrimaryPtr + data_block_count_offset) += 1;                                                     // blockCount++;
+  *(long*)((uintptr_t)dbPrimaryPtr + data_curr_end_offset) = (uintptr_t)toAdd + (uintptr_t)BLOCK_SIZE - sizeof(long);  // put dataCurrEnd in the right place
 }
 
 // TODO: check this
@@ -232,14 +227,6 @@ void Database::checkSpaceAdd(int spaceNeeded, void*& curr, void*& currEnd, int& 
   if ((uintptr_t)currEnd - (uintptr_t)curr < spaceNeeded) {
     addNewBlock(curr, currEnd, currBlockCount);
   }
-
-  /*
-  if (*(long*)currEnd - *(long*)curr < spaceNeeded) {
-    addNewBlock(curr, currEnd, currBlockCount);
-  }
-  */
-
-  // weird things going on, check the trace
 }
 
 // TODO: agh these also need to be changed to pointers I think 😬
@@ -281,6 +268,18 @@ bool Database::checkSpaceSearch(int fixedLength, void*& currRead, void*& currRea
   return true;
 }
 
+// don't know if the ampersand is necessary
+void Database::checkSpaceAddData(int spaceNeeded, void* dBPrimaryRecord) {
+  // we want to change the record!
+
+  void* currData = (void*)*(long*)((uintptr_t)dBPrimaryRecord + data_curr_offset);
+  void* currDataEnd = (void*)*(long*)((uintptr_t)dBPrimaryRecord + data_curr_end_offset);
+
+  if ((long)currDataEnd - (long)currData < spaceNeeded) {
+    addNewDataBlock(dBPrimaryRecord);
+  }
+}
+
 void Database::addToDBPrimary(char* name, void* dbAttributes, int numAttributes, int primaryKeyNum) {
   // make the size of name exact
   char buffer[TABLE_NAME_SIZE];
@@ -290,8 +289,6 @@ void Database::addToDBPrimary(char* name, void* dbAttributes, int numAttributes,
   } else {
     strncpy(buffer, name, strlen(name));
   }
-  void* db_primary_curr_address = &(db_primary_curr);
-  void* db_primary_curr_end_address = &(db_primary_curr_end);
 
   checkSpaceAdd(db_primary_record_size, db_primary_curr, db_primary_curr_end, db_primary_blocks);
 
@@ -388,7 +385,7 @@ void* Database::retrieveDBPrimaryRecord(char* table_name) {
     }
     ptr = (void*)((uintptr_t)ptr + db_primary_records);  // add the recordSizeOffset
   }
-  return NULL;  // the record was not found
+  return nullptr;  // the record was not found
 }
 
 // char(TABLE_NAME_SIZE) attrName | (int) type | (int) length, the length if it's variable, -1 if not
@@ -443,75 +440,41 @@ void Database::printDBAttr() {
 
 void Database::addFixedToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr) {
   // figure out all the pointer arithmetic here
-  void* ptr = (void*)((uintptr_t)dbPrimaryPtr + TABLE_NAME_SIZE + sizeof(void*) + sizeof(int));  // for an extra level of protection
-  int primaryKeyNumber = *(int*)ptr;
-  ((int*&)ptr)++;
-  void* dataRoot = (void*)*(long*)ptr;
-  ((long*&)ptr)++;
-  cout << "MOM " << ptr << endl;  // 🚨 this is the reason! MOM != mom, makes switching in and out not work
-  void* dataCurrPtr = ptr;        // (void*)*(long*)ptr;  // the actual pointer
-  ((long*&)ptr)++;
-  void* dataCurrEndPtr = ptr;  // (void*)*(long*)ptr;  // the actual pointer
-  ((long*&)ptr)++;
-  int dataCurrBlockCount = *(int*)ptr;
-  ((int*&)ptr)++;
-  cout << "got here" << endl;
-
   // TODO: FIGURE OUT IF THE PRIMARY KEY IS UNIQUE
 
   if (method == UNORDERED) {
-    cout << "mom " << (dataCurrPtr) << endl;
-    addUnorderedToTable(bufferToWrite, recordSize, dataRoot, dataCurrPtr, dataCurrEndPtr, dataCurrBlockCount);
+    // cout << "mom " << (dataCurrPtr) << endl;
+    //  addUnorderedToTable(bufferToWrite, recordSize, dataRoot, dataCurr, dataCurrEnd, dataCurrBlockCount);
+    addUnorderedToTable(bufferToWrite, recordSize, dbPrimaryPtr);
   }
 
-  cout << "got here 2" << endl;
-
-  // increment the number of dataRecords
-  (*(int*)ptr)++;
-  // free the bufferToWrite
   free(bufferToWrite);
 }
 
-// ugh we are getting all confused with the pointers here
-void Database::addUnorderedToTable(void* bufferToWrite, int recordSize, void* dataRoot, void*& dataCurr, void*& dataCurrEnd, int& dataCurrBlockCount) {
-  void* dataCurrActual = (void*)*(long*)dataCurr;
-  void* dataCurrEndActual = (void*)*(long*)dataCurrEnd;
-  checkSpaceAdd(recordSize, dataCurrActual, dataCurrEndActual, dataCurrBlockCount);  // TODO: fix this
-  cout << "ping" << endl;
+void Database::addUnorderedToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr) {
+  checkSpaceAddData(recordSize, dbPrimaryPtr);
+  void* dataCurr = (void*)*(long*)((uintptr_t)dbPrimaryPtr + data_curr_offset);
+  int dataRecordCount = *(int*)((uintptr_t)dbPrimaryPtr + data_record_count_offset);
 
-  memcpy(dataCurrActual, bufferToWrite, recordSize);
-  /*
-  cout << "record Size: " << recordSize << endl;
-  cout << "before: " << dataCurr << endl;
-  cout << "switcheroo " << (void*)*(long*)(&dataCurr) << endl;
-  cout << "mom " << (void*)(dataCurr) << endl;
-  */
-  *(long*)dataCurr = (uintptr_t)dataCurrActual + recordSize;
+  // copy into correct place
+  memcpy(dataCurr, bufferToWrite, recordSize);
 
-  //*(long*)(&dataCurr) = (long)((uintptr_t)dataCurr + recordSize);  // we need to be able to actually change this, otherwise we just keep overwriting the same old thing
+  // increment dataCurr (write head)
+  *(long*)((uintptr_t)dbPrimaryPtr + data_curr_offset) = (uintptr_t)dataCurr + recordSize;
+  // increment number of dataRecords
+  *(int*)((uintptr_t)dbPrimaryPtr + data_record_count_offset) = dataRecordCount + 1;
 }
 
 // TODO: improve formatting to be like CREATE_TABLE
 void Database::printTable(char* table_name) {
   // just do a select all from table? maybe do a select helper
   void* record = retrieveDBPrimaryRecord(table_name);
-  void* ptr = (void*)((uintptr_t)record + TABLE_NAME_SIZE);  // for an extra level of protection
-  void* dbAttrRecord = (void*)*(long*)ptr;
-  // cout << dbAttrRecord << endl;
-  ((long*&)ptr)++;
-  int numAttr = *(int*)ptr;
-  ((int*&)ptr)++;
-  int primaryKeyNumber = *(int*)ptr;
-  ((int*&)ptr)++;
-  void* dataRoot = (void*)*(long*)ptr;
-  ((long*&)ptr)++;
-  // we don't really care about the write heads
-  ((long*&)ptr)++;  // dataCurr
-  ((long*&)ptr)++;  // dataCurrEnd
-  int dataCurrBlockCount = *(int*)ptr;
-  ((int*&)ptr)++;
-  int dataCurrRecordCount = *(int*)ptr;
-  ((int*&)ptr)++;
+
+  void* dbAttrRecord = (void*)*(long*)((uintptr_t)record + db_primary_db_attr_offset);
+  int numAttr = *(int*)((uintptr_t)record + db_primary_num_db_attr_offset);
+  int primaryKeyNumber = *(int*)((uintptr_t)record + primary_key_offset);
+  void* dataRoot = (void*)*(long*)((uintptr_t)record + data_root_offset);
+  int dataCurrRecordCount = *(int*)((uintptr_t)record + data_record_count_offset);
 
   // print out all of the attributes
   bool variable = false;  // useful to know I guess... how are we going to do variable records? special ending for a varchar and special ending for a record?
@@ -557,7 +520,7 @@ void Database::printTable(char* table_name) {
   }
   // we just need the attribute types so we know what to cast it into
   for (int i = 0; i < dataCurrRecordCount; i++) {
-    checkSpaceSearch(fixedLength, dataRead, dataReadEnd);
+    checkSpaceSearch(fixedLength, dataRead, dataReadEnd);  // TODO: replace with new
     // cout << "dataReadHead 2: " << dataRead << endl;
     for (int j = 0; j < numAttr; j++) {
       dataType type = attrTypes[j];

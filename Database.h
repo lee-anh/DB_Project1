@@ -47,14 +47,29 @@ class Database {
   int db_primary_record_size = TABLE_NAME_SIZE + 4 * (sizeof(void*)) + 4 * sizeof(int);
   int db_attr_record_size = TABLE_NAME_SIZE + 2 * sizeof(int);
 
+  // why didn't we do this earlier 🤦🏻‍♀️
+  int db_primary_db_attr_offset = TABLE_NAME_SIZE;
+  int db_primary_num_db_attr_offset = TABLE_NAME_SIZE + sizeof(void*);
+  int primary_key_offset = TABLE_NAME_SIZE + sizeof(void*) + sizeof(int);
+  int data_root_offset = TABLE_NAME_SIZE + sizeof(void*) + sizeof(int) * 2;
+  int data_curr_offset = TABLE_NAME_SIZE + sizeof(void*) + sizeof(int) * 2 + sizeof(void*);
+  int data_curr_end_offset = TABLE_NAME_SIZE + sizeof(void*) + sizeof(int) * 2 + sizeof(void*) * 2;
+  int data_block_count_offset = TABLE_NAME_SIZE + sizeof(void*) + sizeof(int) * 2 + sizeof(void*) * 3;
+  int data_record_count_offset = TABLE_NAME_SIZE + sizeof(void*) + sizeof(int) * 2 + sizeof(void*) * 3 + sizeof(int);
+
+  int attr_type_offset = TABLE_NAME_SIZE;
+  int attr_length_offset = TABLE_NAME_SIZE + sizeof(dataType);
+
   void initializeDB();
   void initializeNewBlock(void*& root, void*& curr, void*& currEnd, int& currBlockCount);
   void addNewBlock(void*& curr, void*& currEnd, int& currBlockCount);
-
+  void addNewDataBlock(void*& dbPrimaryPtr);
   // allocate new space if needed
   void checkSpaceAdd(int spaceNeeded, void*& curr, void*& currEnd, int& currBlockCount);
   // moves pointers to the next blocks if necessary
-  bool checkSpaceSearch(int fixedLength, void*& currRead, void*& currReadEnd);
+  bool checkSpaceSearch(int fixedLength, void*& currRead, void*& currReadEnd);  // maybe this will work b/c of scoping
+
+  void checkSpaceAddData(int spaceNeeded, void* dBPrimaryRecord);
 
   // DBPrimary
   void addToDBPrimary(char* name, void* dbAttributes, int numAttributes, int primaryKeyNum);
@@ -68,7 +83,8 @@ class Database {
 
   // DataTable
   void addFixedToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
-  void addUnorderedToTable(void* bufferToWrite, int recordSize, void* dataRoot, void*& dataCurr, void*& dataCurrEnd, int& dataCurrBlockCount);
+  void addUnorderedToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
+  // void addUnorderedToTable(void* bufferToWrite, int recordSize, void* dataRoot, void*& dataCurr, void*& dataCurrEnd, int& dataCurrBlockCount);
   bool primaryKeyIsUnique();          // make sure that the primary key is unique in insertion
   void printTable(char* table_name);  // very closely aligned with select
 

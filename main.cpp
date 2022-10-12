@@ -55,11 +55,66 @@ int main(int argc, char* argv[]) {
                    "id", "integer",
                    "fname", "char(32)",
                    "lname", "char(32)");
+  db->create_table("aastars", "id", 6,
+                   "id", "integer",
+                   "fname", "char(32)",
+                   "lname", "char(32)");
+  db->create_table("bastars", "id", 6,
+                   "id", "integer",
+                   "fname", "char(32)",
+                   "lname", "char(32)");
+
+  db->create_table("castars", "id", 6,
+                   "id", "integer",
+                   "fname", "char(32)",
+                   "lname", "char(32)");
+  db->create_table("dastars", "id", 6,
+                   "id", "integer",
+                   "fname", "char(32)",
+                   "lname", "char(32)");
+  db->create_table("eastars", "id", 6,
+                   "id", "integer",
+                   "fname", "char(32)",
+                   "lname", "char(32)");
+  db->create_table("fastars", "id", 6,
+                   "id", "integer",
+                   "fname", "char(32)",
+                   "lname", "char(32)");
+  db->create_table("gastars", "id", 6,
+                   "id", "integer",
+                   "fname", "char(32)",
+                   "lname", "char(32)");
+
+  // we aren't worrying about primary keys yet
 
   db->insert("movies", 3, 27, "Star Wars", 4.2);
   db->insert("movies", 3, 28, "Rouge One", 3.0);
+  db->insert("movies", 3, 27, "Star Wars", 4.2);
+  db->insert("movies", 3, 28, "Rouge One", 3.0);
+  db->insert("movies", 3, 27, "Star Wars", 4.2);
+  db->insert("movies", 3, 28, "Rouge One", 3.0);
+  db->insert("movies", 3, 27, "Star Wars", 4.2);
+  db->insert("movies", 3, 28, "Rouge One", 3.0);
+  db->insert("movies", 3, 27, "Star Wars", 4.2);
+  db->insert("movies", 3, 28, "Rouge One", 3.0);
+  db->insert("movies", 3, 27, "Star Wars", 4.2);
+  db->insert("movies", 3, 28, "Rouge One", 3.0);
+  db->insert("movies", 3, 27, "Star Wars", 4.2);
+  db->insert("movies", 3, 28, "Rouge One", 3.0);
+  db->insert("movies", 3, 27, "Star Wars", 4.2);
+  db->insert("movies", 3, 28, "Rouge One", 3.0);
+  db->insert("movies", 3, 27, "Star Wars", 4.2);
+  db->insert("movies", 3, 28, "Rouge One", 3.0);
+  db->insert("movies", 3, 27, "Star Wars", 4.2);
+  db->insert("movies", 3, 28, "Rouge One", 3.0);
+  db->insert("movies", 3, 27, "Star Wars", 4.2);
+  db->insert("movies", 3, 28, "Rouge One", 3.0);
+  db->insert("movies", 3, 27, "Star Wars", 4.2);
+  db->insert("movies", 3, 28, "Rouge One", 3.0);
+
   db->printDBPrimary();
 
+  cout << "Num db attribute blocks " << db->db_attr_blocks << endl;
   void* blk = calloc(BLOCK_SIZE, 1);
 
   void* ptr = blk;
