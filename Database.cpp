@@ -245,6 +245,11 @@ void Database::select(const char* table_name, int length, ...) {
   }
 
   // TODO: do the where clause
+  // conditional
+  // how do we pass in a comparator operator?  <, <=, ==, =>, >
+  // https://stackoverflow.com/questions/4530588/passing-operator-as-a-parameter
+  // 😬
+
   if (length == 2) {
     /*
     // ok but why does this cause a seg fault?
@@ -592,6 +597,10 @@ void Database::addUnorderedToTable(void* bufferToWrite, int recordSize, void*& d
   // increment number of dataRecords
   *(int*)((uintptr_t)dbPrimaryPtr + data_record_count_offset) = dataRecordCount + 1;
 }
+void Database::addOrderedToTableFixed(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr) {
+  // we have to search where the primary key is, but we can do better with fixed, ordered
+  // TODO: change to findPrimaryKeyFixedBinarySearch
+}
 
 // primary key can be modified to be a search for a certain attribute?
 void* Database::findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind) {
@@ -699,7 +708,7 @@ void* Database::findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind) {
   // we just need the attribute types so we know what to cast it into
   for (int i = 0; i < dataCurrRecordCount; i++) {
     checkSpaceSearch(-1, dataRead, dataReadEnd);
-
+    void* recordBegin = dataRead;
     // cout << "dataReadHead 2: " << dataRead << endl;
     for (int j = 0; j < numAttr; j++) {
       dataType type = attrTypes[j];
@@ -722,7 +731,7 @@ void* Database::findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind) {
         }
         // cout
         if (strcmp((char*)buff, (char*)pkToFind) == 0) {
-          return dataRead;
+          return recordBegin;
         }
 
       } else if (type == CHAR) {
@@ -735,23 +744,23 @@ void* Database::findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind) {
         strncpy(buff, (char*)dataRead, buffSize);
         // cout
         if (strncmp((char*)buff, (char*)pkToFind, pkSize) == 0) {
-          return dataRead;
+          return recordBegin;
         }
         ((char*&)dataRead) += buffSize;
 
       } else if (type == SMALLINT) {
         if (*(short*)pkToFind == *(short*)dataRead) {
-          return dataRead;
+          return recordBegin;
         }
         ((short*&)dataRead)++;
       } else if (type == INTEGER) {
         if (*(int*)pkToFind == *(int*)dataRead) {
-          return dataRead;
+          return recordBegin;
         }
         ((int*&)dataRead)++;
       } else if (type == REAL) {
         if (*(float*)pkToFind == *(float*)dataRead) {
-          return dataRead;
+          return recordBegin;
         }
         ((float*&)dataRead)++;
       }
@@ -870,32 +879,9 @@ void Database::printTable(char* table_name) {
       }
     }
   }
-
-  // TODO: depending on fixed/variable we might have an end record we might have a record ending char or not that we will have to skip over
-
-  // TODO: make a good method for retrieving fixed records and variable records
-  // dbAttr
-  // for each of them, how do we select the attributes that we want?
-  // char** of the attributes we want
-  // we still need the dbAttr to figure out what the offsets are
-  // in the select we might also have a conditional -- how are we going to handle the conditional?
-
-  // conditional
-  // how do we pass in a comparator operator?  <, <=, ==, =>, >
-  // https://stackoverflow.com/questions/4530588/passing-operator-as-a-parameter
-  // 😬
-
-  // we have to iterate through db_primary
-  // get the attributes for the header
-  // then iterate through and print out each data record
-  // it matters whether or not we have a spanning block
-  // might have been useful to store if the record is variable or not
-  // rather than try to calculate it every time (even though we have enough info, each time we do it we have an increased chance of mistake)
-  // indicate the primary key with a * when printing it out
 }
 
 void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint) {
-  // just do a select all from table? maybe do a select helper
   void* record = retrieveDBPrimaryRecord(table_name);
 
   void* dbAttrRecord = (void*)*(long*)((uintptr_t)record + db_primary_db_attr_offset);
@@ -1033,6 +1019,25 @@ void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint) {
   }
 }
 
+void* Database::findInsertionPointFixed(void* dbPrimaryPtr, void* pkToInsert) {
+  // think about edge cases:
+  // first
+  // middle
+  // last
+
+  // we can do a binary search here!
+  return nullptr;
+}
+void* findInsertionPointVariable(void* dbPrimaryPtr, void* pkToInsert) {
+  // think about edge cases:
+  // first
+  // middle
+  // last
+
+  // linear search, modify findPrimaryKeyVariable
+  return nullptr;
+}
+
 dataType Database::getDataType(char* type) {
   if (strstr(type, "varchar") != NULL) {
     return VARCHAR;
@@ -1101,7 +1106,7 @@ int Database::calculateMaxDataRecordSize(void* ptrToFirstAttribute, int numberOf
   return toReturn;
 }
 
-// TODO: fix this
+// TODO: fix this 😭
 vector<char*> Database::parseOnDelim(char* toParse, char* delim) {
   vector<char*> toReturn;
   int size = strlen(delim);

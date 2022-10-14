@@ -87,10 +87,18 @@ class Database {
   void addVariableToTable(void* primaryKey, void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
   void addUnorderedToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
 
+  void addOrderedToTableFixed(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
+  void addOrderedToTableVariable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
+
+  // TODO: hashing is just another layer
+
   // void addUnorderedToTable(void* bufferToWrite, int recordSize, void* dataRoot, void*& dataCurr, void*& dataCurrEnd, int& dataCurrBlockCount);
+  // I guess these could be useful but they're not as useful as I thought
   void* findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind);
   void* findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind);
-  void printTable(char* table_name);  // very closely aligned with select
+  void* findInsertionPointFixed(void* dbPrimaryPtr, void* pkToInsert);
+  void* findInsertionPointVariable(void* dbPrimaryPtr, void* pkToInsert);  // modify findPrimaryKeyVariable
+  void printTable(char* table_name);                                       // very closely aligned with select
   void printTableGiven(char* table_name, vector<char*> fieldsToPrint);
   // other helper functions
   dataType getDataType(char* type);
