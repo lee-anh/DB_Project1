@@ -2,11 +2,14 @@
 #define UTILS
 
 // c
+
 #include <stdint.h>
 #include <string.h>
 
 // cpp
+
 #include <iostream>
+#include <vector>
 
 #include "macros.h"
 
@@ -77,21 +80,23 @@ class Database {
   // DBAttr
   int addToDBAttr(char* attrName, char* typeStr);
   void printDBAttr();
-  void* findEndOfRecord(void* currRecord);
+  void* findEndOfBlock(void* currRecord);
 
   // DataTable
   void addFixedToTable(void* primaryKey, void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
-  void addVariableToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
+  void addVariableToTable(void* primaryKey, void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
   void addUnorderedToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
-  // void addUnorderedToTable(void* bufferToWrite, int recordSize, void* dataRoot, void*& dataCurr, void*& dataCurrEnd, int& dataCurrBlockCount);
-  bool primaryKeyIsUnique(void* dataRoot, int numDataRecords, void* pkTry, int pkOffset, dataType pkType, int pkLength);  // make sure that the primary key is unique in insertion
-  void* findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind);
-  void printTable(char* table_name);  // very closely aligned with select
 
+  // void addUnorderedToTable(void* bufferToWrite, int recordSize, void* dataRoot, void*& dataCurr, void*& dataCurrEnd, int& dataCurrBlockCount);
+  void* findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind);
+  void* findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind);
+  void printTable(char* table_name);  // very closely aligned with select
+  void printTableGiven(char* table_name, vector<char*> fieldsToPrint);
   // other helper functions
   dataType getDataType(char* type);
   int getN(char* str);
   int calculateMaxDataRecordSize(void* ptrToFirstAttribute, int numberOfAttributes);
+  vector<char*> parseOnDelim(char* toParse, char* delim);
   bool compare(char* targetValue, char* comparator, void* candidate, int candidateLength, dataType type);
 };
 

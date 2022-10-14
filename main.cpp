@@ -34,6 +34,7 @@ int main(int argc, char* argv[]) {
 
   db->insert("stars", 3, 13, "Harrison", "Ford");
   db->insert("critics", 3, 123, "Mario", "Bros");
+  db->insert("critics", 3, 123, "Mario", "Bros");
 
   // load test
 
@@ -126,6 +127,8 @@ int main(int argc, char* argv[]) {
   db->insert("movies", 3, 28, "Rouge One", 3.0);
   db->insert("movies", 3, 27, "Star Wars", 4.2);
   db->insert("movies", 3, 28, "Rouge One", 3.0);
+  db->select("movies", 1, "title, rating");
+  db->select("movies", 2, "id, title", "id = 27 OR title = Star Wars");
 
   db->printDBPrimary();
   cout << "Num db primary blocks " << db->db_primary_blocks << endl;

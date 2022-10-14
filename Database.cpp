@@ -181,8 +181,8 @@ void Database::insert(const char* table_name, int length, ...) {
   } else {  // variable
     // TODO: variable
     *(char*)tempBufferPtr = END_RECORD_CHAR;
-
-    addVariableToTable(tempBuffer, maxDataRecordSize, record);
+    ((char*&)tempBufferPtr)++;
+    addVariableToTable(pk, tempBuffer, maxDataRecordSize, record);
   }
 
   // I was thinking of using a try catch for something... what was it?
@@ -206,22 +206,80 @@ void Database::select(const char* table_name, int length, ...) {
   // AND OR
   void* recordPtr = retrieveDBPrimaryRecord((char*)table_name);
 
-  // parsing the conditional string is difficult and requires multiple layers of functions
+  // make an array of the attribute names that we're looking for
+  va_list arg_list;
+  va_start(arg_list, length);
 
-  // have to read in the attribute names that we're interested in
-  // have to account for the wild card
+  char* fieldsToParse = va_arg(arg_list, char*);
 
-  // we'll want to store the db_primary
+  // using a vector, but it's just for an intermediate step 🙏🏼
+  vector<char*> fields;
+  int num = 1;
 
-  // the last string is the one that we'll have to parse
+  if (strcmp(fieldsToParse, "*") == 0) {
+    cout << "SELECT * FROM " << table_name;
+    printTable((char*)table_name);  // TODO: replace with function that incorporates the WHERE
 
-  // we have to look up in db_attributes for the right offset
+  } else {
+    // figure out how many attributes we're looking for and remove white space
 
-  // will have to parse the WHERE, could have AND OR this is not fun
+    char local[strlen(fieldsToParse) + 1];
+    memset(local, '\0', strlen(fieldsToParse) + 1);
+    strcpy(local, fieldsToParse);
+
+    /*
+    for (int i = 0; i < strlen(fieldsToParse); i++) {
+      if (local[i] == ',') {
+        num++;
+      }
+    }
+    */
+
+    int index = 0;
+    char* token = strtok(local, " ,");
+    while (token) {
+      fields.push_back(strdup(token));
+      token = strtok(NULL, " ,");
+      index++;
+    }
+  }
+
+  // TODO: do the where clause
+  if (length == 2) {
+    /*
+    // ok but why does this cause a seg fault?
+    char* conditional = va_arg(arg_list, char*);
+
+    // parse the conditional first on ORs
+    char local[strlen(conditional) + 1];
+    memset(local, '\0', strlen(conditional) + 1);
+    strcpy(local, conditional);
+
+    cout << "before" << endl;
+    vector<char*> ors = parseOnDelim(local, "OR");
+    for (char* n : ors) {
+      cout << n << endl;
+    }
+    // then on ANDs
+    cout << "after" << endl;
+    */
+  }
+  cout << "SELECT ";
+
+  for (int i = 0; i < (int)fields.size(); i++) {
+    cout << fields[i];
+    if (i != (int)fields.size() - 1) {
+      cout << ", ";
+    }
+  }
+  cout << " FROM " << table_name;
 
   // unordered: linear
   // ordered: fixed - binary search, variable - linear
   // hashing : ???
+  cout << endl;
+  printTableGiven((char*)table_name, fields);
+  va_end(arg_list);
 }
 
 void Database::initializeDB() {
@@ -290,11 +348,6 @@ bool Database::checkSpaceSearch(int fixedLength, void*& currRead, void*& currRea
       currReadEnd = (void*)(((long*)((uintptr_t)currRead + (uintptr_t)BLOCK_SIZE)) - 1);  // update the end to be this new end
     }
   } else {
-    // how are the read heads going to work?
-    // currReadEnd can be calculated when we set it at first
-    // maybe we can check to see if it's NULL
-    // maybe outside of the function we'll know if we are on the last block or not
-    // and maybe we can return that
     if ((uintptr_t)currReadEnd - (uintptr_t)currRead < fixedLength) {
       // time to get to the next block
       currRead = (void*)(*(long*)currReadEnd);
@@ -307,10 +360,7 @@ bool Database::checkSpaceSearch(int fixedLength, void*& currRead, void*& currRea
   return true;
 }
 
-// don't know if the ampersand is necessary
 void Database::checkSpaceAddData(int spaceNeeded, void* dBPrimaryRecord) {
-  // we want to change the record!
-
   void* currData = (void*)*(long*)((uintptr_t)dBPrimaryRecord + data_curr_offset);
   void* currDataEnd = (void*)*(long*)((uintptr_t)dBPrimaryRecord + data_curr_end_offset);
 
@@ -477,8 +527,7 @@ void Database::printDBAttr() {
   }
 }
 
-// TODO: get rid of this!
-void* Database::findEndOfRecord(void* currRecord) {
+void* Database::findEndOfBlock(void* currRecord) {
   void* currRead = db_attr;
   void* currReadEnd = (void*)(((long*)((uintptr_t)currRead + (uintptr_t)BLOCK_SIZE)) - 1);
   for (int i = 0; i < db_attr_records; i++) {
@@ -493,9 +542,11 @@ void* Database::findEndOfRecord(void* currRecord) {
 
 void Database::addFixedToTable(void* primaryKey, void* bufferToWrite, int recordSize, void*& dbPrimaryPtr) {
   if (findPrimaryKeyFixed(dbPrimaryPtr, primaryKey) != nullptr) {
+    free(primaryKey);
     cerr << "insertion error: duplicate primary key" << endl;
     return;
   }
+  free(primaryKey);
   if (method == UNORDERED) {
     addUnorderedToTable(bufferToWrite, recordSize, dbPrimaryPtr);
   }
@@ -503,12 +554,17 @@ void Database::addFixedToTable(void* primaryKey, void* bufferToWrite, int record
   free(bufferToWrite);
 }
 
-void Database::addVariableToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr) {
+void Database::addVariableToTable(void* primaryKey, void* bufferToWrite, int recordSize, void*& dbPrimaryPtr) {
   // figure out the actual recordSize
   int actualRecordSize = 0;
 
-  // TODO: check the primary key
-
+  // TODO: check the primary key, don't forget to free the primaryKey after you're done using it
+  if (findPrimaryKeyVariable(dbPrimaryPtr, primaryKey) != nullptr) {
+    free(primaryKey);
+    cerr << "insertion error: duplicate primary key" << endl;
+    return;
+  }
+  free(primaryKey);
   char* bufferPtr = (char*)bufferToWrite;
   for (int i = 0; i < recordSize; i++) {
     if (*bufferPtr == END_RECORD_CHAR) {
@@ -545,7 +601,7 @@ void* Database::findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind) {
   int primaryKeyNumber = *(int*)((uintptr_t)dbPrimaryPtr + primary_key_offset);
 
   void* readDbAttr = dbAttrPtr;
-  void* readDbAttrEnd = findEndOfRecord(readDbAttr);
+  void* readDbAttrEnd = findEndOfBlock(readDbAttr);
   // find the type of primary key and calculate the offset
   int offset = 0;
   dataType pkType = INVALID;
@@ -604,6 +660,107 @@ void* Database::findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind) {
   return nullptr;
 }
 
+void* Database::findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind) {
+  int pkSize = 0;
+  void* dbAttrRecord = (void*)*(long*)((uintptr_t)dbPrimaryPtr + db_primary_db_attr_offset);
+  int numAttr = *(int*)((uintptr_t)dbPrimaryPtr + db_primary_num_db_attr_offset);
+  int primaryKeyNumber = *(int*)((uintptr_t)dbPrimaryPtr + primary_key_offset);
+  void* dataRoot = (void*)*(long*)((uintptr_t)dbPrimaryPtr + data_root_offset);
+  int dataCurrRecordCount = *(int*)((uintptr_t)dbPrimaryPtr + data_record_count_offset);
+
+  dataType attrTypes[numAttr];
+  void* attrRecords[numAttr];  // pointer to each attribute
+  void* readDBAttr = dbAttrRecord;
+  void* readDBAttrEnd = findEndOfBlock(dbAttrRecord);
+
+  // get db_attr information
+  for (int i = 0; i < numAttr; i++) {
+    checkSpaceSearch(db_attr_record_size, readDBAttr, readDBAttrEnd);
+
+    attrRecords[i] = readDBAttr;
+
+    dataType type = *(dataType*)((uintptr_t)attrRecords[i] + attr_type_offset);
+    attrTypes[i] = type;
+    if (i == primaryKeyNumber) {
+      if (type == VARCHAR || type == CHAR) {
+        pkSize = *(int*)((uintptr_t)attrRecords[i] + attr_length_offset);
+      }
+    }
+
+    // the next is our next record
+    readDBAttr = (void*)((uintptr_t)readDBAttr + db_attr_record_size);
+  }
+
+  // set up read heads
+  void* dataRead = dataRoot;
+  // cout << "dataRead Head: " << dataRead << endl;
+  void* dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
+
+  // we just need the attribute types so we know what to cast it into
+  for (int i = 0; i < dataCurrRecordCount; i++) {
+    checkSpaceSearch(-1, dataRead, dataReadEnd);
+
+    // cout << "dataReadHead 2: " << dataRead << endl;
+    for (int j = 0; j < numAttr; j++) {
+      dataType type = attrTypes[j];
+      if (type == VARCHAR) {
+        // get max, set up a buffer
+        int buffSize = *(int*)((uintptr_t)attrRecords[j] + attr_length_offset);
+        char buff[buffSize];
+        memset(buff, '\0', buffSize);
+
+        // copy
+        // go character by character
+
+        for (int k = 0; k < buffSize; k++) {
+          char a = *(char*)dataRead;
+          ((char*&)dataRead)++;  // move on to next byte regardless
+          if (a == END_FIELD_CHAR) {
+            break;
+          }
+          buff[k] = a;
+        }
+        // cout
+        if (strcmp((char*)buff, (char*)pkToFind) == 0) {
+          return dataRead;
+        }
+
+      } else if (type == CHAR) {
+        // get char length, set up a buffer
+        int buffSize = *(int*)((uintptr_t)attrRecords[j] + attr_length_offset);
+        char buff[buffSize];
+        memset(buff, '\0', buffSize);
+
+        // copy
+        strncpy(buff, (char*)dataRead, buffSize);
+        // cout
+        if (strncmp((char*)buff, (char*)pkToFind, pkSize) == 0) {
+          return dataRead;
+        }
+        ((char*&)dataRead) += buffSize;
+
+      } else if (type == SMALLINT) {
+        if (*(short*)pkToFind == *(short*)dataRead) {
+          return dataRead;
+        }
+        ((short*&)dataRead)++;
+      } else if (type == INTEGER) {
+        if (*(int*)pkToFind == *(int*)dataRead) {
+          return dataRead;
+        }
+        ((int*&)dataRead)++;
+      } else if (type == REAL) {
+        if (*(float*)pkToFind == *(float*)dataRead) {
+          return dataRead;
+        }
+        ((float*&)dataRead)++;
+      }
+    }
+    ((char*&)dataRead)++;  // end record character
+  }
+  return nullptr;
+}
+
 void Database::printTable(char* table_name) {
   // just do a select all from table? maybe do a select helper
   void* record = retrieveDBPrimaryRecord(table_name);
@@ -619,7 +776,7 @@ void Database::printTable(char* table_name) {
   dataType attrTypes[numAttr];
   void* attrRecords[numAttr];  // pointer to each attribute
   void* readDBAttr = dbAttrRecord;
-  void* readDBAttrEnd = findEndOfRecord(dbAttrRecord);
+  void* readDBAttrEnd = findEndOfBlock(dbAttrRecord);
 
   // print out the headers
   for (int i = 0; i < numAttr; i++) {
@@ -737,6 +894,145 @@ void Database::printTable(char* table_name) {
   // indicate the primary key with a * when printing it out
 }
 
+void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint) {
+  // just do a select all from table? maybe do a select helper
+  void* record = retrieveDBPrimaryRecord(table_name);
+
+  void* dbAttrRecord = (void*)*(long*)((uintptr_t)record + db_primary_db_attr_offset);
+  int numAttr = *(int*)((uintptr_t)record + db_primary_num_db_attr_offset);
+  int primaryKeyNumber = *(int*)((uintptr_t)record + primary_key_offset);
+  void* dataRoot = (void*)*(long*)((uintptr_t)record + data_root_offset);
+  int dataCurrRecordCount = *(int*)((uintptr_t)record + data_record_count_offset);
+
+  // print out all of the attributes
+  bool variable = false;  // useful to know I guess... how are we going to do variable records? special ending for a varchar and special ending for a record?
+  char* attrNames[numAttr];
+  dataType attrTypes[numAttr];
+  void* attrRecords[numAttr];  // pointer to each attribute
+  bool interest[numAttr];
+
+  int numToLookFor = (int)fieldsToPrint.size();
+  void* readDBAttr = dbAttrRecord;
+  void* readDBAttrEnd = findEndOfBlock(dbAttrRecord);
+
+  // print out the headers
+  int attrCounter1 = 0;
+  for (int i = 0; i < numAttr; i++) {
+    checkSpaceSearch(db_attr_record_size, readDBAttr, readDBAttrEnd);
+
+    attrRecords[i] = readDBAttr;
+
+    char attrName[TABLE_NAME_SIZE];
+    strncpy(attrName, (char*)attrRecords[i], TABLE_NAME_SIZE);
+
+    dataType type = *(dataType*)((uintptr_t)attrRecords[i] + attr_type_offset);
+    attrTypes[i] = type;
+    if (type == VARCHAR) {
+      variable = true;
+    }
+
+    // print out if it's an attribute we're interested in
+    attrNames[i] = attrName;
+    bool need = false;
+    for (char* n : fieldsToPrint) {
+      if (strstr(attrName, n)) {
+        cout << attrName;
+        need = true;
+        break;
+      }
+    }
+    interest[i] = need;
+    if (i == primaryKeyNumber) {
+      cout << "*";
+    }
+    if (need) {
+      if (attrCounter1 == numToLookFor - 1) {
+        cout << endl;
+
+      } else {
+        cout << " | ";
+      }
+      attrCounter1++;
+    }
+
+    // the next is our next record
+    readDBAttr = (void*)((uintptr_t)readDBAttr + db_attr_record_size);
+  }
+
+  // set up read heads
+  void* dataRead = dataRoot;
+  // cout << "dataRead Head: " << dataRead << endl;
+  void* dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
+  int fixedLength = calculateMaxDataRecordSize(attrRecords[0], numAttr);  // hopefully that works!
+  if (variable) {
+    fixedLength = -1;
+  }
+  // we just need the attribute types so we know what to cast it into
+  for (int i = 0; i < dataCurrRecordCount; i++) {
+    checkSpaceSearch(fixedLength, dataRead, dataReadEnd);
+
+    // cout << "dataReadHead 2: " << dataRead << endl;
+    int attrCounter2 = 0;
+    for (int j = 0; j < numAttr; j++) {
+      dataType type = attrTypes[j];
+      if (type == VARCHAR) {
+        // get max, set up a buffer
+        int buffSize = *(int*)((uintptr_t)attrRecords[j] + attr_length_offset);
+        char buff[buffSize];
+        memset(buff, '\0', buffSize);
+
+        // copy
+        // go character by character
+        for (int k = 0; k < buffSize; k++) {
+          char a = *(char*)dataRead;
+          ((char*&)dataRead)++;  // move on to next byte regardless
+          if (a == END_FIELD_CHAR) {
+            break;
+          }
+          buff[k] = a;
+        }
+        // cout
+        if (interest[j]) {
+          cout << buff;
+        }
+
+      } else if (type == CHAR) {
+        // get char length, set up a buffer
+        int buffSize = *(int*)((uintptr_t)attrRecords[j] + attr_length_offset);
+        char buff[buffSize];
+        memset(buff, '\0', buffSize);
+
+        // copy
+        strncpy(buff, (char*)dataRead, buffSize);
+        // cout
+        if (interest[j]) {
+          cout << buff;
+        }
+        ((char*&)dataRead) += buffSize;
+
+      } else if (type == SMALLINT) {
+        if (interest[j]) cout << *(short*)dataRead;
+
+        ((short*&)dataRead)++;
+      } else if (type == INTEGER) {
+        if (interest[j]) cout << *(int*)dataRead;
+        ((int*&)dataRead)++;
+      } else if (type == REAL) {
+        if (interest[j]) cout << *(float*)dataRead;
+        ((float*&)dataRead)++;
+      }
+      if (interest[j]) {
+        if (attrCounter2 == numToLookFor - 1) {
+          cout << endl;
+        } else {
+          cout << " | ";
+        }
+        attrCounter2++;
+      }
+    }
+  }
+}
+
 dataType Database::getDataType(char* type) {
   if (strstr(type, "varchar") != NULL) {
     return VARCHAR;
@@ -774,7 +1070,7 @@ int Database::getN(char* str) {
 
 int Database::calculateMaxDataRecordSize(void* ptrToFirstAttribute, int numberOfAttributes) {
   void* ptr = ptrToFirstAttribute;  // just precautionary
-  void* ptrEnd = findEndOfRecord(ptr);
+  void* ptrEnd = findEndOfBlock(ptr);
   int toReturn = 0;
   bool variable = false;
   for (int i = 0; i < numberOfAttributes; i++) {
@@ -802,6 +1098,31 @@ int Database::calculateMaxDataRecordSize(void* ptrToFirstAttribute, int numberOf
   // if variable, we have to add 1 for the END_RECORD_CHAR
   if (variable) toReturn++;
 
+  return toReturn;
+}
+
+// TODO: fix this
+vector<char*> Database::parseOnDelim(char* toParse, char* delim) {
+  vector<char*> toReturn;
+  int size = strlen(delim);
+  char* temp = toParse;
+
+  // so so buggy
+  while (strstr(temp, delim) != nullptr) {
+    char* res = strstr(temp, delim);
+    int n = (uintptr_t)res - (uintptr_t)temp;
+    cout << "n " << n << endl;
+    char substr[n];
+    memset(substr, '\0', n);
+    cout << "temp " << temp << endl;
+    cout << "res " << res << endl;
+    strncpy(substr, temp, n);
+
+    cout << "substr " << substr << "**" << endl;
+    toReturn.push_back(substr);
+    temp += n + size;  // +2 for the spaces
+  }
+  // oh we forgot the edge case
   return toReturn;
 }
 
