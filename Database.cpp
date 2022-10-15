@@ -186,7 +186,6 @@ void Database::insert(const char* table_name, int length, ...) {
   }
 
   // I was thinking of using a try catch for something... what was it?
-  printTable((char*)table_name);
 
   va_end(arg_list);
 }
@@ -348,6 +347,7 @@ bool Database::checkSpaceSearch(int fixedLength, void*& currRead, void*& currRea
       }
       currReadPtr++;
     }
+
     if (!found) {
       // time to get to the next block
       currRead = (void*)(*(long*)currReadEnd);
@@ -576,25 +576,35 @@ void Database::addFixedToTable(void* primaryKey, void* bufferToWrite, int record
 void Database::addVariableToTable(void* primaryKey, void* bufferToWrite, int recordSize, void*& dbPrimaryPtr) {
   // figure out the actual recordSize
   int actualRecordSize = 0;
-
-  // TODO: check the primary key, don't forget to free the primaryKey after you're done using it
-  if (findPrimaryKeyVariable(dbPrimaryPtr, primaryKey) != nullptr) {
-    free(primaryKey);
-    cerr << "insertion error: duplicate primary key" << endl;
-    return;
-  }
-  free(primaryKey);
   char* bufferPtr = (char*)bufferToWrite;
   for (int i = 0; i < recordSize; i++) {
     if (*bufferPtr == END_RECORD_CHAR) {
       break;
     }
+    ((char*&)bufferPtr)++;  // dumb girl
     actualRecordSize++;
   }
+  actualRecordSize++;
+
   if (method == UNORDERED) {
+    if ((long)findPrimaryKeyVariable(dbPrimaryPtr, primaryKey) > 0) {
+      free(primaryKey);
+      cerr << "insertion error: duplicate primary key" << endl;
+      return;
+    }
+
     addUnorderedToTable(bufferToWrite, actualRecordSize, dbPrimaryPtr);
+  } else if (method == ORDERED) {
+    void* insertionPoint = (void*)(long)findPrimaryKeyVariable(dbPrimaryPtr, primaryKey);
+    if ((long)insertionPoint > 0) {
+      free(primaryKey);
+      cerr << "insertion error: duplicate primary key" << endl;
+      return;
+    }
+    addOrderedToTableVariable(bufferToWrite, primaryKey, actualRecordSize, dbPrimaryPtr, insertionPoint);
   }
 
+  free(primaryKey);
   free(bufferToWrite);
 }
 
@@ -612,22 +622,16 @@ void Database::addUnorderedToTable(void* bufferToWrite, int recordSize, void*& d
   *(int*)((uintptr_t)dbPrimaryPtr + data_record_count_offset) = dataRecordCount + 1;
 }
 void Database::addOrderedToTableFixed(void* bufferToWrite, void* primaryKey, int recordSize, void*& dbPrimaryPtr, void* insertionPoint) {
-  // we have to search where the primary key is, but we can do better with fixed, ordered
-  // TODO: change to findPrimaryKeyFixedBinarySearch
-
-  // flip the bits back
-  // insertionPoint = (void*)(-1 * (long)insertionPoint);
   void* dataRoot = (void*)*(long*)((uintptr_t)dbPrimaryPtr + data_root_offset);
   void* dataCurr = (void*)*(long*)((uintptr_t)dbPrimaryPtr + data_curr_offset);
-  void* dataEnd = (void*)*(long*)((uintptr_t)dbPrimaryPtr + data_curr_end_offset);
-  int dataCurrBlockCount = *(int*)((uintptr_t)dbPrimaryPtr + data_block_count_offset);
   int dataCurrRecordCount = *(int*)((uintptr_t)dbPrimaryPtr + data_record_count_offset);
 
-  insertionPoint = (void*)(-1 * (long)insertionPoint);
+  insertionPoint = (void*)(-1 * (long)insertionPoint);  // flip the bits back
 
   // empty insert or end of record insert
   if ((insertionPoint == nullptr) || (insertionPoint == dataCurr)) {
-    checkSpaceAdd(recordSize, dataCurr, dataEnd, dataCurrBlockCount);
+    // checkSpaceAdd(recordSize, dataCurr, dataEnd, dataCurrBlockCount);
+
     addUnorderedToTable(bufferToWrite, recordSize, dbPrimaryPtr);
     return;
   }
@@ -676,6 +680,70 @@ void Database::addOrderedToTableFixed(void* bufferToWrite, void* primaryKey, int
   }
 }
 
+void Database::addOrderedToTableVariable(void* bufferToWrite, void* primaryKey, int recordSize, void*& dbPrimaryPtr, void* insertionPoint) {
+  // we hold on to the memory here
+  void* dataRoot = (void*)*(long*)((uintptr_t)dbPrimaryPtr + data_root_offset);
+  void* dataCurr = (void*)*(long*)((uintptr_t)dbPrimaryPtr + data_curr_offset);
+  int dataCurrBlockCount = *(int*)((uintptr_t)dbPrimaryPtr + data_block_count_offset);
+  int dataCurrRecordCount = *(int*)((uintptr_t)dbPrimaryPtr + data_record_count_offset);
+
+  insertionPoint = (void*)(-1 * (long)insertionPoint);  // flip the bits back
+
+  // insertion empty or insertion at the end
+  if ((insertionPoint == nullptr) || (insertionPoint == dataCurr)) {
+    addUnorderedToTable(bufferToWrite, recordSize, dbPrimaryPtr);
+    return;
+  }
+  // cleanest, but maybe not the easiest solution
+  void* dataTempRoot = NULL;
+  void* dataTempCurr = NULL;
+  void* dataTempCurrEnd = NULL;
+  int dataTempCurrBlockCount = 0;
+  int dataTempCurrRecordCount = 0;  // I think this stuff will be taken care of
+
+  initializeNewBlock(dataTempRoot, dataTempCurr, dataTempCurrEnd, dataTempCurrBlockCount);
+
+  // reassignment of dbPrimaryStuff
+  *(long*)((uintptr_t)dbPrimaryPtr + data_root_offset) = (uintptr_t)dataTempRoot;
+  *(long*)((uintptr_t)dbPrimaryPtr + data_curr_offset) = (uintptr_t)dataTempCurr;         // dataCurr = toadd
+  *(long*)((uintptr_t)dbPrimaryPtr + data_curr_end_offset) = (uintptr_t)dataTempCurrEnd;  // put dataCurrEnd in the right
+  *(int*)((uintptr_t)dbPrimaryPtr + data_block_count_offset) = dataTempCurrBlockCount;    // blockCount++;
+  *(int*)((uintptr_t)dbPrimaryPtr + data_record_count_offset) = dataTempCurrRecordCount;  // blockCount++; place
+
+  void* dataRead = dataRoot;
+  void* dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
+
+  for (int i = 0; i < dataCurrRecordCount; i++) {
+    checkSpaceSearch(-1, dataRead, dataReadEnd);
+    if (dataRead == insertionPoint) {
+      // insert the new data record
+      addUnorderedToTable(bufferToWrite, recordSize, dbPrimaryPtr);
+    }
+
+    int thisRecordCount = 0;
+    void* recordBeginning = dataRead;
+
+    // go to the end of this record
+
+    while (*(char*)dataRead != END_RECORD_CHAR) {
+      ((char*&)dataRead)++;
+      cout << *(char*)dataRead << endl;
+      thisRecordCount++;
+    }
+    ((char*&)dataRead)++;
+    thisRecordCount++;
+
+    char buffer[thisRecordCount];
+    memcpy(buffer, recordBeginning, thisRecordCount);
+    addUnorderedToTable(buffer, thisRecordCount, dbPrimaryPtr);
+  }
+
+  // insert the new record
+
+  // TODO: free the old table
+  freeDataTable(dataRoot, dataCurrBlockCount);
+}
+
 // primary key can be modified to be a search for a certain attribute?
 void* Database::findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind) {
   // find out the type of primary key
@@ -718,14 +786,13 @@ void* Database::findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind) {
   void* dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
   void* dataReadNext = dataRoot;
   void* dataReadNextEnd = dataReadEnd;
-  checkSpaceSearch(fixedSize, dataReadNext, dataReadNextEnd);
+  // checkSpaceSearch(fixedSize, dataReadNext, dataReadNextEnd);  // no harm done if there's only one record here?
   dataReadNext = (void*)((intptr_t)dataReadNext + fixedSize);
   for (int i = 0; i < dataCurrRecordCount; i++) {
     checkSpaceSearch(fixedSize, dataRead, dataReadEnd);
     checkSpaceSearch(fixedSize, dataReadNext, dataReadNextEnd);
     void* pk = (void*)((uintptr_t)dataRead + offset);
     void* pkNext = (void*)((uintptr_t)dataReadNext + offset);
-    cout << "dataCurr Record Count " << dataCurrRecordCount << endl;
 
     // haven't checked if separating them all out will be ok
     if (i == 0) {
@@ -755,11 +822,6 @@ void* Database::findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind) {
           return (void*)(-1 * (uintptr_t)dataRead);  // flip the bits for the insertion point
         }
       }
-      // increment to the next record
-      dataRead = (void*)((intptr_t)dataRead + fixedSize);
-      dataReadNext = (void*)((intptr_t)dataReadNext + fixedSize);
-      cout << "dataRead: " << dataRead << endl;
-      cout << "dataReadNext: " << dataReadNext << endl;
     }
     if (i != dataCurrRecordCount - 1) {
       if (pkType == CHAR) {
@@ -788,14 +850,9 @@ void* Database::findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind) {
           return (void*)(-1 * (uintptr_t)dataRead);  // flip the bits for the insertion point
         }
       }
-      // increment to the next record
-      dataRead = (void*)((intptr_t)dataRead + fixedSize);
-      dataReadNext = (void*)((intptr_t)dataReadNext + fixedSize);
-      cout << "dataRead: " << dataRead << endl;
-      cout << "dataReadNext: " << dataReadNext << endl;
     }
     if (i == dataCurrRecordCount - 1) {  // check the last index
-      cout << "last index" << endl;
+
       if (pkType == CHAR) {
         if (strncmp((char*)pk, (char*)pkToFind, pkSize) == 0) {
           return dataRead;
@@ -823,9 +880,11 @@ void* Database::findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind) {
         }
       }
     }
+    // increment to the next record
+    dataRead = (void*)((intptr_t)dataRead + fixedSize);
+    dataReadNext = (void*)((intptr_t)dataReadNext + fixedSize);
   }
-  cout << "null ptr??!" << endl;  // getting this too many times
-  return nullptr;                 // empty insert
+  return nullptr;  // empty insert
 }
 
 void* Database::findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind) {
@@ -861,13 +920,31 @@ void* Database::findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind) {
 
   // set up read heads
   void* dataRead = dataRoot;
-  // cout << "dataRead Head: " << dataRead << endl;
   void* dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
+
+  void* dataReadNext = dataRead;
+  void* dataReadNextEnd = (void*)(((long*)((uintptr_t)dataReadNext + (uintptr_t)BLOCK_SIZE)) - 1);
+
+  // need one that's one record ahead, just go find the next end of record character
+  if (dataCurrRecordCount > 1) {
+    checkSpaceSearch(-1, dataReadNext, dataReadNextEnd);
+    int spaceToCheck = (uintptr_t)dataReadNextEnd - (uintptr_t)dataReadNext;
+
+    for (int i = 0; i < spaceToCheck; i++) {
+      if (*(char*)dataReadNext == END_RECORD_CHAR) {
+        ((char*&)dataReadNext)++;
+        break;
+      }
+      ((char*&)dataReadNext)++;
+    }
+  }
 
   // we just need the attribute types so we know what to cast it into
   for (int i = 0; i < dataCurrRecordCount; i++) {
     checkSpaceSearch(-1, dataRead, dataReadEnd);
+    checkSpaceSearch(-1, dataReadNext, dataReadNextEnd);
     void* recordBegin = dataRead;
+    void* nextRecordBegin = dataReadNext;
     // cout << "dataReadHead 2: " << dataRead << endl;
     for (int j = 0; j < numAttr; j++) {
       dataType type = attrTypes[j];
@@ -876,6 +953,9 @@ void* Database::findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind) {
         int buffSize = *(int*)((uintptr_t)attrRecords[j] + attr_length_offset);
         char buff[buffSize];
         memset(buff, '\0', buffSize);
+
+        char buffNext[buffSize];
+        memset(buffNext, '\0', buffSize);
 
         // copy
         // go character by character
@@ -888,58 +968,153 @@ void* Database::findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind) {
           }
           buff[k] = a;
         }
-        // cout
-        if (j == primaryKeyNumber) {
-          if (strcmp((char*)buff, (char*)pkToFind) == 0) {
-            return recordBegin;
+
+        for (int k = 0; k < buffSize; k++) {
+          char a = *(char*)dataReadNext;
+          ((char*&)dataReadNext)++;  // move on to next byte regardless
+          if (a == END_FIELD_CHAR) {
+            break;
           }
+          buffNext[k] = a;
         }
 
-      } else if (type == CHAR) {
+        if (j == primaryKeyNumber) {
+          if (strcmp((char*)pkToFind, (char*)buff) == 0) {
+            return recordBegin;
+          }
+
+          if (i == 0) {
+            if (strcmp((char*)pkToFind, (char*)buff) < 0) {
+              return (void*)(-1 * (uintptr_t)recordBegin);
+            }
+          }
+          if (i != dataCurrRecordCount - 1) {
+            if (strcmp((char*)pkToFind, (char*)buff) > 0 && strcmp((char*)pkToFind, (char*)buffNext) < 0) {
+              return (void*)(-1 * (uintptr_t)recordBegin);
+            }
+          }
+          if (i == dataCurrRecordCount - 1) {
+            if (strcmp((char*)pkToFind, (char*)buffNext) > 0) {
+              return (void*)(-1 * (uintptr_t)nextRecordBegin);
+            }
+          }
+        }
+      }
+
+      else if (type == CHAR) {
         // get char length, set up a buffer
         int buffSize = *(int*)((uintptr_t)attrRecords[j] + attr_length_offset);
         char buff[buffSize];
         memset(buff, '\0', buffSize);
 
+        char buffNext[buffSize];
+        memset(buffNext, '\0', buffSize);
+
         // copy
         strncpy(buff, (char*)dataRead, buffSize);
+        strncpy(buff, (char*)dataReadNext, buffSize);
         // cout
         if (j == primaryKeyNumber) {
-          if (strncmp((char*)buff, (char*)pkToFind, pkSize) == 0) {
+          if (strncmp((char*)pkToFind, (char*)buff, pkSize) == 0) {
             return recordBegin;
+          }
+          if (i == 0) {
+            if (strcmp((char*)pkToFind, (char*)buff) < 0) {
+              return (void*)(-1 * (uintptr_t)recordBegin);
+            }
+          }
+          if (i != dataCurrRecordCount - 1) {
+            if (strcmp((char*)pkToFind, (char*)buff) > 0 && strcmp((char*)pkToFind, (char*)buffNext) < 0) {
+              return (void*)(-1 * (uintptr_t)recordBegin);
+            }
+          }
+          if (i == dataCurrRecordCount - 1) {
+            if (strcmp((char*)pkToFind, (char*)buffNext) > 0) {
+              return (void*)(-1 * (uintptr_t)nextRecordBegin);
+            }
           }
         }
         ((char*&)dataRead) += buffSize;
-
+        ((char*&)dataReadNext) += buffSize;
       } else if (type == SMALLINT) {
         if (j == primaryKeyNumber) {
           if (*(short*)pkToFind == *(short*)dataRead) {
             return recordBegin;
           }
+          if (i == 0) {
+            if ((short*)pkToFind < (short*)dataRead) {
+              return (void*)(-1 * (uintptr_t)recordBegin);
+            }
+          }
+          if (i != dataCurrRecordCount - 1) {
+            if (((short*)pkToFind > (short*)dataRead) && ((short*)pkToFind < (short*)dataReadNext)) {
+              return (void*)(-1 * (uintptr_t)recordBegin);
+            }
+          }
+          if (i == dataCurrRecordCount - 1) {
+            if ((short*)pkToFind > (short*)dataReadNext) {
+              return (void*)(-1 * (uintptr_t)nextRecordBegin);
+            }
+          }
         }
         ((short*&)dataRead)++;
+        ((short*&)dataReadNext)++;
       } else if (type == INTEGER) {
         if (j == primaryKeyNumber) {
           if (*(int*)pkToFind == *(int*)dataRead) {
             return recordBegin;
           }
+          if (i == 0) {
+            if ((int*)pkToFind < (int*)dataRead) {
+              return (void*)(-1 * (uintptr_t)recordBegin);
+            }
+          }
+          if (i != dataCurrRecordCount - 1) {
+            if (((int*)pkToFind > (int*)dataRead) && ((int*)pkToFind < (int*)dataReadNext)) {
+              return (void*)(-1 * (uintptr_t)recordBegin);
+            }
+          }
+          if (i == dataCurrRecordCount - 1) {
+            if ((int*)pkToFind > (int*)dataReadNext) {
+              return (void*)(-1 * (uintptr_t)nextRecordBegin);
+            }
+          }
         }
         ((int*&)dataRead)++;
+        ((int*&)dataReadNext)++;
       } else if (type == REAL) {
         if (j == primaryKeyNumber) {
           if (*(float*)pkToFind == *(float*)dataRead) {
             return recordBegin;
           }
+          if (i == 0) {
+            if ((float*)pkToFind < (float*)dataRead) {
+              return (void*)(-1 * (uintptr_t)recordBegin);
+            }
+          }
+          if (i != dataCurrRecordCount - 1) {
+            if (((float*)pkToFind > (float*)dataRead) && ((float*)pkToFind < (float*)dataReadNext)) {
+              return (void*)(-1 * (uintptr_t)recordBegin);
+            }
+          }
+          if (i == dataCurrRecordCount - 1) {
+            if ((float*)pkToFind > (float*)dataReadNext) {
+              return (void*)(-1 * (uintptr_t)nextRecordBegin);
+            }
+          }
         }
         ((float*&)dataRead)++;
+        ((float*&)dataReadNext)++;
       }
     }
     ((char*&)dataRead)++;  // end record character
+    ((char*&)dataReadNext)++;
   }
   return nullptr;
 }
 
 void Database::printTable(char* table_name) {
+  printDBPrimary();
   // just do a select all from table? maybe do a select helper
   void* record = retrieveDBPrimaryRecord(table_name);
 
@@ -1047,6 +1222,7 @@ void Database::printTable(char* table_name) {
         cout << " | ";
       }
     }
+    if (variable) ((char*&)dataRead)++;
   }
 }
 
@@ -1386,4 +1562,17 @@ bool Database::compare(char* targetValue, char* comparator, void* candidate, int
     }
   }
   return false;
+}
+
+void Database::freeDataTable(void* dataRoot, int dataCurrBlockCount) {
+  void* currBlock = dataRoot;
+  for (int i = 0; i < dataCurrBlockCount; i++) {
+    // find the next block
+    void* nextBlock = nullptr;
+    if (i != dataCurrBlockCount - 1) {
+      nextBlock = (void*)(((long*)((uintptr_t)nextBlock + (uintptr_t)BLOCK_SIZE)) - 1);
+    }
+    free(currBlock);
+    currBlock = nextBlock;
+  }
 }

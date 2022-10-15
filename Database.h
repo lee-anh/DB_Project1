@@ -88,7 +88,7 @@ class Database {
   void addUnorderedToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
 
   void addOrderedToTableFixed(void* bufferToWrite, void* primaryKey, int recordSize, void*& dbPrimaryPtr, void* insertionPoint);
-  void addOrderedToTableVariable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
+  void addOrderedToTableVariable(void* bufferToWrite, void* primaryKey, int recordSize, void*& dbPrimaryPtr, void* insertionPoint);
 
   // TODO: hashing is just another layer
 
@@ -106,6 +106,7 @@ class Database {
   int calculateMaxDataRecordSize(void* ptrToFirstAttribute, int numberOfAttributes);
   vector<char*> parseOnDelim(char* toParse, char* delim);
   bool compare(char* targetValue, char* comparator, void* candidate, int candidateLength, dataType type);
+  void freeDataTable(void* dataRoot, int dataCurrBlockCount);
 };
 
 #endif
