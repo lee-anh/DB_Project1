@@ -12,7 +12,8 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
   cout << "SIZE OF FLOAT " << sizeof(float) << endl;
-  Database* db = new Database(UNORDERED);
+  // Database* db = new Database(UNORDERED);
+  Database* db = new Database(ORDERED);
   db->printDBPrimary();
   db->create_table("movies", "id", 6,
                    "id", "integer",
@@ -123,10 +124,12 @@ int main(int argc, char* argv[]) {
     db->insert("movies", 3, 27, "Star Wars", 4.2);
     db->insert("movies", 3, 28, "Rouge One", 3.0);
     */
+
   db->insert("movies", 3, 27, "Star Wars", 4.2);
+  db->printDBPrimary();
   db->insert("movies", 3, 28, "Rouge One", 3.0);
-  db->insert("movies", 3, 27, "Star Wars", 4.2);
-  db->insert("movies", 3, 28, "Rouge One", 3.0);
+  db->insert("movies", 3, 25, "The Last Starfighter", 3.0);
+  db->insert("movies", 3, 26, "Princess Diaries", 5.0);
   db->select("movies", 1, "title, rating");
   db->select("movies", 2, "id, title", "id = 27 OR title = Star Wars");
 

@@ -87,7 +87,7 @@ class Database {
   void addVariableToTable(void* primaryKey, void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
   void addUnorderedToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
 
-  void addOrderedToTableFixed(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
+  void addOrderedToTableFixed(void* bufferToWrite, void* primaryKey, int recordSize, void*& dbPrimaryPtr, void* insertionPoint);
   void addOrderedToTableVariable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
 
   // TODO: hashing is just another layer
