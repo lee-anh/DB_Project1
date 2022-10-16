@@ -1,10 +1,10 @@
-Start testing: Oct 15 20:40 EDT
+Start testing: Oct 16 11:15 EDT
 ----------------------------------------------------------
-1/10 Testing: DatabaseTest.CreateTable
-1/10 Test: DatabaseTest.CreateTable
+1/28 Testing: DatabaseTest.CreateTable
+1/28 Test: DatabaseTest.CreateTable
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.CreateTable" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.CreateTable" start time: Oct 15 20:40 EDT
+"DatabaseTest.CreateTable" start time: Oct 16 11:15 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -28,15 +28,15 @@ CREATE TABLE movies
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.CreateTable" end time: Oct 15 20:40 EDT
+"DatabaseTest.CreateTable" end time: Oct 16 11:15 EDT
 "DatabaseTest.CreateTable" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-2/10 Testing: DatabaseTest.RetrieveDBPrimaryRecordOnly
-2/10 Test: DatabaseTest.RetrieveDBPrimaryRecordOnly
+2/28 Testing: DatabaseTest.RetrieveDBPrimaryRecordOnly
+2/28 Test: DatabaseTest.RetrieveDBPrimaryRecordOnly
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.RetrieveDBPrimaryRecordOnly" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.RetrieveDBPrimaryRecordOnly" start time: Oct 15 20:40 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordOnly" start time: Oct 16 11:15 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -60,15 +60,15 @@ CREATE TABLE movies
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.RetrieveDBPrimaryRecordOnly" end time: Oct 15 20:40 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordOnly" end time: Oct 16 11:15 EDT
 "DatabaseTest.RetrieveDBPrimaryRecordOnly" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-3/10 Testing: DatabaseTest.RetrieveDBPrimaryRecordFirst
-3/10 Test: DatabaseTest.RetrieveDBPrimaryRecordFirst
+3/28 Testing: DatabaseTest.RetrieveDBPrimaryRecordFirst
+3/28 Test: DatabaseTest.RetrieveDBPrimaryRecordFirst
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.RetrieveDBPrimaryRecordFirst" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.RetrieveDBPrimaryRecordFirst" start time: Oct 15 20:40 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordFirst" start time: Oct 16 11:15 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -102,15 +102,15 @@ CREATE TABLE bstars
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.RetrieveDBPrimaryRecordFirst" end time: Oct 15 20:40 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordFirst" end time: Oct 16 11:15 EDT
 "DatabaseTest.RetrieveDBPrimaryRecordFirst" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-4/10 Testing: DatabaseTest.RetrieveDBPrimaryRecordMiddle
-4/10 Test: DatabaseTest.RetrieveDBPrimaryRecordMiddle
+4/28 Testing: DatabaseTest.RetrieveDBPrimaryRecordMiddle
+4/28 Test: DatabaseTest.RetrieveDBPrimaryRecordMiddle
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.RetrieveDBPrimaryRecordMiddle" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.RetrieveDBPrimaryRecordMiddle" start time: Oct 15 20:40 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordMiddle" start time: Oct 16 11:15 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -141,18 +141,18 @@ CREATE TABLE bstars
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.02 sec
+Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.RetrieveDBPrimaryRecordMiddle" end time: Oct 15 20:40 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordMiddle" end time: Oct 16 11:15 EDT
 "DatabaseTest.RetrieveDBPrimaryRecordMiddle" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-5/10 Testing: DatabaseTest.RetrieveDBPrimaryRecordEnd
-5/10 Test: DatabaseTest.RetrieveDBPrimaryRecordEnd
+5/28 Testing: DatabaseTest.RetrieveDBPrimaryRecordEnd
+5/28 Test: DatabaseTest.RetrieveDBPrimaryRecordEnd
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.RetrieveDBPrimaryRecordEnd" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.RetrieveDBPrimaryRecordEnd" start time: Oct 15 20:40 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordEnd" start time: Oct 16 11:15 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -183,18 +183,18 @@ CREATE TABLE movies
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.02 sec
+Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.RetrieveDBPrimaryRecordEnd" end time: Oct 15 20:40 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordEnd" end time: Oct 16 11:15 EDT
 "DatabaseTest.RetrieveDBPrimaryRecordEnd" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-6/10 Testing: DatabaseTest.NoDuplicateTableNames
-6/10 Test: DatabaseTest.NoDuplicateTableNames
+6/28 Testing: DatabaseTest.NoDuplicateTableNames
+6/28 Test: DatabaseTest.NoDuplicateTableNames
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicateTableNames" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicateTableNames" start time: Oct 15 20:40 EDT
+"DatabaseTest.NoDuplicateTableNames" start time: Oct 16 11:15 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -216,18 +216,46 @@ Table of same name has already been created
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.02 sec
+Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicateTableNames" end time: Oct 15 20:40 EDT
+"DatabaseTest.NoDuplicateTableNames" end time: Oct 16 11:15 EDT
 "DatabaseTest.NoDuplicateTableNames" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-7/10 Testing: DatabaseTest.LoadTestForDBPrimaryAndDBAttributes
-7/10 Test: DatabaseTest.LoadTestForDBPrimaryAndDBAttributes
+7/28 Testing: DatabaseTest.NoDuplicateTableAttributes
+7/28 Test: DatabaseTest.NoDuplicateTableAttributes
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicateTableAttributes" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTest.NoDuplicateTableAttributes" start time: Oct 16 11:15 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTest.NoDuplicateTableAttributes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTest
+[ RUN      ] DatabaseTest.NoDuplicateTableAttributes
+Error creating movies. Attributes cannot have the same name.
+[       OK ] DatabaseTest.NoDuplicateTableAttributes (0 ms)
+[----------] 1 test from DatabaseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTest.NoDuplicateTableAttributes" end time: Oct 16 11:15 EDT
+"DatabaseTest.NoDuplicateTableAttributes" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/28 Testing: DatabaseTest.LoadTestForDBPrimaryAndDBAttributes
+8/28 Test: DatabaseTest.LoadTestForDBPrimaryAndDBAttributes
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.LoadTestForDBPrimaryAndDBAttributes" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.LoadTestForDBPrimaryAndDBAttributes" start time: Oct 15 20:40 EDT
+"DatabaseTest.LoadTestForDBPrimaryAndDBAttributes" start time: Oct 16 11:15 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -321,23 +349,23 @@ CREATE TABLE gastars
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.LoadTestForDBPrimaryAndDBAttributes" end time: Oct 15 20:40 EDT
+"DatabaseTest.LoadTestForDBPrimaryAndDBAttributes" end time: Oct 16 11:15 EDT
 "DatabaseTest.LoadTestForDBPrimaryAndDBAttributes" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-8/10 Testing: DatabaseTest.InsertIntoTableUnorderedFixed
-8/10 Test: DatabaseTest.InsertIntoTableUnorderedFixed
-Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.InsertIntoTableUnorderedFixed" "--gtest_also_run_disabled_tests"
+9/28 Testing: DatabaseTestUnordered.InsertIntoTableFixed
+9/28 Test: DatabaseTestUnordered.InsertIntoTableFixed
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.InsertIntoTableFixed" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.InsertIntoTableUnorderedFixed" start time: Oct 15 20:40 EDT
+"DatabaseTestUnordered.InsertIntoTableFixed" start time: Oct 16 11:15 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
-Note: Google Test filter = DatabaseTest.InsertIntoTableUnorderedFixed
+Note: Google Test filter = DatabaseTestUnordered.InsertIntoTableFixed
 [==========] Running 1 test from 1 test suite.
 [----------] Global test environment set-up.
-[----------] 1 test from DatabaseTest
-[ RUN      ] DatabaseTest.InsertIntoTableUnorderedFixed
+[----------] 1 test from DatabaseTestUnordered
+[ RUN      ] DatabaseTestUnordered.InsertIntoTableFixed
 CREATE TABLE movies
  id                   integer, 
  title                char(32), 
@@ -348,33 +376,33 @@ INSERT INTO movies VALUES 28, Rouge One, 3
 INSERT INTO movies VALUES 25, The Last Starfighter, 3
 INSERT INTO movies VALUES 26, Princess Diaries, 5
 INSERT INTO movies VALUES 127, Frozen, 4.2
-[       OK ] DatabaseTest.InsertIntoTableUnorderedFixed (0 ms)
-[----------] 1 test from DatabaseTest (0 ms total)
+[       OK ] DatabaseTestUnordered.InsertIntoTableFixed (0 ms)
+[----------] 1 test from DatabaseTestUnordered (0 ms total)
 
 [----------] Global test environment tear-down
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.02 sec
+Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.InsertIntoTableUnorderedFixed" end time: Oct 15 20:40 EDT
-"DatabaseTest.InsertIntoTableUnorderedFixed" time elapsed: 00:00:00
+"DatabaseTestUnordered.InsertIntoTableFixed" end time: Oct 16 11:15 EDT
+"DatabaseTestUnordered.InsertIntoTableFixed" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-9/10 Testing: DatabaseTest.noDuplicatePrimaryKeyUnorderedFixed
-9/10 Test: DatabaseTest.noDuplicatePrimaryKeyUnorderedFixed
-Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.noDuplicatePrimaryKeyUnorderedFixed" "--gtest_also_run_disabled_tests"
+10/28 Testing: DatabaseTestUnordered.noDuplicatePrimaryKeyFixedInteger
+10/28 Test: DatabaseTestUnordered.noDuplicatePrimaryKeyFixedInteger
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.noDuplicatePrimaryKeyFixedInteger" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.noDuplicatePrimaryKeyUnorderedFixed" start time: Oct 15 20:40 EDT
+"DatabaseTestUnordered.noDuplicatePrimaryKeyFixedInteger" start time: Oct 16 11:15 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
-Note: Google Test filter = DatabaseTest.noDuplicatePrimaryKeyUnorderedFixed
+Note: Google Test filter = DatabaseTestUnordered.noDuplicatePrimaryKeyFixedInteger
 [==========] Running 1 test from 1 test suite.
 [----------] Global test environment set-up.
-[----------] 1 test from DatabaseTest
-[ RUN      ] DatabaseTest.noDuplicatePrimaryKeyUnorderedFixed
+[----------] 1 test from DatabaseTestUnordered
+[ RUN      ] DatabaseTestUnordered.noDuplicatePrimaryKeyFixedInteger
 CREATE TABLE movies
  id                   integer, 
  title                char(32), 
@@ -389,33 +417,138 @@ INSERT INTO movies VALUES 27, Star Wars, 4.2
 insertion error: duplicate primary key
 INSERT INTO movies VALUES 27, Say Anything, 4.2
 insertion error: duplicate primary key
-[       OK ] DatabaseTest.noDuplicatePrimaryKeyUnorderedFixed (0 ms)
-[----------] 1 test from DatabaseTest (0 ms total)
+[       OK ] DatabaseTestUnordered.noDuplicatePrimaryKeyFixedInteger (0 ms)
+[----------] 1 test from DatabaseTestUnordered (0 ms total)
 
 [----------] Global test environment tear-down
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.02 sec
+Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.noDuplicatePrimaryKeyUnorderedFixed" end time: Oct 15 20:40 EDT
-"DatabaseTest.noDuplicatePrimaryKeyUnorderedFixed" time elapsed: 00:00:00
+"DatabaseTestUnordered.noDuplicatePrimaryKeyFixedInteger" end time: Oct 16 11:15 EDT
+"DatabaseTestUnordered.noDuplicatePrimaryKeyFixedInteger" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-10/10 Testing: DatabaseTest.noDuplicatePrimaryKeyUnorderedFixedLoadTest
-10/10 Test: DatabaseTest.noDuplicatePrimaryKeyUnorderedFixedLoadTest
-Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.noDuplicatePrimaryKeyUnorderedFixedLoadTest" "--gtest_also_run_disabled_tests"
+11/28 Testing: DatabaseTestUnordered.noDuplicatePrimaryKeyFixedSmallInt
+11/28 Test: DatabaseTestUnordered.noDuplicatePrimaryKeyFixedSmallInt
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.noDuplicatePrimaryKeyFixedSmallInt" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.noDuplicatePrimaryKeyUnorderedFixedLoadTest" start time: Oct 15 20:40 EDT
+"DatabaseTestUnordered.noDuplicatePrimaryKeyFixedSmallInt" start time: Oct 16 11:15 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
-Note: Google Test filter = DatabaseTest.noDuplicatePrimaryKeyUnorderedFixedLoadTest
+Note: Google Test filter = DatabaseTestUnordered.noDuplicatePrimaryKeyFixedSmallInt
 [==========] Running 1 test from 1 test suite.
 [----------] Global test environment set-up.
-[----------] 1 test from DatabaseTest
-[ RUN      ] DatabaseTest.noDuplicatePrimaryKeyUnorderedFixedLoadTest
+[----------] 1 test from DatabaseTestUnordered
+[ RUN      ] DatabaseTestUnordered.noDuplicatePrimaryKeyFixedSmallInt
+CREATE TABLE movies
+ id                   smallint, 
+ title                char(32), 
+ rating               real, 
+ PRIMARY KEY          id, 
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+insertion error: duplicate primary key
+[       OK ] DatabaseTestUnordered.noDuplicatePrimaryKeyFixedSmallInt (0 ms)
+[----------] 1 test from DatabaseTestUnordered (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTestUnordered.noDuplicatePrimaryKeyFixedSmallInt" end time: Oct 16 11:15 EDT
+"DatabaseTestUnordered.noDuplicatePrimaryKeyFixedSmallInt" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/28 Testing: DatabaseTestUnordered.noDuplicatePrimaryKeyFixedFloat
+12/28 Test: DatabaseTestUnordered.noDuplicatePrimaryKeyFixedFloat
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.noDuplicatePrimaryKeyFixedFloat" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTestUnordered.noDuplicatePrimaryKeyFixedFloat" start time: Oct 16 11:15 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTestUnordered.noDuplicatePrimaryKeyFixedFloat
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTestUnordered
+[ RUN      ] DatabaseTestUnordered.noDuplicatePrimaryKeyFixedFloat
+CREATE TABLE movies
+ id                   smallint, 
+ title                char(32), 
+ rating               real, 
+ PRIMARY KEY          rating, 
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+insertion error: duplicate primary key
+[       OK ] DatabaseTestUnordered.noDuplicatePrimaryKeyFixedFloat (0 ms)
+[----------] 1 test from DatabaseTestUnordered (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTestUnordered.noDuplicatePrimaryKeyFixedFloat" end time: Oct 16 11:15 EDT
+"DatabaseTestUnordered.noDuplicatePrimaryKeyFixedFloat" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/28 Testing: DatabaseTestUnordered.noDuplicatePrimaryKeyFixedChar
+13/28 Test: DatabaseTestUnordered.noDuplicatePrimaryKeyFixedChar
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.noDuplicatePrimaryKeyFixedChar" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTestUnordered.noDuplicatePrimaryKeyFixedChar" start time: Oct 16 11:15 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTestUnordered.noDuplicatePrimaryKeyFixedChar
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTestUnordered
+[ RUN      ] DatabaseTestUnordered.noDuplicatePrimaryKeyFixedChar
+CREATE TABLE movies
+ id                   smallint, 
+ title                char(32), 
+ rating               real, 
+ PRIMARY KEY          title, 
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+insertion error: duplicate primary key
+[       OK ] DatabaseTestUnordered.noDuplicatePrimaryKeyFixedChar (0 ms)
+[----------] 1 test from DatabaseTestUnordered (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTestUnordered.noDuplicatePrimaryKeyFixedChar" end time: Oct 16 11:15 EDT
+"DatabaseTestUnordered.noDuplicatePrimaryKeyFixedChar" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/28 Testing: DatabaseTestUnordered.insertFixedLoadTest
+14/28 Test: DatabaseTestUnordered.insertFixedLoadTest
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.insertFixedLoadTest" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTestUnordered.insertFixedLoadTest" start time: Oct 16 11:15 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTestUnordered.insertFixedLoadTest
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTestUnordered
+[ RUN      ] DatabaseTestUnordered.insertFixedLoadTest
 CREATE TABLE movies
  id                   integer, 
  title                char(32), 
@@ -447,18 +580,731 @@ INSERT INTO movies VALUES 278, Captain America, 4.2
 INSERT INTO movies VALUES 280, Iron Man, 3
 INSERT INTO movies VALUES 272, Thor, 4.2
 INSERT INTO movies VALUES 283, Antman, 3
-[       OK ] DatabaseTest.noDuplicatePrimaryKeyUnorderedFixedLoadTest (0 ms)
-[----------] 1 test from DatabaseTest (0 ms total)
+[       OK ] DatabaseTestUnordered.insertFixedLoadTest (0 ms)
+[----------] 1 test from DatabaseTestUnordered (0 ms total)
 
 [----------] Global test environment tear-down
 [==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
-Test time =   0.02 sec
+Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.noDuplicatePrimaryKeyUnorderedFixedLoadTest" end time: Oct 15 20:40 EDT
-"DatabaseTest.noDuplicatePrimaryKeyUnorderedFixedLoadTest" time elapsed: 00:00:00
+"DatabaseTestUnordered.insertFixedLoadTest" end time: Oct 16 11:15 EDT
+"DatabaseTestUnordered.insertFixedLoadTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Oct 15 20:40 EDT
+15/28 Testing: DatabaseTestUnordered.InsertIntoTableVariable
+15/28 Test: DatabaseTestUnordered.InsertIntoTableVariable
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.InsertIntoTableVariable" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTestUnordered.InsertIntoTableVariable" start time: Oct 16 11:15 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTestUnordered.InsertIntoTableVariable
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTestUnordered
+[ RUN      ] DatabaseTestUnordered.InsertIntoTableVariable
+CREATE TABLE critics
+ id                   integer, 
+ fname                varchar(32), 
+ lname                varchar(32), 
+ PRIMARY KEY          id, 
+INSERT INTO critics VALUES 100, Princess, Peach
+nullptr :(
+INSERT INTO critics VALUES 125, Luigi, Bros
+INSERT INTO critics VALUES 124, Toad, Factory
+here
+here 2
+INSERT INTO critics VALUES 145, Donkey, Kong
+here
+here 2
+INSERT INTO critics VALUES 180, Bowser, Monster
+here
+here 2
+[       OK ] DatabaseTestUnordered.InsertIntoTableVariable (0 ms)
+[----------] 1 test from DatabaseTestUnordered (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTestUnordered.InsertIntoTableVariable" end time: Oct 16 11:15 EDT
+"DatabaseTestUnordered.InsertIntoTableVariable" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/28 Testing: DatabaseTestUnordered.noDuplicatePrimaryKeyVariableInteger
+16/28 Test: DatabaseTestUnordered.noDuplicatePrimaryKeyVariableInteger
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.noDuplicatePrimaryKeyVariableInteger" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTestUnordered.noDuplicatePrimaryKeyVariableInteger" start time: Oct 16 11:15 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTestUnordered.noDuplicatePrimaryKeyVariableInteger
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTestUnordered
+[ RUN      ] DatabaseTestUnordered.noDuplicatePrimaryKeyVariableInteger
+CREATE TABLE critics
+ id                   integer, 
+ fname                varchar(32), 
+ lname                varchar(32), 
+ PRIMARY KEY          id, 
+INSERT INTO critics VALUES 123, Mario, Bros
+nullptr :(
+INSERT INTO critics VALUES 100, Princess, Peach
+INSERT INTO critics VALUES 125, Luigi, Bros
+here
+here 2
+INSERT INTO critics VALUES 124, Toad, Mushroom
+here
+here 2
+INSERT INTO critics VALUES 145, Donkey, Kong
+here
+here 2
+INSERT INTO critics VALUES 123, Mario, Bros
+here
+here 2
+insertion error: duplicate primary key
+[       OK ] DatabaseTestUnordered.noDuplicatePrimaryKeyVariableInteger (0 ms)
+[----------] 1 test from DatabaseTestUnordered (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTestUnordered.noDuplicatePrimaryKeyVariableInteger" end time: Oct 16 11:15 EDT
+"DatabaseTestUnordered.noDuplicatePrimaryKeyVariableInteger" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/28 Testing: DatabaseTestUnordered.noDuplicatePrimaryKeyVariableSmallInt
+17/28 Test: DatabaseTestUnordered.noDuplicatePrimaryKeyVariableSmallInt
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.noDuplicatePrimaryKeyVariableSmallInt" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTestUnordered.noDuplicatePrimaryKeyVariableSmallInt" start time: Oct 16 11:15 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTestUnordered.noDuplicatePrimaryKeyVariableSmallInt
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTestUnordered
+[ RUN      ] DatabaseTestUnordered.noDuplicatePrimaryKeyVariableSmallInt
+CREATE TABLE movies
+ id                   smallint, 
+ title                varchar(32), 
+ director             char(32), 
+ rating               real, 
+ PRIMARY KEY          id, 
+INSERT INTO movies VALUES 27, Star Wars, George Lucas, 4.2
+nullptr :(
+INSERT INTO movies VALUES 27, Star Wars, George Lucas, 4.2
+insertion error: duplicate primary key
+[       OK ] DatabaseTestUnordered.noDuplicatePrimaryKeyVariableSmallInt (0 ms)
+[----------] 1 test from DatabaseTestUnordered (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTestUnordered.noDuplicatePrimaryKeyVariableSmallInt" end time: Oct 16 11:15 EDT
+"DatabaseTestUnordered.noDuplicatePrimaryKeyVariableSmallInt" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/28 Testing: DatabaseTestUnordered.noDuplicatePrimaryKeyVariableFloat
+18/28 Test: DatabaseTestUnordered.noDuplicatePrimaryKeyVariableFloat
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.noDuplicatePrimaryKeyVariableFloat" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTestUnordered.noDuplicatePrimaryKeyVariableFloat" start time: Oct 16 11:15 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTestUnordered.noDuplicatePrimaryKeyVariableFloat
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTestUnordered
+[ RUN      ] DatabaseTestUnordered.noDuplicatePrimaryKeyVariableFloat
+CREATE TABLE movies
+ id                   smallint, 
+ title                varchar(32), 
+ director             char(32), 
+ rating               real, 
+ PRIMARY KEY          rating, 
+INSERT INTO movies VALUES 27, Star Wars, George Lucas, 4.2
+nullptr :(
+INSERT INTO movies VALUES 27, Star Wars, George Lucas, 4.2
+insertion error: duplicate primary key
+[       OK ] DatabaseTestUnordered.noDuplicatePrimaryKeyVariableFloat (0 ms)
+[----------] 1 test from DatabaseTestUnordered (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTestUnordered.noDuplicatePrimaryKeyVariableFloat" end time: Oct 16 11:15 EDT
+"DatabaseTestUnordered.noDuplicatePrimaryKeyVariableFloat" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/28 Testing: DatabaseTestUnordered.noDuplicatePrimaryKeyVariableChar
+19/28 Test: DatabaseTestUnordered.noDuplicatePrimaryKeyVariableChar
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.noDuplicatePrimaryKeyVariableChar" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTestUnordered.noDuplicatePrimaryKeyVariableChar" start time: Oct 16 11:15 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTestUnordered.noDuplicatePrimaryKeyVariableChar
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTestUnordered
+[ RUN      ] DatabaseTestUnordered.noDuplicatePrimaryKeyVariableChar
+CREATE TABLE movies
+ id                   smallint, 
+ title                varchar(32), 
+ director             char(32), 
+ rating               real, 
+ PRIMARY KEY          director, 
+INSERT INTO movies VALUES 27, Star Wars, George Lucas, 4.2
+nullptr :(
+INSERT INTO movies VALUES 27, Star Wars, George Lucas, 4.2
+insertion error: duplicate primary key
+[       OK ] DatabaseTestUnordered.noDuplicatePrimaryKeyVariableChar (0 ms)
+[----------] 1 test from DatabaseTestUnordered (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTestUnordered.noDuplicatePrimaryKeyVariableChar" end time: Oct 16 11:15 EDT
+"DatabaseTestUnordered.noDuplicatePrimaryKeyVariableChar" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/28 Testing: DatabaseTestUnordered.noDuplicatePrimaryKeyVariableVarChar
+20/28 Test: DatabaseTestUnordered.noDuplicatePrimaryKeyVariableVarChar
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.noDuplicatePrimaryKeyVariableVarChar" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTestUnordered.noDuplicatePrimaryKeyVariableVarChar" start time: Oct 16 11:15 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTestUnordered.noDuplicatePrimaryKeyVariableVarChar
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTestUnordered
+[ RUN      ] DatabaseTestUnordered.noDuplicatePrimaryKeyVariableVarChar
+CREATE TABLE movies
+ id                   smallint, 
+ title                varchar(32), 
+ director             char(32), 
+ rating               real, 
+ PRIMARY KEY          title, 
+INSERT INTO movies VALUES 27, Star Wars, George Lucas, 4.2
+nullptr :(
+INSERT INTO movies VALUES 27, Star Wars, George Lucas, 4.2
+insertion error: duplicate primary key
+[       OK ] DatabaseTestUnordered.noDuplicatePrimaryKeyVariableVarChar (0 ms)
+[----------] 1 test from DatabaseTestUnordered (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTestUnordered.noDuplicatePrimaryKeyVariableVarChar" end time: Oct 16 11:15 EDT
+"DatabaseTestUnordered.noDuplicatePrimaryKeyVariableVarChar" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/28 Testing: DatabaseTestUnordered.noDuplicatePrimaryKeyVariableLoadTest
+21/28 Test: DatabaseTestUnordered.noDuplicatePrimaryKeyVariableLoadTest
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.noDuplicatePrimaryKeyVariableLoadTest" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTestUnordered.noDuplicatePrimaryKeyVariableLoadTest" start time: Oct 16 11:15 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTestUnordered.noDuplicatePrimaryKeyVariableLoadTest
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTestUnordered
+[ RUN      ] DatabaseTestUnordered.noDuplicatePrimaryKeyVariableLoadTest
+CREATE TABLE critics
+ id                   integer, 
+ fname                varchar(32), 
+ lname                varchar(32), 
+ PRIMARY KEY          id, 
+INSERT INTO critics VALUES 123, Mario, Bros
+nullptr :(
+INSERT INTO critics VALUES 100, Princess, Peach
+INSERT INTO critics VALUES 125, Luigi, Bros
+here
+here 2
+INSERT INTO critics VALUES 124, Toad, Mushroom
+here
+here 2
+INSERT INTO critics VALUES 145, Donkey, Kong
+here
+here 2
+INSERT INTO critics VALUES 180, Bowser, Monster
+here
+here 2
+INSERT INTO critics VALUES 5, Boo, Ghost
+here
+here 2
+INSERT INTO critics VALUES 113, Princess, Daisy
+here
+here 2
+INSERT INTO critics VALUES 114, Princess, Zelda
+here
+here 2
+INSERT INTO critics VALUES 115, Princess, Rosalina
+here
+here 2
+INSERT INTO critics VALUES 116, Evil, Waluigi
+here
+here 2
+INSERT INTO critics VALUES 117, Toadette, Mushroom
+here
+here 2
+INSERT INTO critics VALUES 118, Evil, Wario
+here
+here 2
+INSERT INTO critics VALUES 1100, Goomba, Fiend
+here
+here 2
+INSERT INTO critics VALUES 1125, Koopa, Troopa
+here
+here 2
+INSERT INTO critics VALUES 1124, Shy, Guy
+here
+here 2
+INSERT INTO critics VALUES 1145, Yoshi, Kong
+here
+here 2
+INSERT INTO critics VALUES 1180, Bowser, Dragon
+here
+here 2
+INSERT INTO critics VALUES 15, Baby, Mario
+here
+here 2
+INSERT INTO critics VALUES 1113, Baby, Luigi
+here
+here 2
+INSERT INTO critics VALUES 1114, Baby, Zelda
+here
+here 2
+INSERT INTO critics VALUES 1115, Baby, Daisy
+here
+here 2
+INSERT INTO critics VALUES 1116, Kirby, Pink
+here
+here 2
+INSERT INTO critics VALUES 1117, Diddy, Kong
+here
+here 2
+INSERT INTO critics VALUES 1118, Princess, Daisy
+here
+here 2
+INSERT INTO critics VALUES 2123, Mario, Bros
+here
+here 2
+INSERT INTO critics VALUES 1223, Mario, Bros
+here
+here 2
+INSERT INTO critics VALUES 1200, Princess, Peach
+here
+here 2
+INSERT INTO critics VALUES 1225, Luigi, Bros
+here
+here 2
+INSERT INTO critics VALUES 1224, Toad, Factory
+here
+here 2
+INSERT INTO critics VALUES 1245, Donkey, Kong
+here
+here 2
+INSERT INTO critics VALUES 1280, Bowser, Monster
+here
+here 2
+INSERT INTO critics VALUES 52, Boo, Ghost
+here
+here 2
+INSERT INTO critics VALUES 1213, Princess, Daisy
+here
+here 2
+INSERT INTO critics VALUES 1214, Princess, Zelda
+here
+here 2
+INSERT INTO critics VALUES 1215, Princess, Daisy
+here
+here 2
+INSERT INTO critics VALUES 1216, Princess, Daisy
+here
+here 2
+INSERT INTO critics VALUES 1217, Princess, Daisy
+here
+here 2
+INSERT INTO critics VALUES 1218, Princess, Daisy
+here
+here 2
+INSERT INTO critics VALUES 12100, Princess, Peach
+here
+here 2
+INSERT INTO critics VALUES 12125, Luigi, Bros
+here
+here 2
+INSERT INTO critics VALUES 12124, Toad, Factory
+here
+here 2
+INSERT INTO critics VALUES 12145, Donkey, Kong
+here
+here 2
+INSERT INTO critics VALUES 12180, Bowser, Monster
+here
+here 2
+INSERT INTO critics VALUES 125, Boo, Ghost
+here
+here 2
+insertion error: duplicate primary key
+INSERT INTO critics VALUES 12113, Princess, Daisy
+here
+here 2
+INSERT INTO critics VALUES 122114, Princess, Zelda
+here
+here 2
+INSERT INTO critics VALUES 11125, Princess, Daisy
+here
+here 2
+INSERT INTO critics VALUES 12116, Princess, Daisy
+here
+here 2
+INSERT INTO critics VALUES 12117, Princess, Daisy
+here
+here 2
+INSERT INTO critics VALUES 12118, Princess, Daisy
+here
+here 2
+[       OK ] DatabaseTestUnordered.noDuplicatePrimaryKeyVariableLoadTest (0 ms)
+[----------] 1 test from DatabaseTestUnordered (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTestUnordered.noDuplicatePrimaryKeyVariableLoadTest" end time: Oct 16 11:15 EDT
+"DatabaseTestUnordered.noDuplicatePrimaryKeyVariableLoadTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/28 Testing: DatabaseTestOrdered.InsertIntoTableFixed
+22/28 Test: DatabaseTestOrdered.InsertIntoTableFixed
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestOrdered.InsertIntoTableFixed" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTestOrdered.InsertIntoTableFixed" start time: Oct 16 11:15 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTestOrdered.InsertIntoTableFixed
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTestOrdered
+[ RUN      ] DatabaseTestOrdered.InsertIntoTableFixed
+CREATE TABLE movies
+ id                   integer, 
+ title                char(32), 
+ rating               real, 
+ PRIMARY KEY          id, 
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+INSERT INTO movies VALUES 28, Rouge One, 3
+INSERT INTO movies VALUES 25, The Last Starfighter, 3
+INSERT INTO movies VALUES 26, Princess Diaries, 5
+INSERT INTO movies VALUES 127, Frozen, 4.2
+dataRead 0x7fd547706b30dataRead 0x7fd547706b58dataRead 0x7fd547706b80dataRead 0x7fd547706ba8dataRead 0x7fd547706bd0[       OK ] DatabaseTestOrdered.InsertIntoTableFixed (0 ms)
+[----------] 1 test from DatabaseTestOrdered (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTestOrdered.InsertIntoTableFixed" end time: Oct 16 11:15 EDT
+"DatabaseTestOrdered.InsertIntoTableFixed" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/28 Testing: DatabaseTestOrdered.noDuplicatePrimaryKeyFixedInteger
+23/28 Test: DatabaseTestOrdered.noDuplicatePrimaryKeyFixedInteger
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestOrdered.noDuplicatePrimaryKeyFixedInteger" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTestOrdered.noDuplicatePrimaryKeyFixedInteger" start time: Oct 16 11:15 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTestOrdered.noDuplicatePrimaryKeyFixedInteger
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTestOrdered
+[ RUN      ] DatabaseTestOrdered.noDuplicatePrimaryKeyFixedInteger
+CREATE TABLE movies
+ id                   integer, 
+ title                char(32), 
+ rating               real, 
+ PRIMARY KEY          id, 
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+insertion error: duplicate primary key
+[       OK ] DatabaseTestOrdered.noDuplicatePrimaryKeyFixedInteger (0 ms)
+[----------] 1 test from DatabaseTestOrdered (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTestOrdered.noDuplicatePrimaryKeyFixedInteger" end time: Oct 16 11:15 EDT
+"DatabaseTestOrdered.noDuplicatePrimaryKeyFixedInteger" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/28 Testing: DatabaseTestOrdered.noDuplicatePrimaryKeyFixedSmallInt
+24/28 Test: DatabaseTestOrdered.noDuplicatePrimaryKeyFixedSmallInt
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestOrdered.noDuplicatePrimaryKeyFixedSmallInt" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTestOrdered.noDuplicatePrimaryKeyFixedSmallInt" start time: Oct 16 11:15 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTestOrdered.noDuplicatePrimaryKeyFixedSmallInt
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTestOrdered
+[ RUN      ] DatabaseTestOrdered.noDuplicatePrimaryKeyFixedSmallInt
+CREATE TABLE movies
+ id                   smallint, 
+ title                char(32), 
+ rating               real, 
+ PRIMARY KEY          id, 
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+insertion error: duplicate primary key
+[       OK ] DatabaseTestOrdered.noDuplicatePrimaryKeyFixedSmallInt (0 ms)
+[----------] 1 test from DatabaseTestOrdered (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTestOrdered.noDuplicatePrimaryKeyFixedSmallInt" end time: Oct 16 11:15 EDT
+"DatabaseTestOrdered.noDuplicatePrimaryKeyFixedSmallInt" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/28 Testing: DatabaseTestOrdered.noDuplicatePrimaryKeyFixedFloat
+25/28 Test: DatabaseTestOrdered.noDuplicatePrimaryKeyFixedFloat
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestOrdered.noDuplicatePrimaryKeyFixedFloat" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTestOrdered.noDuplicatePrimaryKeyFixedFloat" start time: Oct 16 11:15 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTestOrdered.noDuplicatePrimaryKeyFixedFloat
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTestOrdered
+[ RUN      ] DatabaseTestOrdered.noDuplicatePrimaryKeyFixedFloat
+CREATE TABLE movies
+ id                   integer, 
+ title                char(32), 
+ rating               real, 
+ PRIMARY KEY          rating, 
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+insertion error: duplicate primary key
+[       OK ] DatabaseTestOrdered.noDuplicatePrimaryKeyFixedFloat (0 ms)
+[----------] 1 test from DatabaseTestOrdered (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTestOrdered.noDuplicatePrimaryKeyFixedFloat" end time: Oct 16 11:15 EDT
+"DatabaseTestOrdered.noDuplicatePrimaryKeyFixedFloat" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/28 Testing: DatabaseTestOrdered.noDuplicatePrimaryKeyFixedChar
+26/28 Test: DatabaseTestOrdered.noDuplicatePrimaryKeyFixedChar
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestOrdered.noDuplicatePrimaryKeyFixedChar" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTestOrdered.noDuplicatePrimaryKeyFixedChar" start time: Oct 16 11:15 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTestOrdered.noDuplicatePrimaryKeyFixedChar
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTestOrdered
+[ RUN      ] DatabaseTestOrdered.noDuplicatePrimaryKeyFixedChar
+CREATE TABLE movies
+ id                   integer, 
+ title                char(32), 
+ rating               real, 
+ PRIMARY KEY          title, 
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+insertion error: duplicate primary key
+[       OK ] DatabaseTestOrdered.noDuplicatePrimaryKeyFixedChar (0 ms)
+[----------] 1 test from DatabaseTestOrdered (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTestOrdered.noDuplicatePrimaryKeyFixedChar" end time: Oct 16 11:15 EDT
+"DatabaseTestOrdered.noDuplicatePrimaryKeyFixedChar" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/28 Testing: DatabaseTestOrdered.insertFixedLoadTest
+27/28 Test: DatabaseTestOrdered.insertFixedLoadTest
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestOrdered.insertFixedLoadTest" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTestOrdered.insertFixedLoadTest" start time: Oct 16 11:15 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTestOrdered.insertFixedLoadTest
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTestOrdered
+[ RUN      ] DatabaseTestOrdered.insertFixedLoadTest
+CREATE TABLE movies
+ id                   integer, 
+ title                char(32), 
+ rating               real, 
+ PRIMARY KEY          id, 
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+INSERT INTO movies VALUES 28, Rouge One, 3
+INSERT INTO movies VALUES 25, The Last Starfighter, 3
+INSERT INTO movies VALUES 26, Princess Diaries, 5
+INSERT INTO movies VALUES 127, Frozen, 4.2
+INSERT INTO movies VALUES 228, Big Hero 6, 3
+INSERT INTO movies VALUES 237, Cars, 4.2
+INSERT INTO movies VALUES 248, Cars 2, 3
+INSERT INTO movies VALUES 257, Toy Story, 4.2
+INSERT INTO movies VALUES 268, Tarzan, 3
+INSERT INTO movies VALUES 277, Little Shop of Horrors, 4.2
+INSERT INTO movies VALUES 288, Cinderella, 3
+INSERT INTO movies VALUES 297, Sleeping Beauty, 4.2
+INSERT INTO movies VALUES 208, Tangled, 3
+INSERT INTO movies VALUES 217, Honey I Shrunk the Kids, 4.2
+INSERT INTO movies VALUES 281, Back to the Future, 3
+INSERT INTO movies VALUES 272, Father of the Bride, 4.2
+INSERT INTO movies VALUES 283, Cheaper by the Dozen, 3
+INSERT INTO movies VALUES 274, Avengers, 4.2
+INSERT INTO movies VALUES 285, Joy Luck Club, 3
+INSERT INTO movies VALUES 276, Crazy Rich Asians, 4.2
+INSERT INTO movies VALUES 287, Solo, 3
+INSERT INTO movies VALUES 278, Captain America, 4.2
+INSERT INTO movies VALUES 280, Iron Man, 3
+INSERT INTO movies VALUES 572, Thor, 4.2
+INSERT INTO movies VALUES 583, Antman, 3
+dataRead 0x7f853b906490dataRead 0x7f853b9064b8dataRead 0x7f853b9064e0dataRead 0x7f853b906508dataRead 0x7f853b906530dataRead 0x7f853b906558dataRead 0x7f853b906580dataRead 0x7f853b9065a8dataRead 0x7f853b9065d0dataRead 0x7f853b9065f8dataRead 0x7f853b906620dataRead 0x7f853b906648dataRead 0x7f853b906690dataRead 0x7f853b9066b8dataRead 0x7f853b9066e0dataRead 0x7f853b906708dataRead 0x7f853b906730dataRead 0x7f853b906758dataRead 0x7f853b906780dataRead 0x7f853b9067a8dataRead 0x7f853b9067d0dataRead 0x7f853b9067f8dataRead 0x7f853b906820dataRead 0x7f853b906848dataRead 0x7f853b906890dataRead 0x7f853b9068b8[       OK ] DatabaseTestOrdered.insertFixedLoadTest (0 ms)
+[----------] 1 test from DatabaseTestOrdered (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTestOrdered.insertFixedLoadTest" end time: Oct 16 11:15 EDT
+"DatabaseTestOrdered.insertFixedLoadTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/28 Testing: DatabaseTestOrdered.InsertIntoTableVariable
+28/28 Test: DatabaseTestOrdered.InsertIntoTableVariable
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestOrdered.InsertIntoTableVariable" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTestOrdered.InsertIntoTableVariable" start time: Oct 16 11:15 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTestOrdered.InsertIntoTableVariable
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTestOrdered
+[ RUN      ] DatabaseTestOrdered.InsertIntoTableVariable
+CREATE TABLE critics
+ id                   integer, 
+ fname                varchar(32), 
+ lname                varchar(32), 
+ PRIMARY KEY          id, 
+INSERT INTO critics VALUES 100, Princess, Peach
+nullptr :(
+empty or last insertion
+INSERT INTO critics VALUES 125, Luigi, Bros
+1
+INSERT INTO critics VALUES 124, Toad, Factory
+here
+here 2
+1
+INSERT INTO critics VALUES 145, Donkey, Kong
+here
+here 2
+empty or last insertion
+INSERT INTO critics VALUES 180, Bowser, Monster
+here
+here 2
+empty or last insertion
+dataRead 0x7fe46df06b30dataRead 0x7fe46df06b42dataRead 0x7fe46df06b52/Users/claireliu/Developer/Databases/p1/database_test.cpp:818: Failure
+Expected: (prevPk) < (currPk), actual: 125 vs 100
+dataRead 0x7fe46df06b66dataRead 0x7fe46df06b77[  FAILED  ] DatabaseTestOrdered.InsertIntoTableVariable (0 ms)
+[----------] 1 test from DatabaseTestOrdered (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 0 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] DatabaseTestOrdered.InsertIntoTableVariable
+
+ 1 FAILED TEST
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Failed.
+"DatabaseTestOrdered.InsertIntoTableVariable" end time: Oct 16 11:15 EDT
+"DatabaseTestOrdered.InsertIntoTableVariable" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 16 11:15 EDT
