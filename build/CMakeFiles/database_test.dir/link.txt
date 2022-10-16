@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/c++  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/database_test.dir/database_test.cpp.o CMakeFiles/database_test.dir/Database.cpp.o -o database_test  lib/libgtest_main.a lib/libgtest.a 

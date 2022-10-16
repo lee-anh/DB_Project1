@@ -2,14 +2,23 @@
 
 Database::Database() {
   this->method = UNORDERED;
+  this->BLOCK_SIZE = 512;
   initializeDB();
 }
 
 Database::Database(insertionMethod method) {
   this->method = method;
+  this->BLOCK_SIZE = 512;
   initializeDB();
 }
 
+Database::Database(insertionMethod method, int blockSize) {
+  this->method = method;
+  BLOCK_SIZE = blockSize;
+  initializeDB();
+}
+
+// TODO: we shouldn't allow duplicate attribute names
 void Database::create_table(const char* table_name, const char* key, int length, ...) {
   void* test = retrieveDBPrimaryRecord((char*)table_name);
   if (test != nullptr) {
@@ -18,21 +27,36 @@ void Database::create_table(const char* table_name, const char* key, int length,
   }
   va_list arg_list;
   va_start(arg_list, length);
-  cout << "CREATE TABLE " << table_name << endl;
 
   int primKey = 0;
   void* dbAttrStart = db_attr_curr;
+  vector<char*> attrNames;
+  vector<char*> types;
 
   for (int i = 0; i < length / 2; i++) {
     char* name = va_arg(arg_list, char*);
+    // check for unique attribute names
+    for (char* n : attrNames) {
+      if (strcmp(n, name) == 0) {
+        cerr << "Error creating " << table_name << ". Attributes cannot have the same name." << endl;
+        return;
+      }
+    }
+    attrNames.push_back(name);
+
     char* typeStr = va_arg(arg_list, char*);
+    types.push_back(typeStr);
     if (strcmp(name, key) == 0) {
       primKey = i;
     }
+  }
 
-    addToDBAttr(name, typeStr);
+  cout << "CREATE TABLE " << table_name << endl;
 
-    printf(" %-20s %s, \n", name, typeStr);
+  for (int i = 0; i < (int)attrNames.size(); i++) {
+    addToDBAttr(attrNames[i], types[i]);
+
+    printf(" %-20s %s, \n", attrNames[i], types[i]);
   }
 
   printf(" %-20s %s, \n", "PRIMARY KEY", key);
@@ -248,26 +272,6 @@ void Database::select(const char* table_name, int length, ...) {
   // how do we pass in a comparator operator?  <, <=, ==, =>, >
   // https://stackoverflow.com/questions/4530588/passing-operator-as-a-parameter
   // 😬
-
-  if (length == 2) {
-    /*
-    // ok but why does this cause a seg fault?
-    char* conditional = va_arg(arg_list, char*);
-
-    // parse the conditional first on ORs
-    char local[strlen(conditional) + 1];
-    memset(local, '\0', strlen(conditional) + 1);
-    strcpy(local, conditional);
-
-    cout << "before" << endl;
-    vector<char*> ors = parseOnDelim(local, "OR");
-    for (char* n : ors) {
-      cout << n << endl;
-    }
-    // then on ANDs
-    cout << "after" << endl;
-    */
-  }
   cout << "SELECT ";
 
   for (int i = 0; i < (int)fields.size(); i++) {
@@ -278,11 +282,17 @@ void Database::select(const char* table_name, int length, ...) {
   }
   cout << " FROM " << table_name;
 
+  char* condition;
+  if (length == 2) {
+    condition = va_arg(arg_list, char*);
+    cout << "WHERE " << condition;
+  }
+
   // unordered: linear
   // ordered: fixed - binary search, variable - linear
   // hashing : ???
   cout << endl;
-  printTableGiven((char*)table_name, fields);
+  printTableGiven((char*)table_name, fields, strdup(condition));
   for (int i = 0; i < (int)fields.size(); i++) {
     free(fields[i]);
   }
@@ -1226,7 +1236,7 @@ void Database::printTable(char* table_name) {
   }
 }
 
-void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint) {
+void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint, char* condition) {
   void* record = retrieveDBPrimaryRecord(table_name);
 
   void* dbAttrRecord = (void*)*(long*)((uintptr_t)record + db_primary_db_attr_offset);
@@ -1235,8 +1245,10 @@ void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint) {
   void* dataRoot = (void*)*(long*)((uintptr_t)record + data_root_offset);
   int dataCurrRecordCount = *(int*)((uintptr_t)record + data_record_count_offset);
 
+  // TODO: conditional
+
   // print out all of the attributes
-  bool variable = false;  // useful to know I guess... how are we going to do variable records? special ending for a varchar and special ending for a record?
+  bool variable = false;
   char* attrNames[numAttr];
   dataType attrTypes[numAttr];
   void* attrRecords[numAttr];  // pointer to each attribute

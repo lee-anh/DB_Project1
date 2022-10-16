@@ -1,0 +1,5 @@
+if(EXISTS "/Users/claireliu/Developer/Databases/p1/build/database_test[1]_tests.cmake")
+  include("/Users/claireliu/Developer/Databases/p1/build/database_test[1]_tests.cmake")
+else()
+  add_test(database_test_NOT_BUILT database_test_NOT_BUILT)
+endif()

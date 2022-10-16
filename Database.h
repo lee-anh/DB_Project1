@@ -1,5 +1,5 @@
-#ifndef UTILS
-#define UTILS
+#ifndef DATABASE
+#define DATABASE
 
 // c
 
@@ -19,6 +19,7 @@ class Database {
  public:
   Database();
   Database(insertionMethod method);
+  Database(insertionMethod method, int blockSize);
   void create_table(const char* table_name, const char* key, int length, ...);
   void insert(const char* table_name, int length, ...);
   void update(const char* table_name, int length, ...);
@@ -27,6 +28,7 @@ class Database {
   // TODO: make everything under here private - how does this affect the testing suite?
   // instance variables
   insertionMethod method;
+  int BLOCK_SIZE;
 
   // db_primary format:
   // char(TABLE_NAME_SIZE) table_name | (void*) db_attr (first) | (int) num_db_attr | (int) primary_key_num  | (void*) data_root | (void*) dataCurr | (void*) dataEnd  | (int) numCurrBlockCount| (int) currRecordCount
@@ -90,16 +92,10 @@ class Database {
   void addOrderedToTableFixed(void* bufferToWrite, void* primaryKey, int recordSize, void*& dbPrimaryPtr, void* insertionPoint);
   void addOrderedToTableVariable(void* bufferToWrite, void* primaryKey, int recordSize, void*& dbPrimaryPtr, void* insertionPoint);
 
-  // TODO: hashing is just another layer
-
-  // void addUnorderedToTable(void* bufferToWrite, int recordSize, void* dataRoot, void*& dataCurr, void*& dataCurrEnd, int& dataCurrBlockCount);
-  // I guess these could be useful but they're not as useful as I thought
   void* findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind);
   void* findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind);
-  void* findInsertionPointFixed(void* dbPrimaryPtr, void* pkToInsert);
-  void* findInsertionPointVariable(void* dbPrimaryPtr, void* pkToInsert);  // modify findPrimaryKeyVariable
-  void printTable(char* table_name);                                       // very closely aligned with select
-  void printTableGiven(char* table_name, vector<char*> fieldsToPrint);
+  void printTable(char* table_name);  // very closely aligned with select
+  void printTableGiven(char* table_name, vector<char*> fieldsToPrint, char* condition);
   // other helper functions
   dataType getDataType(char* type);
   int getN(char* str);

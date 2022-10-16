@@ -7,6 +7,12 @@ all: $(OBJS)
 	$(CC) $(CFLAGS) -o p1 *.o 
 	./p1
 
+test: 
+	cmake -S . -B build
+	cmake --build build
+	cd build && ctest --output-on-failure
+	cd .. 
+
 clean:
 	rm ./p1
 	rm *.o 
