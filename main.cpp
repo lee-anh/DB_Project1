@@ -19,10 +19,15 @@ int main(int argc, char* argv[]) {
                    "id", "integer",
                    "title", "char(32)",
                    "rating", "real");
-  db->create_table("test", "id", 6,
+
+  db->create_table("test", "id", 8,
                    "id", "integer",
-                   "title", "char(32)",
-                   "title", "real");
+                   "director", "char(32)",
+                   "title", "varchar(32)",
+                   "rating", "real");
+
+  db->insert("test", 4, 12, "hello", "world", 2.0);
+  db->insert("test", 4, 12, "hello", "world", 4.1);
 
   db->create_table("stars", "id", 6,
                    "id", "integer",
@@ -34,12 +39,22 @@ int main(int argc, char* argv[]) {
                    "id", "integer",
                    "fname", "varchar(32)",
                    "lname", "varchar(32)");
+
   db->printDBPrimary();
   db->printDBAttr();
 
-  db->insert("stars", 3, 13, "Harrison", "Ford");
+  db->create_table("movies1", "director1", 8,
+                   "id1", "smallint",
+                   "title1", "varchar(32)",
+                   "director1", "char(32)",
+                   "rating1", "real");
+  db->insert("movies1", 4, 27, "Star Wars", "George Lucas", 4.2);
+  db->insert("movies1", 4, 27, "Star Wars", "George Lucas", 4.2);
 
-  /*  db->insert("critics", 3, 27, "Mario", "Bros");
+  db->insert("stars", 3, 13, "Harrison", "Ford");
+  // why can't we insert this guy, but we can insert literally everything else
+  /*
+    db->insert("critics", 3, 27, "Mario", "Bros");
     db->insert("critics", 3, 27, "Mario", "Bros");
     db->insert("critics", 3, 28, "Princess", "Peach");
     db->insert("critics", 3, 25, "Luigi", "Bros");
@@ -92,49 +107,21 @@ int main(int argc, char* argv[]) {
     db->insert("critics", 3, 12117, "Princess", "Daisy");
     db->insert("critics", 3, 12118, "Princess", "Daisy");
     */
-  db->insert("critics", 3, 100, "Princess", "Peach");
-  db->insert("critics", 3, 125, "Luigi", "Bros");
-  db->insert("critics", 3, 124, "Toad", "Factory");
-  db->insert("critics", 3, 145, "Donkey", "Kong");
-  db->insert("critics", 3, 180, "Bowser", "Monster");
-
   /*
-    db->insert("movies", 3, 27, "Star Wars", 4.2);
-    db->insert("movies", 3, 28, "Rouge One", 3.0);
-    db->insert("movies", 3, 25, "The Last Starfighter", 3.0);
-    db->insert("movies", 3, 26, "Princess Diaries", 5.0);
-    db->insert("movies", 3, 127, "Frozen", 4.2);
 
-    db->insert("movies", 3, 228, "Big Hero 6", 3.0);
-    db->insert("movies", 3, 237, "Cars", 4.2);
-    db->insert("movies", 3, 248, "Cars 2", 3.0);
-    db->insert("movies", 3, 257, "Toy Story", 4.2);
-    db->insert("movies", 3, 268, "Tarzan", 3.0);
-    db->insert("movies", 3, 277, "Little Shop of Horrors", 4.2);
-    db->insert("movies", 3, 288, "Cinderella", 3.0);
-    db->insert("movies", 3, 297, "Sleeping Beauty", 4.2);
-    db->insert("movies", 3, 208, "Tangled", 3.0);
-    db->insert("movies", 3, 217, "Honey I Shrunk the Kids", 4.2);
-    db->insert("movies", 3, 281, "Back to the Future", 3.0);
-    db->insert("movies", 3, 272, "Father of the Bride", 4.2);
-    db->insert("movies", 3, 283, "Cheaper by the Dozen", 3.0);
-    db->insert("movies", 3, 274, "Avengers", 4.2);
-    db->insert("movies", 3, 285, "Joy Luck Club", 3.0);
-    db->insert("movies", 3, 276, "Crazy Rich Asians", 4.2);
-    db->insert("movies", 3, 287, "Solo", 3.0);
-    db->insert("movies", 3, 278, "Captain America", 4.2);
-    db->insert("movies", 3, 280, "Iron Man", 3.0);
-    db->insert("movies", 3, 272, "Thor", 4.2);
-    db->insert("movies", 3, 283, "Antman", 3.0);
-    db->select("movies", 1, "title, rating");
-    db->select("movies", 2, "id, title", "id = 27 OR title = Star Wars");
-  */
+      db->insert("critics", 3, 100, "Princess", "Peach");
+      db->insert("critics", 3, 125, "Luigi", "Bros");
+      db->insert("critics", 3, 124, "Toad", "Factory");
+      db->insert("critics", 3, 145, "Donkey", "Kong");
+      db->insert("critics", 3, 180, "Bowser", "Monster");
+    */
 
   db->insert("movies", 3, 27, "Star Wars", 4.2);
   db->insert("movies", 3, 28, "Rouge One", 3.0);
   db->insert("movies", 3, 25, "The Last Starfighter", 3.0);
   db->insert("movies", 3, 26, "Princess Diaries", 5.0);
   db->insert("movies", 3, 127, "Frozen", 4.2);
+
   db->insert("movies", 3, 228, "Big Hero 6", 3.0);
   db->insert("movies", 3, 237, "Cars", 4.2);
   db->insert("movies", 3, 248, "Cars 2", 3.0);
@@ -154,8 +141,40 @@ int main(int argc, char* argv[]) {
   db->insert("movies", 3, 287, "Solo", 3.0);
   db->insert("movies", 3, 278, "Captain America", 4.2);
   db->insert("movies", 3, 280, "Iron Man", 3.0);
-  db->insert("movies", 3, 572, "Thor", 4.2);
-  db->insert("movies", 3, 583, "Antman", 3.0);
+  db->insert("movies", 3, 272, "Thor", 4.2);
+  db->insert("movies", 3, 283, "Antman", 3.0);
+  db->select("movies", 1, "title, rating");
+  db->select("movies", 2, "id, title", "id = 27");
+  db->select("movies", 2, "*", "id = 27");
+
+  /*
+    db->insert("movies", 3, 27, "Star Wars", 4.2);
+    db->insert("movies", 3, 28, "Rouge One", 3.0);
+    db->insert("movies", 3, 25, "The Last Starfighter", 3.0);
+    db->insert("movies", 3, 26, "Princess Diaries", 5.0);
+    db->insert("movies", 3, 127, "Frozen", 4.2);
+    db->insert("movies", 3, 228, "Big Hero 6", 3.0);
+    db->insert("movies", 3, 237, "Cars", 4.2);
+    db->insert("movies", 3, 248, "Cars 2", 3.0);
+    db->insert("movies", 3, 257, "Toy Story", 4.2);
+    db->insert("movies", 3, 268, "Tarzan", 3.0);
+    db->insert("movies", 3, 277, "Little Shop of Horrors", 4.2);
+    db->insert("movies", 3, 288, "Cinderella", 3.0);
+    db->insert("movies", 3, 297, "Sleeping Beauty", 4.2);
+    db->insert("movies", 3, 208, "Tangled", 3.0);
+    db->insert("movies", 3, 217, "Honey I Shrunk the Kids", 4.2);
+    db->insert("movies", 3, 281, "Back to the Future", 3.0);
+    db->insert("movies", 3, 272, "Father of the Bride", 4.2);
+    db->insert("movies", 3, 283, "Cheaper by the Dozen", 3.0);
+    db->insert("movies", 3, 274, "Avengers", 4.2);
+    db->insert("movies", 3, 285, "Joy Luck Club", 3.0);
+    db->insert("movies", 3, 276, "Crazy Rich Asians", 4.2);
+    db->insert("movies", 3, 287, "Solo", 3.0);
+    db->insert("movies", 3, 278, "Captain America", 4.2);
+    db->insert("movies", 3, 280, "Iron Man", 3.0);
+    db->insert("movies", 3, 572, "Thor", 4.2);
+    db->insert("movies", 3, 583, "Antman", 3.0);
+    */
 
   db->printTable("critics");
   db->printTable("movies");

@@ -25,7 +25,7 @@ class Database {
   void update(const char* table_name, int length, ...);
   void select(const char* table_name, int length, ...);
 
-  // TODO: make everything under here private - how does this affect the testing suite?
+  // TODO: ideally would make everything below this private, but exposing it for the sake of testing
   // instance variables
   insertionMethod method;
   int BLOCK_SIZE;
@@ -95,7 +95,7 @@ class Database {
   void* findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind);
   void* findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind);
   void printTable(char* table_name);  // very closely aligned with select
-  void printTableGiven(char* table_name, vector<char*> fieldsToPrint, char* condition);
+  void printTableGiven(char* table_name, vector<char*> fieldsToPrint, char* specialName, char* comparator, char* target);
   // other helper functions
   dataType getDataType(char* type);
   int getN(char* str);

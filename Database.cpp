@@ -28,7 +28,11 @@ void Database::create_table(const char* table_name, const char* key, int length,
   va_start(arg_list, length);
 
   int primKey = 0;
+  // missed putting this here earlier! 🥲
+  checkSpaceAdd(db_attr_record_size, db_attr_curr, db_attr_curr_end, db_attr_blocks);
   void* dbAttrStart = db_attr_curr;
+
+  // using a vectors, but it's just for an intermediate step 🙏🏼
   vector<char*> attrNames;
   vector<char*> types;
 
@@ -46,6 +50,7 @@ void Database::create_table(const char* table_name, const char* key, int length,
     attrNames.push_back(name);
 
     char* typeStr = va_arg(arg_list, char*);
+
     types.push_back(typeStr);
     if (strcmp(name, key) == 0) {
       primKey = i;
@@ -72,17 +77,20 @@ void Database::insert(const char* table_name, int length, ...) {
   va_start(arg_list, length);
   cout << "INSERT INTO " << table_name << " VALUES ";
   // first find the table that we want to insert into
+
   void* record = retrieveDBPrimaryRecord((char*)table_name);
   if (record == NULL) {
     cerr << "cannot find specified table" << endl;
     return;
   }
 
+  // cout << "found record" << endl;
   char buffer[TABLE_NAME_SIZE];
   memset(buffer, '\0', TABLE_NAME_SIZE);
   strlcpy(buffer, (char*)record, TABLE_NAME_SIZE);
 
   void* dbAttrRecord = (void*)*(long*)((char*&)record + db_primary_db_attr_offset);
+  void* dbAttrRecordEnd = findEndOfBlock(dbAttrRecord);
   int numAttributes = *(int*)((uintptr_t)record + db_primary_num_db_attr_offset);
   int pkNumber = *(int*)((uintptr_t)record + primary_key_offset);
   int maxDataRecordSize = calculateMaxDataRecordSize(dbAttrRecord, numAttributes);
@@ -96,13 +104,16 @@ void Database::insert(const char* table_name, int length, ...) {
   void* pk = nullptr;
   int pkLength = 0;
   for (int i = 0; i < length; i++) {
+    // dummy me forgot the check space search?
+    checkSpaceSearch(db_attr_record_size, dbAttrRecord, dbAttrRecordEnd);
+
     // we have to know the dataType that's coming in
     dbAttrRecord = (void*)((uintptr_t)dbAttrRecord + TABLE_NAME_SIZE);
     dataType type = *(dataType*)dbAttrRecord;
+    // cout << "dataType " << type << endl;
     ((dataType*&)dbAttrRecord)++;
 
     if (type == VARCHAR) {
-      // cout << "varchar";
       char* at = va_arg(arg_list, char*);
       cout << at;
       int n = *(int*)dbAttrRecord;
@@ -203,7 +214,6 @@ void Database::insert(const char* table_name, int length, ...) {
   }
 
   if (!variable) {  // fixed
-
     addFixedToTable(pk, tempBuffer, maxDataRecordSize, record);
   } else {  // variable
     // TODO: variable
@@ -219,17 +229,59 @@ void Database::insert(const char* table_name, int length, ...) {
 
 // TODO: do this one last
 void Database::update(const char* table_name, int length, ...) {
-  // update fixed is easy
-  // to find a data record
-  // very much based on select
+  void* recordPtr = retrieveDBPrimaryRecord((char*)table_name);
 
-  // update variable is hard because it might involve shifting all the records (do the same thing as sorted)
+  // make an array of the attribute names that we're looking for
+  va_list arg_list;
+  va_start(arg_list, length);
+
+  cout << "UPDATE " << table_name;
+
+  // get the attribute to update
+
+  // get the attribute to set
+  char* attrToUpdate = strdup(va_arg(arg_list, char*));
+  char* value = strdup(va_arg(arg_list, char*));
+  cout << " SET " << attrToUpdate << " = " << value;
+
+  // For update we MUST have a WHERE clause
+  // parse the WHERE
+  char* sentence = va_arg(arg_list, char*);
+  char* cpy = strdup(sentence);
+  char* attrName = nullptr;
+  char* comparator = nullptr;
+  char* target = nullptr;
+
+  int counter = 0;
+
+  char* token = strtok(cpy, " ");
+  while (token) {
+    if (counter == 0) {
+      attrName = token;
+    } else if (counter == 1) {
+      comparator = token;
+    } else if (counter == 2) {
+      target = token;
+    }
+
+    token = strtok(NULL, " ");
+
+    counter++;
+  }
+
+  /*
+  cout << "attrName " << attrName << endl;
+  cout << "comparator " << comparator << endl;
+  cout << "target " << target << endl;
+  */
+
+  cout << "WHERE " << sentence;
+
+  cout << endl;
+  va_end(arg_list);
 }
 
 void Database::select(const char* table_name, int length, ...) {
-  // TODO: different search methods
-  // TODO: do we have to do *
-  // AND OR
   void* recordPtr = retrieveDBPrimaryRecord((char*)table_name);
 
   // make an array of the attribute names that we're looking for
@@ -243,8 +295,9 @@ void Database::select(const char* table_name, int length, ...) {
   int num = 1;
 
   if (strcmp(fieldsToParse, "*") == 0) {
-    cout << "SELECT * FROM " << table_name;
-    printTable((char*)table_name);  // TODO: replace with function that incorporates the WHERE
+    fields.push_back(strdup(fieldsToParse));
+    //  printTable((char*)table_name);  // TODO: replace with function that incorporates the WHERE
+    // maybe we could just manually retrieve all of the ones to print?
 
   } else {
     // figure out how many attributes we're looking for and remove white space
@@ -255,7 +308,7 @@ void Database::select(const char* table_name, int length, ...) {
 
     /*
     for (int i = 0; i < strlen(fieldsToParse); i++) {
-      if (local[i] == ',') {
+      if (local[i] == ',')
         num++;
       }
     }
@@ -285,17 +338,46 @@ void Database::select(const char* table_name, int length, ...) {
   }
   cout << " FROM " << table_name;
 
-  char* condition;
-  if (length == 2) {
-    condition = va_arg(arg_list, char*);
-    cout << "WHERE " << condition;
+  char* sentence;
+  char* attrName = nullptr;
+  char* comparator = nullptr;
+  char* target = nullptr;
+  if (length == 2) {  // we also have a WHERE clause
+
+    sentence = va_arg(arg_list, char*);
+    char* cpy = strdup(sentence);
+
+    int counter = 0;
+
+    char* token = strtok(cpy, " ");
+    while (token) {
+      if (counter == 0) {
+        attrName = token;
+      } else if (counter == 1) {
+        comparator = token;
+      } else if (counter == 2) {
+        target = token;
+      }
+
+      token = strtok(NULL, " ");
+
+      counter++;
+    }
+
+    /*
+    cout << "attrName " << attrName << endl;
+    cout << "comparator " << comparator << endl;
+    cout << "target " << target << endl;
+    */
+
+    cout << "WHERE " << sentence;
   }
 
   // unordered: linear
   // ordered: fixed - binary search, variable - linear
   // hashing : ???
   cout << endl;
-  printTableGiven((char*)table_name, fields, strdup(condition));
+  printTableGiven((char*)table_name, fields, attrName, comparator, target);
   for (int i = 0; i < (int)fields.size(); i++) {
     free(fields[i]);
   }
@@ -503,8 +585,6 @@ void* Database::retrieveDBPrimaryRecord(char* table_name) {
 
 // char(TABLE_NAME_SIZE) attrName | (int) type | (int) length, the length if it's variable, -1 if not
 int Database::addToDBAttr(char* attrName, char* typeStr) {
-  // void* db_attr_curr_address = &db_attr_curr;  // so risky!
-  // void* db_attr_curr_end_address = &db_attr_curr_end;
   checkSpaceAdd(db_attr_record_size, db_attr_curr, db_attr_curr_end, db_attr_blocks);
   strncpy((char*)db_attr_curr, attrName, TABLE_NAME_SIZE);
   (char*&)db_attr_curr += TABLE_NAME_SIZE;
@@ -530,10 +610,14 @@ void Database::printDBAttr() {
   void* ptr = db_attr;
   void* ptrEnd = (void*)(((long*)((uintptr_t)ptr + (uintptr_t)BLOCK_SIZE)) - 1);
 
-  cout << "char(TABLE_NAME_SIZE) attrName | (int) type | (int) length" << endl;
+  cout << "void* | char(TABLE_NAME_SIZE) attrName | (int) type | (int) length" << endl;
   for (int i = 0; i < db_attr_records; i++) {
+    void* before = ptr;
     checkSpaceSearch(db_attr_record_size, ptr, ptrEnd);
-
+    if (before != ptr) {
+      cout << "__________________________________________________________________" << endl;
+    }
+    cout << ptr << " | ";
     // attr name
     char buffer[TABLE_NAME_SIZE];
     memset(buffer, '\0', TABLE_NAME_SIZE);
@@ -704,13 +788,15 @@ void Database::addOrderedToTableVariable(void* bufferToWrite, void* primaryKey, 
 
   insertionPoint = (void*)(-1 * (long)insertionPoint);  // flip the bits back
 
-  // insertion empty or insertion at the end
+  // insertion empty or insertion at the end]
+  //  "insertionPoint " << insertionPoint << endl;
+  // cout << "dataCurr " << dataCurr << endl;
   if ((insertionPoint == nullptr) || (insertionPoint == dataCurr)) {
-    cout << "empty or last insertion" << endl;
+    // cout << "empty or last insertion" << endl;
     addUnorderedToTable(bufferToWrite, recordSize, dbPrimaryPtr);
     return;
   }
-  // cleanest, but maybe not the easiest solution
+  // cleanest, but maybe not the optimal solution
   void* dataTempRoot = NULL;
   void* dataTempCurr = NULL;
   void* dataTempCurrEnd = NULL;
@@ -755,8 +841,6 @@ void Database::addOrderedToTableVariable(void* bufferToWrite, void* primaryKey, 
     addUnorderedToTable(buffer, thisRecordCount, dbPrimaryPtr);
   }
 
-  // TODO: free the old table
-  // ok apparently this is causing errors?
   freeDataTable(dataRoot, dataCurrBlockCount);
 }
 
@@ -942,11 +1026,11 @@ void* Database::findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind) {
   void* dataReadNextEnd = (void*)(((long*)((uintptr_t)dataReadNext + (uintptr_t)BLOCK_SIZE)) - 1);
 
   // need one that's one record ahead, just go find the next end of record character
-  if (dataCurrRecordCount > 1) {
-    cout << "here" << endl;                               // I think this might be the issue!
+  if (dataCurrRecordCount > 0) {
+    // cout << "here" << endl;                               // I think this might be the issue!
     checkSpaceSearch(-1, dataReadNext, dataReadNextEnd);  // correction for finding the next record
     int spaceToCheck = (uintptr_t)dataReadNextEnd - (uintptr_t)dataReadNext;
-    cout << "here 2" << endl;
+    //  cout << "here 2" << endl;
     for (int i = 0; i < spaceToCheck; i++) {
       if (*(char*)dataReadNext == END_RECORD_CHAR) {
         ((char*&)dataReadNext)++;
@@ -969,6 +1053,7 @@ void* Database::findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind) {
       dataType type = attrTypes[j];
       if (type == VARCHAR) {
         int buffSize = *(int*)((uintptr_t)attrRecords[j] + attr_length_offset);
+
         char buff[buffSize];
         memset(buff, '\0', buffSize);
 
@@ -987,13 +1072,15 @@ void* Database::findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind) {
           buff[k] = a;
         }
 
-        for (int k = 0; k < buffSize; k++) {
-          char a = *(char*)dataReadNext;
-          ((char*&)dataReadNext)++;  // move on to next byte regardless
-          if (a == END_FIELD_CHAR) {
-            break;
+        if (dataCurrRecordCount > 1) {
+          for (int k = 0; k < buffSize; k++) {
+            char a = *(char*)dataReadNext;
+            ((char*&)dataReadNext)++;  // move on to next byte regardless
+            if (a == END_FIELD_CHAR) {
+              break;
+            }
+            buffNext[k] = a;
           }
-          buffNext[k] = a;
         }
 
         if (j == primaryKeyNumber) {
@@ -1030,8 +1117,10 @@ void* Database::findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind) {
         memset(buffNext, '\0', buffSize);
 
         // copy
-        strlcpy(buff, (char*)dataRead, buffSize);
-        strlcpy(buff, (char*)dataReadNext, buffSize);
+
+        strncpy(buff, (char*)dataRead, buffSize);
+        // cout << "pkToFind " << (char*)pkToFind << endl;
+
         // cout
         if (j == primaryKeyNumber) {
           if (strncmp((char*)pkToFind, (char*)buff, pkSize) == 0) {
@@ -1049,7 +1138,8 @@ void* Database::findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind) {
             }
           }
           if (i != dataCurrRecordCount - 1) {
-            if (strcmp((char*)pkToFind, (char*)buff) > 0 && strcmp((char*)pkToFind, (char*)buffNext) < 0) {
+            strncpy(buffNext, (char*)dataReadNext, buffSize);
+            if (strcmp((char*)pkToFind, buff) > 0 && strcmp((char*)pkToFind, buffNext) < 0) {
               return (void*)(-1 * (uintptr_t)nextRecordBegin);
             }
           }
@@ -1089,17 +1179,28 @@ void* Database::findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind) {
           }
           if (i == 0) {
             if (*(int*)pkToFind < *(int*)dataRead) {
+              // cout << "first element" << endl;
+              // cout << "dataRead " << *(int*)dataRead << endl;
+              // cout << "PktoFind: " << *(int*)pkToFind << endl;
               return (void*)(-1 * (uintptr_t)recordBegin);
             }
           }
           if (i == dataCurrRecordCount - 1) {
             if (*(int*)pkToFind > *(int*)dataRead) {
+              //  cout << "last element" << endl;
+              //  cout << "dataRead " << *(int*)dataRead << endl;
+              // cout << "PktoFind: " << *(int*)pkToFind << endl;
               return (void*)(-1 * (uintptr_t)nextRecordBegin);
             }
           }
 
           if (i != dataCurrRecordCount - 1) {
             if ((*(int*)pkToFind > *(int*)dataRead) && (*(int*)pkToFind < *(int*)dataReadNext)) {
+              // cout << "mid element" << endl;
+              // cout << "dataRead " << *(int*)dataRead << endl;
+              // cout << "dataRead Next " << *(int*)dataReadNext << endl;
+              // cout << "PktoFind: " << *(int*)pkToFind << endl;
+
               return (void*)(-1 * (uintptr_t)nextRecordBegin);
             }
           }
@@ -1253,7 +1354,7 @@ void Database::printTable(char* table_name) {
   }
 }
 
-void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint, char* condition) {
+void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint, char* specialName, char* comparator, char* target) {
   void* record = retrieveDBPrimaryRecord(table_name);
 
   void* dbAttrRecord = (void*)*(long*)((uintptr_t)record + db_primary_db_attr_offset);
@@ -1261,8 +1362,6 @@ void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint, ch
   int primaryKeyNumber = *(int*)((uintptr_t)record + primary_key_offset);
   void* dataRoot = (void*)*(long*)((uintptr_t)record + data_root_offset);
   int dataCurrRecordCount = *(int*)((uintptr_t)record + data_record_count_offset);
-
-  // TODO: conditional
 
   // print out all of the attributes
   bool variable = false;
@@ -1272,11 +1371,15 @@ void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint, ch
   bool interest[numAttr];
 
   int numToLookFor = (int)fieldsToPrint.size();
+  if (strcmp(fieldsToPrint.at(0), "*") == 0) {
+    numToLookFor = numAttr;
+  }
   void* readDBAttr = dbAttrRecord;
   void* readDBAttrEnd = findEndOfBlock(dbAttrRecord);
 
   // print out the headers
   int attrCounter1 = 0;
+  int special = -1;
   for (int i = 0; i < numAttr; i++) {
     checkSpaceSearch(db_attr_record_size, readDBAttr, readDBAttrEnd);
 
@@ -1284,6 +1387,9 @@ void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint, ch
 
     char attrName[TABLE_NAME_SIZE];
     strncpy(attrName, (char*)attrRecords[i], TABLE_NAME_SIZE);
+    if (specialName != nullptr && strcmp(attrName, specialName) == 0) {
+      special = i;
+    }
 
     dataType type = *(dataType*)((uintptr_t)attrRecords[i] + attr_type_offset);
     attrTypes[i] = type;
@@ -1291,14 +1397,19 @@ void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint, ch
       variable = true;
     }
 
-    // print out if it's an attribute we're interested in
     attrNames[i] = attrName;
     bool need = false;
-    for (char* n : fieldsToPrint) {
-      if (strstr(attrName, n)) {
-        cout << attrName;
-        need = true;
-        break;
+    if (strcmp(fieldsToPrint[0], "*") == 0) {
+      cout << attrName;
+      need = true;
+    } else {
+      // print out if it's an attribute we're interested in
+      for (char* n : fieldsToPrint) {
+        if (strstr(attrName, n)) {
+          cout << attrName;
+          need = true;
+          break;
+        }
       }
     }
     interest[i] = need;
@@ -1321,17 +1432,81 @@ void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint, ch
 
   // set up read heads
   void* dataRead = dataRoot;
-  // cout << "dataRead Head: " << dataRead << endl;
   void* dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
   int fixedLength = calculateMaxDataRecordSize(attrRecords[0], numAttr);  // hopefully that works!
   if (variable) {
     fixedLength = -1;
   }
   // we just need the attribute types so we know what to cast it into
+  // of course we're gonna get the seg fault
+  bool isTarget[dataCurrRecordCount];
+
+  for (int i = 0; i < dataCurrRecordCount; i++) {
+    checkSpaceSearch(fixedLength, dataRead, dataReadEnd);
+    int attrCounter2 = 0;
+    if (specialName == nullptr) isTarget[i] = true;  // if we don't have a special, by default we're going to want to print everything out
+
+    for (int j = 0; j < numAttr; j++) {
+      dataType type = attrTypes[j];
+      if (type == VARCHAR) {
+        // get max, set up a buffer
+        int buffSize = *(int*)((uintptr_t)attrRecords[j] + attr_length_offset);
+        char buff[buffSize];
+        memset(buff, '\0', buffSize);
+
+        // copy
+        // go character by character
+
+        for (int k = 0; k < buffSize; k++) {
+          char a = *(char*)dataRead;
+          ((char*&)dataRead)++;  // move on to next byte regardless
+          if (a == END_FIELD_CHAR) {
+            break;
+          }
+          buff[k] = a;
+        }
+        if (j == special) isTarget[i] = compare(target, comparator, buff, strlen(buff), VARCHAR);
+
+        // this strlen is a bit risky but should be ok
+        //
+
+      } else if (type == CHAR) {
+        // get char length, set up a buffer
+        int buffSize = *(int*)((uintptr_t)attrRecords[j] + attr_length_offset);
+        char buff[buffSize];
+        memset(buff, '\0', buffSize);
+        // copy
+        strncpy(buff, (char*)dataRead, buffSize);
+
+        if (j == special) isTarget[i] = compare(target, comparator, buff, strlen(buff), CHAR);
+        ((char*&)dataRead) += buffSize;
+
+      } else if (type == SMALLINT) {
+        if (j == special) isTarget[i] = compare(target, comparator, dataRead, -1, SMALLINT);
+        ((short*&)dataRead)++;
+      } else if (type == INTEGER) {
+        if (j == special) isTarget[i] = compare(target, comparator, dataRead, -1, INTEGER);
+        ((int*&)dataRead)++;
+      } else if (type == REAL) {
+        if (j == special) isTarget[i] = compare(target, comparator, dataRead, -1, REAL);
+        ((float*&)dataRead)++;
+      }
+    }
+    //  cout << "target" << isTarget[i] << " ";
+    //  cout << endl;
+  }
+
+  // TODO: good place to separate the function for reuse and for testing?
+  // reset the dataReads
+  dataRead = dataRoot;
+  dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
   for (int i = 0; i < dataCurrRecordCount; i++) {
     checkSpaceSearch(fixedLength, dataRead, dataReadEnd);
 
-    // cout << "dataReadHead 2: " << dataRead << endl;
+    // we know which attribute is special... how can we figure out if we need to print it before we print out the record partially?
+    // we could iterate through twice, which isn't ideal but isn't horrible - we could keep a count of all the records to print out
+    // this in turn could be useful for the update function, which will mostly be written
+
     int attrCounter2 = 0;
     for (int j = 0; j < numAttr; j++) {
       dataType type = attrTypes[j];
@@ -1352,7 +1527,7 @@ void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint, ch
           buff[k] = a;
         }
         // cout
-        if (interest[j]) {
+        if (interest[j] && isTarget[i]) {
           cout << buff;
         }
 
@@ -1365,23 +1540,23 @@ void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint, ch
         // copy
         strncpy(buff, (char*)dataRead, buffSize);
         // cout
-        if (interest[j]) {
+        if (interest[j] && isTarget[i]) {
           cout << buff;
         }
         ((char*&)dataRead) += buffSize;
 
       } else if (type == SMALLINT) {
-        if (interest[j]) cout << *(short*)dataRead;
+        if (interest[j] && isTarget[i]) cout << *(short*)dataRead;
 
         ((short*&)dataRead)++;
       } else if (type == INTEGER) {
-        if (interest[j]) cout << *(int*)dataRead;
+        if (interest[j] && isTarget[i]) cout << *(int*)dataRead;
         ((int*&)dataRead)++;
       } else if (type == REAL) {
-        if (interest[j]) cout << *(float*)dataRead;
+        if (interest[j] && isTarget[i]) cout << *(float*)dataRead;
         ((float*&)dataRead)++;
       }
-      if (interest[j]) {
+      if (interest[j] && isTarget[i]) {
         if (attrCounter2 == numToLookFor - 1) {
           cout << endl;
         } else {
@@ -1537,7 +1712,7 @@ bool Database::compare(char* targetValue, char* comparator, void* candidate, int
       return tar >= num;
     }
     if (strstr(comparator, "=")) {
-      return tar >= num;
+      return tar == num;
     }
     if (strstr(comparator, "<")) {
       return tar < num;
@@ -1548,6 +1723,7 @@ bool Database::compare(char* targetValue, char* comparator, void* candidate, int
   } else if (type == INTEGER) {
     int tar = atoi(targetValue);
     int num = *(int*)candidate;
+    // cout << "target " << tar << " num " << num << endl;
     if (strstr(comparator, "!=")) {
       return tar != num;
     }
@@ -1558,7 +1734,7 @@ bool Database::compare(char* targetValue, char* comparator, void* candidate, int
       return tar >= num;
     }
     if (strstr(comparator, "=")) {
-      return tar >= num;
+      return tar == num;
     }
     if (strstr(comparator, "<")) {
       return tar < num;
@@ -1579,7 +1755,7 @@ bool Database::compare(char* targetValue, char* comparator, void* candidate, int
       return tar >= num;
     }
     if (strstr(comparator, "=")) {
-      return tar >= num;
+      return tar == num;
     }
     if (strstr(comparator, "<")) {
       return tar < num;
@@ -1593,7 +1769,7 @@ bool Database::compare(char* targetValue, char* comparator, void* candidate, int
 
 void Database::freeDataTable(void* dataRoot, int dataCurrBlockCount) {
   void* currBlock = dataRoot;
-  cout << dataCurrBlockCount << endl;
+  // cout << dataCurrBlockCount << endl;
   for (int i = 0; i < dataCurrBlockCount; i++) {
     // find the next block
     void* nextBlock = nullptr;
