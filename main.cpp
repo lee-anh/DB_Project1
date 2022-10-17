@@ -53,60 +53,60 @@ int main(int argc, char* argv[]) {
 
   db->insert("stars", 3, 13, "Harrison", "Ford");
   // why can't we insert this guy, but we can insert literally everything else
-  /*
-    db->insert("critics", 3, 27, "Mario", "Bros");
-    db->insert("critics", 3, 27, "Mario", "Bros");
-    db->insert("critics", 3, 28, "Princess", "Peach");
-    db->insert("critics", 3, 25, "Luigi", "Bros");
-    db->insert("critics", 3, 26, "Toad", "Mushroom");
-    db->insert("critics", 3, 145, "Donkey", "Kong");
-    db->insert("critics", 3, 180, "Bowser", "Monster");
-    db->insert("critics", 3, 5, "Boo", "Ghost");
-    db->insert("critics", 3, 113, "Princess", "Daisy");
-    db->insert("critics", 3, 114, "Princess", "Zelda");
-    db->insert("critics", 3, 115, "Princess", "Rosalina");
-    db->insert("critics", 3, 116, "Evil", "Waluigi");
-    db->insert("critics", 3, 117, "Toadette", "Mushroom");
-    db->insert("critics", 3, 118, "Evil", "Wario");
-    db->insert("critics", 3, 1100, "Goomba", "Fiend");
-    db->insert("critics", 3, 1125, "Koopa", "Troopa");
-    db->insert("critics", 3, 1124, "Shy", "Guy");
-    db->insert("critics", 3, 1145, "Yoshi", "Kong");
-    db->insert("critics", 3, 1180, "Bowser", "Dragon");
-    db->insert("critics", 3, 15, "Baby", "Mario");
-    db->insert("critics", 3, 1113, "Baby", "Luigi");
-    db->insert("critics", 3, 1114, "Baby", "Zelda");
-    db->insert("critics", 3, 1115, "Baby", "Daisy");
-    db->insert("critics", 3, 1116, "Kirby", "Pink");
-    db->insert("critics", 3, 1117, "Diddy", "Kong");
-    db->insert("critics", 3, 1118, "Princess", "Daisy");
-    db->insert("critics", 3, 2123, "Mario", "Bros");
-    db->insert("critics", 3, 1223, "Mario", "Bros");
-    db->insert("critics", 3, 1200, "Princess", "Peach");
-    db->insert("critics", 3, 1225, "Luigi", "Bros");
-    db->insert("critics", 3, 1224, "Toad", "Factory");
-    db->insert("critics", 3, 1245, "Donkey", "Kong");
-    db->insert("critics", 3, 1280, "Bowser", "Monster");
-    db->insert("critics", 3, 52, "Boo", "Ghost");
-    db->insert("critics", 3, 1213, "Princess", "Daisy");
-    db->insert("critics", 3, 1214, "Princess", "Zelda");
-    db->insert("critics", 3, 1215, "Princess", "Daisy");
-    db->insert("critics", 3, 1216, "Princess", "Daisy");
-    db->insert("critics", 3, 1217, "Princess", "Daisy");
-    db->insert("critics", 3, 1218, "Princess", "Daisy");
-    db->insert("critics", 3, 12100, "Princess", "Peach");
-    db->insert("critics", 3, 12125, "Luigi", "Bros");
-    db->insert("critics", 3, 12124, "Toad", "Factory");
-    db->insert("critics", 3, 12145, "Donkey", "Kong");
-    db->insert("critics", 3, 12180, "Bowser", "Monster");
-    db->insert("critics", 3, 125, "Boo", "Ghost");
-    db->insert("critics", 3, 12113, "Princess", "Daisy");
-    db->insert("critics", 3, 122114, "Princess", "Zelda");
-    db->insert("critics", 3, 11125, "Princess", "Daisy");
-    db->insert("critics", 3, 12116, "Princess", "Daisy");
-    db->insert("critics", 3, 12117, "Princess", "Daisy");
-    db->insert("critics", 3, 12118, "Princess", "Daisy");
-    */
+
+  db->insert("critics", 3, 27, "Mario", "Bros");
+  db->insert("critics", 3, 27, "Mario", "Bros");
+  db->insert("critics", 3, 28, "Princess", "Peach");
+  db->insert("critics", 3, 25, "Luigi", "Bros");
+  db->insert("critics", 3, 26, "Toad", "Mushroom");
+  db->insert("critics", 3, 145, "Donkey", "Kong");
+  db->insert("critics", 3, 180, "Bowser", "Monster");
+  db->insert("critics", 3, 5, "Boo", "Ghost");
+  db->insert("critics", 3, 113, "Princess", "Daisy");
+  db->insert("critics", 3, 114, "Princess", "Zelda");
+  db->insert("critics", 3, 115, "Princessy", "Rosalina");
+  db->insert("critics", 3, 116, "Evil", "Waluigi");
+  db->insert("critics", 3, 117, "Toadette", "Mushroom");
+  db->insert("critics", 3, 118, "Evil", "Wario");
+  db->insert("critics", 3, 1100, "Goomba", "Fiend");
+  db->insert("critics", 3, 1125, "Koopa", "Troopa");
+  db->insert("critics", 3, 1124, "Shy", "Guy");
+  db->insert("critics", 3, 1145, "Yoshi", "Kong");
+  db->insert("critics", 3, 1180, "Bowser", "Dragon");
+  db->insert("critics", 3, 15, "Baby", "Mario");
+  db->insert("critics", 3, 1113, "Baby", "Luigi");
+  db->insert("critics", 3, 1114, "Baby", "Zelda");
+  db->insert("critics", 3, 1115, "Baby", "Daisy");
+  db->insert("critics", 3, 1116, "Kirby", "Pink");
+  db->insert("critics", 3, 1117, "Diddy", "Kong");
+  db->insert("critics", 3, 1118, "Princess", "Daisy");
+  db->insert("critics", 3, 2123, "Mario", "Bros");
+  db->insert("critics", 3, 1223, "Mario", "Bros");
+  db->insert("critics", 3, 1200, "Princess", "Peach");
+  db->insert("critics", 3, 1225, "Luigi", "Bros");
+  db->insert("critics", 3, 1224, "Toad", "Factory");
+  db->insert("critics", 3, 1245, "Donkey", "Kong");
+  db->insert("critics", 3, 1280, "Bowser", "Monster");
+  db->insert("critics", 3, 52, "Boo", "Ghost");
+  db->insert("critics", 3, 1213, "Princess1", "Daisy");
+  db->insert("critics", 3, 1214, "Princess2", "Zelda");
+  db->insert("critics", 3, 1215, "Princess3", "Daisy");
+  db->insert("critics", 3, 1216, "Princess4", "Daisy");
+  db->insert("critics", 3, 1217, "Princess5", "Daisy");
+  db->insert("critics", 3, 1218, "Princess6", "Daisy");
+  db->insert("critics", 3, 12100, "Princess", "Peach");
+  db->insert("critics", 3, 12125, "Luigi", "Bros");
+  db->insert("critics", 3, 12124, "Toad", "Factory");
+  db->insert("critics", 3, 12145, "Donkey", "Kong");
+  db->insert("critics", 3, 12180, "Bowser", "Monster");
+  db->insert("critics", 3, 125, "Boo", "Ghost");
+  db->insert("critics", 3, 12113, "Princess7", "Daisy");
+  db->insert("critics", 3, 122114, "Princess", "Zelda");
+  db->insert("critics", 3, 11125, "Princess8", "Daisy");
+  db->insert("critics", 3, 12116, "Princess9", "Daisy");
+  db->insert("critics", 3, 12117, "Princess10", "Daisy");
+  db->insert("critics", 3, 12118, "Princess11", "Daisy");
+
   /*
 
       db->insert("critics", 3, 100, "Princess", "Peach");
@@ -143,9 +143,12 @@ int main(int argc, char* argv[]) {
   db->insert("movies", 3, 280, "Iron Man", 3.0);
   db->insert("movies", 3, 272, "Thor", 4.2);
   db->insert("movies", 3, 283, "Antman", 3.0);
-  db->select("movies", 1, "title, rating");
-  db->select("movies", 2, "id, title", "id = 27");
-  db->select("movies", 2, "*", "id = 27");
+
+  // db->select("movies", 1, "title, rating");
+  // db->select("movies", 2, "id, title", "id = 27");
+  // db->select("movies", 2, "*", "id = 27");
+
+  db->select("critics", 2, "fname, lname", "id = 115");
 
   /*
     db->insert("movies", 3, 27, "Star Wars", 4.2);

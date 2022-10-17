@@ -87,7 +87,7 @@ void Database::insert(const char* table_name, int length, ...) {
   // cout << "found record" << endl;
   char buffer[TABLE_NAME_SIZE];
   memset(buffer, '\0', TABLE_NAME_SIZE);
-  strlcpy(buffer, (char*)record, TABLE_NAME_SIZE);
+  strncpy(buffer, (char*)record, TABLE_NAME_SIZE);
 
   void* dbAttrRecord = (void*)*(long*)((char*&)record + db_primary_db_attr_offset);
   void* dbAttrRecordEnd = findEndOfBlock(dbAttrRecord);
@@ -121,7 +121,7 @@ void Database::insert(const char* table_name, int length, ...) {
       // copy as is, trim down if necessary
       if (strlen(at) > n - 2) {
         char* temp = (char*)tempBufferPtr;
-        strlcpy((char*)tempBufferPtr, at, n - 2);
+        strncpy((char*)tempBufferPtr, at, n - 2);
         (char*&)tempBufferPtr += (n - 2);
         ((char*&)tempBufferPtr)++;               // empty space
         *(char*)tempBufferPtr = END_FIELD_CHAR;  // add end of field char
@@ -130,7 +130,7 @@ void Database::insert(const char* table_name, int length, ...) {
         if (i == pkNumber) {
           pk = calloc(n - 1, sizeof(char));
           pkLength = n - 1;
-          strlcpy((char*)pk, temp, n - 1);
+          strncpy((char*)pk, temp, n - 1);
         }
 
       } else {
@@ -370,7 +370,7 @@ void Database::select(const char* table_name, int length, ...) {
     cout << "target " << target << endl;
     */
 
-    cout << "WHERE " << sentence;
+    cout << " WHERE " << sentence;
   }
 
   // unordered: linear
@@ -433,6 +433,7 @@ bool Database::checkSpaceSearch(int fixedLength, void*& currRead, void*& currRea
     // search in the current block for a record terminating character
     // if we can't find it, then
     int spaceToCheck = (uintptr_t)currReadEnd - (uintptr_t)currRead;
+    // cout << "currReadEnd: " << currReadEnd << endl;
     bool found = false;
     char* currReadPtr = (char*)currRead;
     for (int i = 0; i < spaceToCheck; i++) {
@@ -1266,7 +1267,7 @@ void Database::printTable(char* table_name) {
     attrRecords[i] = readDBAttr;
 
     char attrName[TABLE_NAME_SIZE];
-    strlcpy(attrName, (char*)attrRecords[i], TABLE_NAME_SIZE);
+    strncpy(attrName, (char*)attrRecords[i], TABLE_NAME_SIZE);
 
     dataType type = *(dataType*)((uintptr_t)attrRecords[i] + attr_type_offset);
     attrTypes[i] = type;
@@ -1292,9 +1293,9 @@ void Database::printTable(char* table_name) {
   void* dataRead = dataRoot;
   // cout << "dataRead Head: " << dataRead << endl;
   void* dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
-  int fixedLength = calculateMaxDataRecordSize(attrRecords[0], numAttr);  // hopefully that works!
-  if (variable) {
-    fixedLength = -1;
+  int fixedLength = -1;
+  if (!variable) {
+    fixedLength = calculateMaxDataRecordSize(attrRecords[0], numAttr);  // hopefully that works!
   }
   // we just need the attribute types so we know what to cast it into
   for (int i = 0; i < dataCurrRecordCount; i++) {
@@ -1413,7 +1414,7 @@ void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint, ch
       }
     }
     interest[i] = need;
-    if (i == primaryKeyNumber) {
+    if (i == primaryKeyNumber && need) {
       cout << "*";
     }
     if (need) {
@@ -1438,7 +1439,6 @@ void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint, ch
     fixedLength = -1;
   }
   // we just need the attribute types so we know what to cast it into
-  // of course we're gonna get the seg fault
   bool isTarget[dataCurrRecordCount];
 
   for (int i = 0; i < dataCurrRecordCount; i++) {
@@ -1492,6 +1492,9 @@ void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint, ch
         ((float*&)dataRead)++;
       }
     }
+    if (variable) {
+      ((char*&)dataRead)++;  // END_RECORD_CHAR
+    }
     //  cout << "target" << isTarget[i] << " ";
     //  cout << endl;
   }
@@ -1518,17 +1521,27 @@ void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint, ch
 
         // copy
         // go character by character
+        // int counter = 0;
+        // cout << "i: " << i << " j: " << j << " ";
         for (int k = 0; k < buffSize; k++) {
           char a = *(char*)dataRead;
           ((char*&)dataRead)++;  // move on to next byte regardless
           if (a == END_FIELD_CHAR) {
-            break;
+            break;  // don't copy the end field char
           }
           buff[k] = a;
+          /*
+          if (a != '\0') {  // don't copy blanks... so weird that they would be here
+            buff[counter] = a;
+            counter++;
+          }
+          */
         }
-        // cout
+        // cout << " buff: " << buff;  // why is there random stuff in the buffer sometimes? this causes us to miss the last
+        // cout << endl;
+        //  cout
         if (interest[j] && isTarget[i]) {
-          cout << buff;
+          cout << buff;  // why would the buffer sometimes be empty?
         }
 
       } else if (type == CHAR) {
@@ -1547,7 +1560,6 @@ void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint, ch
 
       } else if (type == SMALLINT) {
         if (interest[j] && isTarget[i]) cout << *(short*)dataRead;
-
         ((short*&)dataRead)++;
       } else if (type == INTEGER) {
         if (interest[j] && isTarget[i]) cout << *(int*)dataRead;
@@ -1565,7 +1577,127 @@ void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint, ch
         attrCounter2++;
       }
     }
+    if (variable) ((char*&)dataRead)++;
   }
+}
+
+int Database::updateTableGiven(char* table_name, char* attrToUpdate, char* value, char* specialName, char* comparator, char* target) {
+  void* record = retrieveDBPrimaryRecord(table_name);
+  void* dbAttrRecord = (void*)*(long*)((uintptr_t)record + db_primary_db_attr_offset);
+  int numAttr = *(int*)((uintptr_t)record + db_primary_num_db_attr_offset);
+  void* dataRoot = (void*)*(long*)((uintptr_t)record + data_root_offset);
+  int dataCurrRecordCount = *(int*)((uintptr_t)record + data_record_count_offset);
+
+  // print out all of the attributes
+  bool variable = false;
+  char* attrNames[numAttr];
+  dataType attrTypes[numAttr];
+  void* attrRecords[numAttr];  // pointer to each attribute
+
+  void* readDBAttr = dbAttrRecord;
+  void* readDBAttrEnd = findEndOfBlock(dbAttrRecord);
+  int attrCounter1 = 0;
+  int special = -1;
+  int toUpdate = -1;
+
+  int numUpdate = 0;
+  // find the number of the attribute that we want to update
+  for (int i = 0; i < numAttr; i++) {
+    checkSpaceSearch(db_attr_record_size, readDBAttr, readDBAttrEnd);
+
+    attrRecords[i] = readDBAttr;
+
+    char attrName[TABLE_NAME_SIZE];
+    strncpy(attrName, (char*)attrRecords[i], TABLE_NAME_SIZE);
+
+    if (strcmp(attrName, attrToUpdate) == 0) toUpdate = i;
+    if (specialName != nullptr && strcmp(attrName, specialName) == 0) special = i;
+
+    dataType type = *(dataType*)((uintptr_t)attrRecords[i] + attr_type_offset);
+    attrTypes[i] = type;
+    if (type == VARCHAR) variable = true;
+
+    attrNames[i] = attrName;
+
+    // the next is our next record
+    readDBAttr = (void*)((uintptr_t)readDBAttr + db_attr_record_size);
+  }
+
+  // see if the record fits the condition
+  // set up read heads
+  void* dataRead = dataRoot;
+  void* dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
+  int fixedLength = calculateMaxDataRecordSize(attrRecords[0], numAttr);  // hopefully that works!
+  if (variable) {
+    fixedLength = -1;
+  }
+  // we just need the attribute types so we know what to cast it into
+  bool* isTarget = (bool*)calloc(dataCurrRecordCount, sizeof(bool));  // TODO: free
+
+  for (int i = 0; i < dataCurrRecordCount; i++) {
+    checkSpaceSearch(fixedLength, dataRead, dataReadEnd);
+    int attrCounter2 = 0;
+    if (specialName == nullptr) isTarget[i] = true;  // if we don't have a special, by default we're going to want to print everything out
+
+    for (int j = 0; j < numAttr; j++) {
+      dataType type = attrTypes[j];
+      if (type == VARCHAR) {
+        // get max, set up a buffer
+        int buffSize = *(int*)((uintptr_t)attrRecords[j] + attr_length_offset);
+        char buff[buffSize];
+        memset(buff, '\0', buffSize);
+
+        // copy
+        // go character by character
+
+        for (int k = 0; k < buffSize; k++) {
+          char a = *(char*)dataRead;
+          ((char*&)dataRead)++;  // move on to next byte regardless
+          if (a == END_FIELD_CHAR) {
+            break;
+          }
+          buff[k] = a;
+        }
+        if (j == special) isTarget[i] = compare(target, comparator, buff, strlen(buff), VARCHAR);
+
+      } else if (type == CHAR) {
+        // get char length, set up a buffer
+        int buffSize = *(int*)((uintptr_t)attrRecords[j] + attr_length_offset);
+        char buff[buffSize];
+        memset(buff, '\0', buffSize);
+        // copy
+        strncpy(buff, (char*)dataRead, buffSize);
+
+        if (j == special) isTarget[i] = compare(target, comparator, buff, strlen(buff), CHAR);
+        ((char*&)dataRead) += buffSize;
+
+      } else if (type == SMALLINT) {
+        if (j == special) isTarget[i] = compare(target, comparator, dataRead, -1, SMALLINT);
+        ((short*&)dataRead)++;
+      } else if (type == INTEGER) {
+        if (j == special) isTarget[i] = compare(target, comparator, dataRead, -1, INTEGER);
+        ((int*&)dataRead)++;
+      } else if (type == REAL) {
+        if (j == special) isTarget[i] = compare(target, comparator, dataRead, -1, REAL);
+        ((float*&)dataRead)++;
+      }
+    }
+    if (isTarget[i]) numUpdate++;
+    //  cout << "target" << isTarget[i] << " ";
+    //  cout << endl;
+  }
+
+  // go update the isTarget records
+  // reset the dataReads
+  dataRead = dataRoot;
+  dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
+  if (variable) {
+    return numUpdate;
+  }
+
+  // update table fixed
+
+  return numUpdate;
 }
 
 dataType Database::getDataType(char* type) {
