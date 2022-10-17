@@ -46,9 +46,13 @@ class Database {
   int db_attr_records = 0;
   int db_attr_blocks = 0;
 
+  // hashed record
+  // (void*) dataRoot | (void*) dataCurr | (void*) dataCurrEnd | (int) dataNumBlocks | (int) dataNumRecords
+
   // some useful sizes
   int db_primary_record_size = TABLE_NAME_SIZE + 4 * (sizeof(void*)) + 4 * sizeof(int);
   int db_attr_record_size = TABLE_NAME_SIZE + 2 * sizeof(int);
+  int hashed_size = 3 * sizeof(void*) + 2 * sizeof(int);
 
   int db_primary_db_attr_offset = TABLE_NAME_SIZE;
   int db_primary_num_db_attr_offset = TABLE_NAME_SIZE + sizeof(void*);
@@ -61,6 +65,11 @@ class Database {
 
   int attr_type_offset = TABLE_NAME_SIZE;
   int attr_length_offset = TABLE_NAME_SIZE + sizeof(dataType);
+
+  int hash_curr_offset = sizeof(void*);
+  int hash_curr_end_offset = sizeof(void*) * 2;
+  int hash_num_blocks_offset = sizeof(void*) * 3;
+  int hash_num_records_offset = sizeof(void*) * 3 + sizeof(int);
 
   void initializeDB();
   void initializeNewBlock(void*& root, void*& curr, void*& currEnd, int& currBlockCount);
@@ -75,6 +84,7 @@ class Database {
 
   // DBPrimary
   void addToDBPrimary(char* name, void* dbAttributes, int numAttributes, int primaryKeyNum);
+  void addToDBPrimaryHashed(char* name, void* dbAttributes, int numAttributes, int primaryKeyNum);
   void printDBPrimary();
   void* retrieveDBPrimaryRecord(char* table_name);
   // would it make sense to make a getter for all of these?
@@ -103,7 +113,6 @@ class Database {
   dataType getDataType(char* type);
   int getN(char* str);
   int calculateMaxDataRecordSize(void* ptrToFirstAttribute, int numberOfAttributes);
-  vector<char*> parseOnDelim(char* toParse, char* delim);
   bool compare(char* targetValue, char* comparator, void* candidate, int candidateLength, dataType type);
   void freeDataTable(void* dataRoot, int dataCurrBlockCount);
 };

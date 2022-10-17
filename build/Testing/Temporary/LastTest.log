@@ -1,10 +1,10 @@
-Start testing: Oct 17 11:51 EDT
+Start testing: Oct 17 11:59 EDT
 ----------------------------------------------------------
 1/37 Testing: DatabaseTest.CreateTable
 1/37 Test: DatabaseTest.CreateTable
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.CreateTable" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.CreateTable" start time: Oct 17 11:51 EDT
+"DatabaseTest.CreateTable" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -28,7 +28,7 @@ CREATE TABLE movies
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.CreateTable" end time: Oct 17 11:51 EDT
+"DatabaseTest.CreateTable" end time: Oct 17 11:59 EDT
 "DatabaseTest.CreateTable" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -36,7 +36,7 @@ Test Passed.
 2/37 Test: DatabaseTest.RetrieveDBPrimaryRecordOnly
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.RetrieveDBPrimaryRecordOnly" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.RetrieveDBPrimaryRecordOnly" start time: Oct 17 11:51 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordOnly" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -60,7 +60,7 @@ CREATE TABLE movies
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.RetrieveDBPrimaryRecordOnly" end time: Oct 17 11:51 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordOnly" end time: Oct 17 11:59 EDT
 "DatabaseTest.RetrieveDBPrimaryRecordOnly" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -68,7 +68,7 @@ Test Passed.
 3/37 Test: DatabaseTest.RetrieveDBPrimaryRecordFirst
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.RetrieveDBPrimaryRecordFirst" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.RetrieveDBPrimaryRecordFirst" start time: Oct 17 11:51 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordFirst" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -102,7 +102,7 @@ CREATE TABLE bstars
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.RetrieveDBPrimaryRecordFirst" end time: Oct 17 11:51 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordFirst" end time: Oct 17 11:59 EDT
 "DatabaseTest.RetrieveDBPrimaryRecordFirst" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -110,7 +110,7 @@ Test Passed.
 4/37 Test: DatabaseTest.RetrieveDBPrimaryRecordMiddle
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.RetrieveDBPrimaryRecordMiddle" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.RetrieveDBPrimaryRecordMiddle" start time: Oct 17 11:51 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordMiddle" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -144,7 +144,7 @@ CREATE TABLE bstars
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.RetrieveDBPrimaryRecordMiddle" end time: Oct 17 11:51 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordMiddle" end time: Oct 17 11:59 EDT
 "DatabaseTest.RetrieveDBPrimaryRecordMiddle" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -152,7 +152,7 @@ Test Passed.
 5/37 Test: DatabaseTest.RetrieveDBPrimaryRecordEnd
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.RetrieveDBPrimaryRecordEnd" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.RetrieveDBPrimaryRecordEnd" start time: Oct 17 11:51 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordEnd" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -186,7 +186,7 @@ CREATE TABLE movies
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.RetrieveDBPrimaryRecordEnd" end time: Oct 17 11:51 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordEnd" end time: Oct 17 11:59 EDT
 "DatabaseTest.RetrieveDBPrimaryRecordEnd" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -194,7 +194,7 @@ Test Passed.
 6/37 Test: DatabaseTest.NoDuplicateTableNames
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicateTableNames" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicateTableNames" start time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicateTableNames" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -219,7 +219,7 @@ Table of same name has already been created
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicateTableNames" end time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicateTableNames" end time: Oct 17 11:59 EDT
 "DatabaseTest.NoDuplicateTableNames" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -227,7 +227,7 @@ Test Passed.
 7/37 Test: DatabaseTest.NoDuplicateTableAttributes
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicateTableAttributes" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicateTableAttributes" start time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicateTableAttributes" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -247,7 +247,7 @@ Error creating movies. Attributes cannot have the same name.
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicateTableAttributes" end time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicateTableAttributes" end time: Oct 17 11:59 EDT
 "DatabaseTest.NoDuplicateTableAttributes" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -255,7 +255,7 @@ Test Passed.
 8/37 Test: DatabaseTest.LoadTestForDBPrimaryAndDBAttributes
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.LoadTestForDBPrimaryAndDBAttributes" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.LoadTestForDBPrimaryAndDBAttributes" start time: Oct 17 11:51 EDT
+"DatabaseTest.LoadTestForDBPrimaryAndDBAttributes" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -349,7 +349,7 @@ CREATE TABLE gastars
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.LoadTestForDBPrimaryAndDBAttributes" end time: Oct 17 11:51 EDT
+"DatabaseTest.LoadTestForDBPrimaryAndDBAttributes" end time: Oct 17 11:59 EDT
 "DatabaseTest.LoadTestForDBPrimaryAndDBAttributes" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -357,7 +357,7 @@ Test Passed.
 9/37 Test: DatabaseTest.NoDuplicatePrimaryKeyFixedInteger
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicatePrimaryKeyFixedInteger" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicatePrimaryKeyFixedInteger" start time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyFixedInteger" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -390,7 +390,7 @@ insertion error: duplicate primary key
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicatePrimaryKeyFixedInteger" end time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyFixedInteger" end time: Oct 17 11:59 EDT
 "DatabaseTest.NoDuplicatePrimaryKeyFixedInteger" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -398,7 +398,7 @@ Test Passed.
 10/37 Test: DatabaseTest.NoDuplicatePrimaryKeyFixedSmallInt
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicatePrimaryKeyFixedSmallInt" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicatePrimaryKeyFixedSmallInt" start time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyFixedSmallInt" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -425,7 +425,7 @@ insertion error: duplicate primary key
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicatePrimaryKeyFixedSmallInt" end time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyFixedSmallInt" end time: Oct 17 11:59 EDT
 "DatabaseTest.NoDuplicatePrimaryKeyFixedSmallInt" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -433,7 +433,7 @@ Test Passed.
 11/37 Test: DatabaseTest.NoDuplicatePrimaryKeyFixedFloat
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicatePrimaryKeyFixedFloat" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicatePrimaryKeyFixedFloat" start time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyFixedFloat" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -460,7 +460,7 @@ insertion error: duplicate primary key
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicatePrimaryKeyFixedFloat" end time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyFixedFloat" end time: Oct 17 11:59 EDT
 "DatabaseTest.NoDuplicatePrimaryKeyFixedFloat" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -468,7 +468,7 @@ Test Passed.
 12/37 Test: DatabaseTest.NoDuplicatePrimaryKeyFixedChar
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicatePrimaryKeyFixedChar" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicatePrimaryKeyFixedChar" start time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyFixedChar" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -495,7 +495,7 @@ insertion error: duplicate primary key
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicatePrimaryKeyFixedChar" end time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyFixedChar" end time: Oct 17 11:59 EDT
 "DatabaseTest.NoDuplicatePrimaryKeyFixedChar" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -503,7 +503,7 @@ Test Passed.
 13/37 Test: DatabaseTest.NoDuplicatePrimaryKeyVariableInteger
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicatePrimaryKeyVariableInteger" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicatePrimaryKeyVariableInteger" start time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableInteger" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -531,7 +531,7 @@ insertion error: duplicate primary key
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicatePrimaryKeyVariableInteger" end time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableInteger" end time: Oct 17 11:59 EDT
 "DatabaseTest.NoDuplicatePrimaryKeyVariableInteger" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -539,7 +539,7 @@ Test Passed.
 14/37 Test: DatabaseTest.NoDuplicatePrimaryKeyVariableSmallInt
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicatePrimaryKeyVariableSmallInt" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicatePrimaryKeyVariableSmallInt" start time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableSmallInt" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -568,7 +568,7 @@ insertion error: duplicate primary key
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicatePrimaryKeyVariableSmallInt" end time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableSmallInt" end time: Oct 17 11:59 EDT
 "DatabaseTest.NoDuplicatePrimaryKeyVariableSmallInt" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -576,7 +576,7 @@ Test Passed.
 15/37 Test: DatabaseTest.NoDuplicatePrimaryKeyVariableFloat
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicatePrimaryKeyVariableFloat" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicatePrimaryKeyVariableFloat" start time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableFloat" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -604,7 +604,7 @@ insertion error: duplicate primary key
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicatePrimaryKeyVariableFloat" end time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableFloat" end time: Oct 17 11:59 EDT
 "DatabaseTest.NoDuplicatePrimaryKeyVariableFloat" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -612,7 +612,7 @@ Test Passed.
 16/37 Test: DatabaseTest.NoDuplicatePrimaryKeyVariableChar
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicatePrimaryKeyVariableChar" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicatePrimaryKeyVariableChar" start time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableChar" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -641,7 +641,7 @@ insertion error: duplicate primary key
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicatePrimaryKeyVariableChar" end time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableChar" end time: Oct 17 11:59 EDT
 "DatabaseTest.NoDuplicatePrimaryKeyVariableChar" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -649,7 +649,7 @@ Test Passed.
 17/37 Test: DatabaseTest.NoDuplicatePrimaryKeyVariableVarChar
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicatePrimaryKeyVariableVarChar" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicatePrimaryKeyVariableVarChar" start time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableVarChar" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -678,7 +678,7 @@ insertion error: duplicate primary key
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicatePrimaryKeyVariableVarChar" end time: Oct 17 11:51 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableVarChar" end time: Oct 17 11:59 EDT
 "DatabaseTest.NoDuplicatePrimaryKeyVariableVarChar" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -686,7 +686,7 @@ Test Passed.
 18/37 Test: DatabaseTest.UpdateFixedEqual
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateFixedEqual" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.UpdateFixedEqual" start time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateFixedEqual" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -738,7 +738,7 @@ You have made changes to the database. Rows affected: 1
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.UpdateFixedEqual" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateFixedEqual" end time: Oct 17 11:59 EDT
 "DatabaseTest.UpdateFixedEqual" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -746,7 +746,7 @@ Test Passed.
 19/37 Test: DatabaseTest.UpdateFixedNotEqual
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateFixedNotEqual" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.UpdateFixedNotEqual" start time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateFixedNotEqual" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -798,7 +798,7 @@ You have made changes to the database. Rows affected: 25
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.UpdateFixedNotEqual" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateFixedNotEqual" end time: Oct 17 11:59 EDT
 "DatabaseTest.UpdateFixedNotEqual" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -806,7 +806,7 @@ Test Passed.
 20/37 Test: DatabaseTest.UpdateFixedGreaterThan
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateFixedGreaterThan" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.UpdateFixedGreaterThan" start time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateFixedGreaterThan" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -858,7 +858,7 @@ You have made changes to the database. Rows affected: 23
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.UpdateFixedGreaterThan" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateFixedGreaterThan" end time: Oct 17 11:59 EDT
 "DatabaseTest.UpdateFixedGreaterThan" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -866,7 +866,7 @@ Test Passed.
 21/37 Test: DatabaseTest.UpdateFixedGreaterThanOrEqualTo
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateFixedGreaterThanOrEqualTo" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.UpdateFixedGreaterThanOrEqualTo" start time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateFixedGreaterThanOrEqualTo" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -918,7 +918,7 @@ You have made changes to the database. Rows affected: 24
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.UpdateFixedGreaterThanOrEqualTo" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateFixedGreaterThanOrEqualTo" end time: Oct 17 11:59 EDT
 "DatabaseTest.UpdateFixedGreaterThanOrEqualTo" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -926,7 +926,7 @@ Test Passed.
 22/37 Test: DatabaseTest.UpdateFixedLessThan
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateFixedLessThan" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.UpdateFixedLessThan" start time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateFixedLessThan" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -978,7 +978,7 @@ You have made changes to the database. Rows affected: 2
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.UpdateFixedLessThan" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateFixedLessThan" end time: Oct 17 11:59 EDT
 "DatabaseTest.UpdateFixedLessThan" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -986,7 +986,7 @@ Test Passed.
 23/37 Test: DatabaseTest.UpdateFixedLessThanOrEqualTo
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateFixedLessThanOrEqualTo" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.UpdateFixedLessThanOrEqualTo" start time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateFixedLessThanOrEqualTo" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1038,7 +1038,7 @@ You have made changes to the database. Rows affected: 3
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.UpdateFixedLessThanOrEqualTo" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateFixedLessThanOrEqualTo" end time: Oct 17 11:59 EDT
 "DatabaseTest.UpdateFixedLessThanOrEqualTo" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1046,7 +1046,7 @@ Test Passed.
 24/37 Test: DatabaseTest.UpdateVariableEqual
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateVariableEqual" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.UpdateVariableEqual" start time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateVariableEqual" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1125,7 +1125,7 @@ You have made changes to the database. Rows affected: 1
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.UpdateVariableEqual" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateVariableEqual" end time: Oct 17 11:59 EDT
 "DatabaseTest.UpdateVariableEqual" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1133,7 +1133,7 @@ Test Passed.
 25/37 Test: DatabaseTest.UpdateVariableNotEqual
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateVariableNotEqual" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.UpdateVariableNotEqual" start time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateVariableNotEqual" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1206,13 +1206,13 @@ You have made changes to the database. Rows affected: 49
 [----------] 1 test from DatabaseTest (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (1 ms total)
+[==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.UpdateVariableNotEqual" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateVariableNotEqual" end time: Oct 17 11:59 EDT
 "DatabaseTest.UpdateVariableNotEqual" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1220,7 +1220,7 @@ Test Passed.
 26/37 Test: DatabaseTest.UpdateVariableGreaterThan
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateVariableGreaterThan" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.UpdateVariableGreaterThan" start time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateVariableGreaterThan" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1299,7 +1299,7 @@ You have made changes to the database. Rows affected: 43
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.UpdateVariableGreaterThan" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateVariableGreaterThan" end time: Oct 17 11:59 EDT
 "DatabaseTest.UpdateVariableGreaterThan" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1307,7 +1307,7 @@ Test Passed.
 27/37 Test: DatabaseTest.UpdateVariableGreaterThanOrEqualTo
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateVariableGreaterThanOrEqualTo" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.UpdateVariableGreaterThanOrEqualTo" start time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateVariableGreaterThanOrEqualTo" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1386,7 +1386,7 @@ You have made changes to the database. Rows affected: 44
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.UpdateVariableGreaterThanOrEqualTo" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateVariableGreaterThanOrEqualTo" end time: Oct 17 11:59 EDT
 "DatabaseTest.UpdateVariableGreaterThanOrEqualTo" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1394,7 +1394,7 @@ Test Passed.
 28/37 Test: DatabaseTest.UpdateVariableLessThan
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateVariableLessThan" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.UpdateVariableLessThan" start time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateVariableLessThan" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1473,7 +1473,7 @@ You have made changes to the database. Rows affected: 6
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.UpdateVariableLessThan" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateVariableLessThan" end time: Oct 17 11:59 EDT
 "DatabaseTest.UpdateVariableLessThan" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1481,7 +1481,7 @@ Test Passed.
 29/37 Test: DatabaseTest.UpdateVariableLessThanOrEqualTo
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateVariableLessThanOrEqualTo" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.UpdateVariableLessThanOrEqualTo" start time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateVariableLessThanOrEqualTo" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1550,17 +1550,17 @@ INSERT INTO critics VALUES 12117, Princess, Daisy
 INSERT INTO critics VALUES 12118, Princess, Daisy
 UPDATE critics SET lname = Rosy WHERE id <= 115
 You have made changes to the database. Rows affected: 7
-[       OK ] DatabaseTest.UpdateVariableLessThanOrEqualTo (1 ms)
-[----------] 1 test from DatabaseTest (1 ms total)
+[       OK ] DatabaseTest.UpdateVariableLessThanOrEqualTo (0 ms)
+[----------] 1 test from DatabaseTest (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (1 ms total)
+[==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.UpdateVariableLessThanOrEqualTo" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateVariableLessThanOrEqualTo" end time: Oct 17 11:59 EDT
 "DatabaseTest.UpdateVariableLessThanOrEqualTo" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1568,7 +1568,7 @@ Test Passed.
 30/37 Test: DatabaseTestUnordered.InsertIntoTableFixed
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.InsertIntoTableFixed" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTestUnordered.InsertIntoTableFixed" start time: Oct 17 11:51 EDT
+"DatabaseTestUnordered.InsertIntoTableFixed" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1597,7 +1597,7 @@ INSERT INTO movies VALUES 127, Frozen, 4.2
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTestUnordered.InsertIntoTableFixed" end time: Oct 17 11:51 EDT
+"DatabaseTestUnordered.InsertIntoTableFixed" end time: Oct 17 11:59 EDT
 "DatabaseTestUnordered.InsertIntoTableFixed" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1605,7 +1605,7 @@ Test Passed.
 31/37 Test: DatabaseTestUnordered.InsertIntoTableFixedLoadTest
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.InsertIntoTableFixedLoadTest" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTestUnordered.InsertIntoTableFixedLoadTest" start time: Oct 17 11:51 EDT
+"DatabaseTestUnordered.InsertIntoTableFixedLoadTest" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1655,7 +1655,7 @@ INSERT INTO movies VALUES 283, Antman, 3
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTestUnordered.InsertIntoTableFixedLoadTest" end time: Oct 17 11:51 EDT
+"DatabaseTestUnordered.InsertIntoTableFixedLoadTest" end time: Oct 17 11:59 EDT
 "DatabaseTestUnordered.InsertIntoTableFixedLoadTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1663,7 +1663,7 @@ Test Passed.
 32/37 Test: DatabaseTestUnordered.InsertIntoTableVariable
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.InsertIntoTableVariable" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTestUnordered.InsertIntoTableVariable" start time: Oct 17 11:51 EDT
+"DatabaseTestUnordered.InsertIntoTableVariable" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1693,7 +1693,7 @@ INSERT INTO critics VALUES 180, Bowser, Monster
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTestUnordered.InsertIntoTableVariable" end time: Oct 17 11:51 EDT
+"DatabaseTestUnordered.InsertIntoTableVariable" end time: Oct 17 11:59 EDT
 "DatabaseTestUnordered.InsertIntoTableVariable" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1701,7 +1701,7 @@ Test Passed.
 33/37 Test: DatabaseTestUnordered.InsertIntoTableVariableLoadTest
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.InsertIntoTableVariableLoadTest" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTestUnordered.InsertIntoTableVariableLoadTest" start time: Oct 17 11:51 EDT
+"DatabaseTestUnordered.InsertIntoTableVariableLoadTest" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1772,13 +1772,13 @@ INSERT INTO critics VALUES 12118, Princess, Daisy
 [----------] 1 test from DatabaseTestUnordered (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
+[==========] 1 test from 1 test suite ran. (1 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTestUnordered.InsertIntoTableVariableLoadTest" end time: Oct 17 11:51 EDT
+"DatabaseTestUnordered.InsertIntoTableVariableLoadTest" end time: Oct 17 11:59 EDT
 "DatabaseTestUnordered.InsertIntoTableVariableLoadTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1786,7 +1786,7 @@ Test Passed.
 34/37 Test: DatabaseTestOrdered.InsertIntoTableFixed
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestOrdered.InsertIntoTableFixed" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTestOrdered.InsertIntoTableFixed" start time: Oct 17 11:51 EDT
+"DatabaseTestOrdered.InsertIntoTableFixed" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1815,7 +1815,7 @@ INSERT INTO movies VALUES 127, Frozen, 4.2
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTestOrdered.InsertIntoTableFixed" end time: Oct 17 11:51 EDT
+"DatabaseTestOrdered.InsertIntoTableFixed" end time: Oct 17 11:59 EDT
 "DatabaseTestOrdered.InsertIntoTableFixed" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1823,7 +1823,7 @@ Test Passed.
 35/37 Test: DatabaseTestOrdered.InsertIntoTableFixedLoadTest
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestOrdered.InsertIntoTableFixedLoadTest" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTestOrdered.InsertIntoTableFixedLoadTest" start time: Oct 17 11:51 EDT
+"DatabaseTestOrdered.InsertIntoTableFixedLoadTest" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1863,7 +1863,7 @@ INSERT INTO movies VALUES 278, Captain America, 4.2
 INSERT INTO movies VALUES 280, Iron Man, 3
 INSERT INTO movies VALUES 572, Thor, 4.2
 INSERT INTO movies VALUES 583, Antman, 3
-dataRead 0x7f93997074c0dataRead 0x7f93997074e8dataRead 0x7f9399707510dataRead 0x7f9399707538dataRead 0x7f9399707560dataRead 0x7f9399707588dataRead 0x7f93997075b0dataRead 0x7f93997075d8dataRead 0x7f9399707600dataRead 0x7f9399707628dataRead 0x7f9399707650dataRead 0x7f9399707678dataRead 0x7f93997076c0dataRead 0x7f93997076e8dataRead 0x7f9399707710dataRead 0x7f9399707738dataRead 0x7f9399707760dataRead 0x7f9399707788dataRead 0x7f93997077b0dataRead 0x7f93997077d8dataRead 0x7f9399707800dataRead 0x7f9399707828dataRead 0x7f9399707850dataRead 0x7f9399707878dataRead 0x7f93997078c0dataRead 0x7f93997078e8[       OK ] DatabaseTestOrdered.InsertIntoTableFixedLoadTest (0 ms)
+dataRead 0x7fe1c1006f40dataRead 0x7fe1c1006f68dataRead 0x7fe1c1006f90dataRead 0x7fe1c1006fb8dataRead 0x7fe1c1006fe0dataRead 0x7fe1c1007008dataRead 0x7fe1c1007030dataRead 0x7fe1c1007058dataRead 0x7fe1c1007080dataRead 0x7fe1c10070a8dataRead 0x7fe1c10070d0dataRead 0x7fe1c10070f8dataRead 0x7fe1c1007140dataRead 0x7fe1c1007168dataRead 0x7fe1c1007190dataRead 0x7fe1c10071b8dataRead 0x7fe1c10071e0dataRead 0x7fe1c1007208dataRead 0x7fe1c1007230dataRead 0x7fe1c1007258dataRead 0x7fe1c1007280dataRead 0x7fe1c10072a8dataRead 0x7fe1c10072d0dataRead 0x7fe1c10072f8dataRead 0x7fe1c1007340dataRead 0x7fe1c1007368[       OK ] DatabaseTestOrdered.InsertIntoTableFixedLoadTest (0 ms)
 [----------] 1 test from DatabaseTestOrdered (0 ms total)
 
 [----------] Global test environment tear-down
@@ -1873,7 +1873,7 @@ dataRead 0x7f93997074c0dataRead 0x7f93997074e8dataRead 0x7f9399707510dataRead 0x
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTestOrdered.InsertIntoTableFixedLoadTest" end time: Oct 17 11:51 EDT
+"DatabaseTestOrdered.InsertIntoTableFixedLoadTest" end time: Oct 17 11:59 EDT
 "DatabaseTestOrdered.InsertIntoTableFixedLoadTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1881,7 +1881,7 @@ Test Passed.
 36/37 Test: DatabaseTestOrdered.InsertIntoTableVariable
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestOrdered.InsertIntoTableVariable" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTestOrdered.InsertIntoTableVariable" start time: Oct 17 11:51 EDT
+"DatabaseTestOrdered.InsertIntoTableVariable" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1901,7 +1901,7 @@ INSERT INTO critics VALUES 125, Luigi, Bros
 INSERT INTO critics VALUES 124, Toad, Factory
 INSERT INTO critics VALUES 145, Donkey, Kong
 INSERT INTO critics VALUES 180, Bowser, Monster
-dataRead 0x7ff64e7076c0dataRead 0x7ff64e7076d4dataRead 0x7ff64e7076e6dataRead 0x7ff64e7076f6dataRead 0x7ff64e707707[       OK ] DatabaseTestOrdered.InsertIntoTableVariable (0 ms)
+dataRead 0x7fdd0ff076c0dataRead 0x7fdd0ff076d4dataRead 0x7fdd0ff076e6dataRead 0x7fdd0ff076f6dataRead 0x7fdd0ff07707[       OK ] DatabaseTestOrdered.InsertIntoTableVariable (0 ms)
 [----------] 1 test from DatabaseTestOrdered (0 ms total)
 
 [----------] Global test environment tear-down
@@ -1911,7 +1911,7 @@ dataRead 0x7ff64e7076c0dataRead 0x7ff64e7076d4dataRead 0x7ff64e7076e6dataRead 0x
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTestOrdered.InsertIntoTableVariable" end time: Oct 17 11:51 EDT
+"DatabaseTestOrdered.InsertIntoTableVariable" end time: Oct 17 11:59 EDT
 "DatabaseTestOrdered.InsertIntoTableVariable" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -1919,7 +1919,7 @@ Test Passed.
 37/37 Test: DatabaseTestOrdered.InsertIntoTableVariableLoadTest
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestOrdered.InsertIntoTableVariableLoadTest" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTestOrdered.InsertIntoTableVariableLoadTest" start time: Oct 17 11:51 EDT
+"DatabaseTestOrdered.InsertIntoTableVariableLoadTest" start time: Oct 17 11:59 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1990,14 +1990,14 @@ INSERT INTO critics VALUES 12118, Princess, Daisy
 [----------] 1 test from DatabaseTestOrdered (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (1 ms total)
+[==========] 1 test from 1 test suite ran. (0 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTestOrdered.InsertIntoTableVariableLoadTest" end time: Oct 17 11:51 EDT
+"DatabaseTestOrdered.InsertIntoTableVariableLoadTest" end time: Oct 17 11:59 EDT
 "DatabaseTestOrdered.InsertIntoTableVariableLoadTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Oct 17 11:51 EDT
+End testing: Oct 17 11:59 EDT

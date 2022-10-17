@@ -102,7 +102,7 @@ void Database::insert(const char* table_name, int length, ...) {
   }
   bool variable = false;
   void* pk = nullptr;
-  int pkLength = 0;
+
   for (int i = 0; i < length; i++) {
     // dummy me forgot the check space search?
     checkSpaceSearch(db_attr_record_size, dbAttrRecord, dbAttrRecordEnd);
@@ -129,7 +129,7 @@ void Database::insert(const char* table_name, int length, ...) {
 
         if (i == pkNumber) {
           pk = calloc(n - 1, sizeof(char));
-          pkLength = n - 1;
+
           strncpy((char*)pk, temp, n - 1);
         }
 
@@ -142,7 +142,7 @@ void Database::insert(const char* table_name, int length, ...) {
 
         if (i == pkNumber) {
           pk = calloc(strlen(at) + 1, sizeof(char));
-          pkLength = strlen(at);
+
           strncpy((char*)pk, temp, strlen(at));
         }
       }
@@ -228,8 +228,6 @@ void Database::insert(const char* table_name, int length, ...) {
 }
 
 void Database::update(const char* table_name, int length, ...) {
-  void* recordPtr = retrieveDBPrimaryRecord((char*)table_name);
-
   // make an array of the attribute names that we're looking for
   va_list arg_list;
   va_start(arg_list, length);
@@ -284,8 +282,6 @@ void Database::update(const char* table_name, int length, ...) {
 }
 
 void Database::select(const char* table_name, int length, ...) {
-  void* recordPtr = retrieveDBPrimaryRecord((char*)table_name);
-
   // make an array of the attribute names that we're looking for
   va_list arg_list;
   va_start(arg_list, length);
@@ -294,12 +290,9 @@ void Database::select(const char* table_name, int length, ...) {
 
   // using a vector, but it's just for an intermediate step 🙏🏼
   vector<char*> fields;
-  int num = 1;
 
   if (strcmp(fieldsToParse, "*") == 0) {
     fields.push_back(strdup(fieldsToParse));
-    //  printTable((char*)table_name);  // TODO: replace with function that incorporates the WHERE
-    // maybe we could just manually retrieve all of the ones to print?
 
   } else {
     // figure out how many attributes we're looking for and remove white space
@@ -307,14 +300,6 @@ void Database::select(const char* table_name, int length, ...) {
     char local[strlen(fieldsToParse) + 1];
     memset(local, '\0', strlen(fieldsToParse) + 1);
     strcpy(local, fieldsToParse);
-
-    /*
-    for (int i = 0; i < strlen(fieldsToParse); i++) {
-      if (local[i] == ',')
-        num++;
-      }
-    }
-    */
 
     int index = 0;
     char* token = strtok(local, " ,");
@@ -1444,7 +1429,7 @@ void Database::printTableGiven(char* table_name, vector<char*> fieldsToPrint, ch
 
   for (int i = 0; i < dataCurrRecordCount; i++) {
     checkSpaceSearch(fixedLength, dataRead, dataReadEnd);
-    int attrCounter2 = 0;
+
     if (specialName == nullptr) isTarget[i] = true;  // if we don't have a special, by default we're going to want to print everything out
 
     for (int j = 0; j < numAttr; j++) {
@@ -1587,9 +1572,6 @@ int Database::updateTableGiven(char* table_name, char* attrToUpdate, char* value
   void* dbAttrRecord = (void*)*(long*)((uintptr_t)record + db_primary_db_attr_offset);
   int numAttr = *(int*)((uintptr_t)record + db_primary_num_db_attr_offset);
   void* dataRoot = (void*)*(long*)((uintptr_t)record + data_root_offset);
-  void* dataCurr = (void*)*(long*)((uintptr_t)record + data_curr_offset);
-  void* dataEnd = (void*)*(long*)((uintptr_t)record + data_curr_end_offset);
-  int dataCurrBlockCount = *(int*)((uintptr_t)record + data_block_count_offset);
   int dataCurrRecordCount = *(int*)((uintptr_t)record + data_record_count_offset);
 
   // print out all of the attributes
@@ -1600,7 +1582,7 @@ int Database::updateTableGiven(char* table_name, char* attrToUpdate, char* value
 
   void* readDBAttr = dbAttrRecord;
   void* readDBAttrEnd = findEndOfBlock(dbAttrRecord);
-  int attrCounter1 = 0;
+
   int special = -1;
   int toUpdate = -1;
 
@@ -1640,7 +1622,6 @@ int Database::updateTableGiven(char* table_name, char* attrToUpdate, char* value
 
   for (int i = 0; i < dataCurrRecordCount; i++) {
     checkSpaceSearch(fixedLength, dataRead, dataReadEnd);
-    int attrCounter2 = 0;
     if (specialName == nullptr) isTarget[i] = true;  // if we don't have a special, by default we're going to want to print everything out
 
     for (int j = 0; j < numAttr; j++) {
@@ -1722,7 +1703,6 @@ int Database::updateTableGiven(char* table_name, char* attrToUpdate, char* value
     for (int i = 0; i < dataCurrRecordCount; i++) {
       // cout << "ping " << i << endl;
       checkSpaceSearch(fixedLength, dataRead, dataReadEnd);
-      int attrCounter2 = 0;
 
       // we need to make a buffer here and then add that to the new copy
       void* bufferToSend = calloc(maxRecordSize, 1);
@@ -1837,8 +1817,6 @@ int Database::updateTableGiven(char* table_name, char* attrToUpdate, char* value
 }
 
 int Database::updateTest(const char* table_name, int length, ...) {
-  void* recordPtr = retrieveDBPrimaryRecord((char*)table_name);
-
   // make an array of the attribute names that we're looking for
   va_list arg_list;
   va_start(arg_list, length);
@@ -1958,31 +1936,6 @@ int Database::calculateMaxDataRecordSize(void* ptrToFirstAttribute, int numberOf
   // if variable, we have to add 1 for the END_RECORD_CHAR
   if (variable) toReturn++;
 
-  return toReturn;
-}
-
-// TODO: fix this 😭
-vector<char*> Database::parseOnDelim(char* toParse, char* delim) {
-  vector<char*> toReturn;
-  int size = strlen(delim);
-  char* temp = toParse;
-
-  // so so buggy
-  while (strstr(temp, delim) != nullptr) {
-    char* res = strstr(temp, delim);
-    int n = (uintptr_t)res - (uintptr_t)temp;
-    cout << "n " << n << endl;
-    char substr[n];
-    memset(substr, '\0', n);
-    cout << "temp " << temp << endl;
-    cout << "res " << res << endl;
-    strncpy(substr, temp, n);
-
-    cout << "substr " << substr << "**" << endl;
-    toReturn.push_back(substr);
-    temp += n + size;  // +2 for the spaces
-  }
-  // oh we forgot the edge case
   return toReturn;
 }
 

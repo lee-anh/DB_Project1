@@ -8,7 +8,7 @@
 
 enum insertionMethod { UNORDERED,
                        ORDERED,
-                       HASH };
+                       HASHED };
 enum dataType { VARCHAR,
                 CHAR,
                 SMALLINT,
