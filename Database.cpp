@@ -227,7 +227,6 @@ void Database::insert(const char* table_name, int length, ...) {
   va_end(arg_list);
 }
 
-// TODO: do this one last
 void Database::update(const char* table_name, int length, ...) {
   void* recordPtr = retrieveDBPrimaryRecord((char*)table_name);
 
@@ -241,6 +240,7 @@ void Database::update(const char* table_name, int length, ...) {
 
   // get the attribute to set
   char* attrToUpdate = strdup(va_arg(arg_list, char*));
+  // TODO:  we need to look up the type of value first, for now passing it as a char* is going to be fine
   char* value = strdup(va_arg(arg_list, char*));
   cout << " SET " << attrToUpdate << " = " << value;
 
@@ -274,10 +274,12 @@ void Database::update(const char* table_name, int length, ...) {
   cout << "comparator " << comparator << endl;
   cout << "target " << target << endl;
   */
+  int numUpdated = updateTableGiven((char*)table_name, attrToUpdate, value, attrName, comparator, target);
 
-  cout << "WHERE " << sentence;
+  cout << " WHERE " << sentence;
 
   cout << endl;
+  cout << "You have made changes to the database. Rows affected: " << numUpdated << endl;
   va_end(arg_list);
 }
 
@@ -816,7 +818,6 @@ void Database::addOrderedToTableVariable(void* bufferToWrite, void* primaryKey, 
   void* dataRead = dataRoot;
   void* dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
 
-  // why does everything just keep getting inserted at the beginning?
   for (int i = 0; i < dataCurrRecordCount; i++) {
     checkSpaceSearch(-1, dataRead, dataReadEnd);
 
@@ -1586,6 +1587,9 @@ int Database::updateTableGiven(char* table_name, char* attrToUpdate, char* value
   void* dbAttrRecord = (void*)*(long*)((uintptr_t)record + db_primary_db_attr_offset);
   int numAttr = *(int*)((uintptr_t)record + db_primary_num_db_attr_offset);
   void* dataRoot = (void*)*(long*)((uintptr_t)record + data_root_offset);
+  void* dataCurr = (void*)*(long*)((uintptr_t)record + data_curr_offset);
+  void* dataEnd = (void*)*(long*)((uintptr_t)record + data_curr_end_offset);
+  int dataCurrBlockCount = *(int*)((uintptr_t)record + data_block_count_offset);
   int dataCurrRecordCount = *(int*)((uintptr_t)record + data_record_count_offset);
 
   // print out all of the attributes
@@ -1627,12 +1631,12 @@ int Database::updateTableGiven(char* table_name, char* attrToUpdate, char* value
   // set up read heads
   void* dataRead = dataRoot;
   void* dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
-  int fixedLength = calculateMaxDataRecordSize(attrRecords[0], numAttr);  // hopefully that works!
-  if (variable) {
-    fixedLength = -1;
+  int fixedLength = -1;
+  if (!variable) {
+    fixedLength = calculateMaxDataRecordSize(attrRecords[0], numAttr);  // hopefully that works!
   }
   // we just need the attribute types so we know what to cast it into
-  bool* isTarget = (bool*)calloc(dataCurrRecordCount, sizeof(bool));  // TODO: free
+  bool isTarget[dataCurrRecordCount];
 
   for (int i = 0; i < dataCurrRecordCount; i++) {
     checkSpaceSearch(fixedLength, dataRead, dataReadEnd);
@@ -1683,6 +1687,8 @@ int Database::updateTableGiven(char* table_name, char* attrToUpdate, char* value
       }
     }
     if (isTarget[i]) numUpdate++;
+    if (variable) ((char*&)dataRead)++;
+
     //  cout << "target" << isTarget[i] << " ";
     //  cout << endl;
   }
@@ -1691,13 +1697,200 @@ int Database::updateTableGiven(char* table_name, char* attrToUpdate, char* value
   // reset the dataReads
   dataRead = dataRoot;
   dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
-  if (variable) {
+
+  if (variable) {  // update table variable 🥲
+    // cout << "variable" << endl;
+    // we have to combine the printing and the inserting
+    // cleanest, but maybe not the optimal solution
+    void* dataTempRoot = NULL;
+    void* dataTempCurr = NULL;
+    void* dataTempCurrEnd = NULL;
+    int dataTempCurrBlockCount = 0;
+    int dataTempCurrRecordCount = 0;  // I think this stuff will be taken care of
+
+    initializeNewBlock(dataTempRoot, dataTempCurr, dataTempCurrEnd, dataTempCurrBlockCount);
+
+    // reassignment of dbPrimaryStuff
+    *(long*)((uintptr_t)record + data_root_offset) = (uintptr_t)dataTempRoot;
+    *(long*)((uintptr_t)record + data_curr_offset) = (uintptr_t)dataTempCurr;         // dataCurr = toadd
+    *(long*)((uintptr_t)record + data_curr_end_offset) = (uintptr_t)dataTempCurrEnd;  // put dataCurrEnd in the right
+    *(int*)((uintptr_t)record + data_block_count_offset) = dataTempCurrBlockCount;    // blockCount++;
+    *(int*)((uintptr_t)record + data_record_count_offset) = dataTempCurrRecordCount;  // blockCount++; place
+
+    int maxRecordSize = calculateMaxDataRecordSize(attrRecords[0], numAttr);
+    // cout << "got here" << endl;
+    for (int i = 0; i < dataCurrRecordCount; i++) {
+      // cout << "ping " << i << endl;
+      checkSpaceSearch(fixedLength, dataRead, dataReadEnd);
+      int attrCounter2 = 0;
+
+      // we need to make a buffer here and then add that to the new copy
+      void* bufferToSend = calloc(maxRecordSize, 1);
+      void* bufferPtr = bufferToSend;
+      for (int j = 0; j < numAttr; j++) {
+        dataType type = attrTypes[j];
+
+        if (type == VARCHAR) {
+          int buffSize = *(int*)((uintptr_t)attrRecords[j] + attr_length_offset);
+          char buff[buffSize];
+          memset(buff, '\0', buffSize);
+
+          int actual = 0;
+          for (int k = 0; k < buffSize; k++) {
+            char a = *(char*)dataRead;
+            ((char*&)dataRead)++;  // move on to next byte regardless
+            actual++;
+            buff[k] = a;
+            if (a == END_FIELD_CHAR) break;  // DO copy the end of field char
+          }
+
+          if (isTarget[i] && j == toUpdate) {
+            strncpy((char*)bufferPtr, value, strlen(value));
+            ((char*&)bufferPtr += strlen(value));
+            *(char*)bufferPtr = END_FIELD_CHAR;
+            ((char*&)bufferPtr)++;  // END FIELD CHAR
+          } else {
+            // just send the regular one
+            strncpy((char*)bufferPtr, buff, actual);
+            ((char*&)bufferPtr += actual);
+          }
+
+        } else if (type == CHAR) {
+          // cout
+          int buffSize = *(int*)((uintptr_t)attrRecords[j] + attr_length_offset);
+          if (isTarget[i] && j == toUpdate) {
+            char buff[buffSize];
+            memset(buff, '\0', buffSize);
+            // copy
+            strncpy(buff, value, buffSize);
+            strncpy((char*)dataRead, buff, buffSize);
+          }
+          // copy over to new buffer
+          strncpy((char*)bufferPtr, (char*)dataRead, buffSize);
+          ((char*&)bufferPtr) += buffSize;
+          ((char*&)dataRead) += buffSize;
+        } else if (type == SMALLINT) {
+          if (isTarget[i] && j == toUpdate) *(short*)dataRead = (short)atoi(value);
+          // copy over to new buffer
+          *(short*)bufferPtr = *(short*)dataRead;
+          ((short*&)bufferPtr)++;
+          ((short*&)dataRead)++;
+        } else if (type == INTEGER) {
+          if (isTarget[i] && j == toUpdate) *(int*)dataRead = atoi(value);
+          *(int*)bufferPtr = *(int*)dataRead;
+          ((int*&)bufferPtr)++;
+          ((int*&)dataRead)++;
+        } else if (type == REAL) {
+          if (isTarget[i] && j == toUpdate) *(float*)dataRead = (float)atof(value);
+          *(float*)bufferPtr = *(float*)dataRead;
+          ((float*&)bufferPtr)++;
+          ((float*&)dataRead)++;
+        }
+      }
+      *(char*)bufferPtr = END_RECORD_CHAR;
+      ((char*&)bufferPtr)++;  // END_RECORD_CHAR
+      ((char*&)dataRead)++;   // END_RECORD_CHAR
+                              // cout << "before add" << endl;
+      int actualRecordSize = (uintptr_t)bufferPtr - (uintptr_t)bufferToSend;
+      addUnorderedToTable(bufferToSend, actualRecordSize, record);
+      // cout << "after add" << endl;
+      // printTable(table_name);
+    }
+
     return numUpdate;
   }
 
   // update table fixed
+  for (int i = 0; i < dataCurrRecordCount; i++) {
+    checkSpaceSearch(fixedLength, dataRead, dataReadEnd);
+
+    for (int j = 0; j < numAttr; j++) {
+      dataType type = attrTypes[j];
+      if (type == CHAR) {
+        // cout
+        int buffSize = *(int*)((uintptr_t)attrRecords[j] + attr_length_offset);
+        if (isTarget[i] && j == toUpdate) {
+          // get char length, set up a buffer
+          char buff[buffSize];
+          memset(buff, '\0', buffSize);
+
+          // copy
+          strncpy(buff, value, buffSize);
+          strncpy((char*)dataRead, buff, buffSize);
+        }
+        ((char*&)dataRead) += buffSize;
+
+      } else if (type == SMALLINT) {
+        if (isTarget[i] && j == toUpdate) *(short*)dataRead = (short)atoi(value);
+        ((short*&)dataRead)++;
+      } else if (type == INTEGER) {
+        if (isTarget[i] && j == toUpdate) *(int*)dataRead = atoi(value);
+        ((int*&)dataRead)++;
+      } else if (type == REAL) {
+        if (isTarget[i] && j == toUpdate) *(float*)dataRead = (float)atof(value);
+        ((float*&)dataRead)++;
+      }
+    }
+  }
 
   return numUpdate;
+}
+
+int Database::updateTest(const char* table_name, int length, ...) {
+  void* recordPtr = retrieveDBPrimaryRecord((char*)table_name);
+
+  // make an array of the attribute names that we're looking for
+  va_list arg_list;
+  va_start(arg_list, length);
+
+  cout << "UPDATE " << table_name;
+
+  // get the attribute to update
+
+  // get the attribute to set
+  char* attrToUpdate = strdup(va_arg(arg_list, char*));
+  // TODO:  we need to look up the type of value first, for now passing it as a char* is going to be fine
+  char* value = strdup(va_arg(arg_list, char*));
+  cout << " SET " << attrToUpdate << " = " << value;
+
+  // For update we MUST have a WHERE clause
+  // parse the WHERE
+  char* sentence = va_arg(arg_list, char*);
+  char* cpy = strdup(sentence);
+  char* attrName = nullptr;
+  char* comparator = nullptr;
+  char* target = nullptr;
+
+  int counter = 0;
+
+  char* token = strtok(cpy, " ");
+  while (token) {
+    if (counter == 0) {
+      attrName = token;
+    } else if (counter == 1) {
+      comparator = token;
+    } else if (counter == 2) {
+      target = token;
+    }
+
+    token = strtok(NULL, " ");
+
+    counter++;
+  }
+
+  /*
+  cout << "attrName " << attrName << endl;
+  cout << "comparator " << comparator << endl;
+  cout << "target " << target << endl;
+  */
+  int numUpdated = updateTableGiven((char*)table_name, attrToUpdate, value, attrName, comparator, target);
+
+  cout << " WHERE " << sentence;
+
+  cout << endl;
+  cout << "You have made changes to the database. Rows affected: " << numUpdated << endl;
+  va_end(arg_list);
+  return numUpdated;
 }
 
 dataType Database::getDataType(char* type) {
@@ -1804,7 +1997,7 @@ bool Database::compare(char* targetValue, char* comparator, void* candidate, int
     memset(str, '\0', candidateLength);  // for good measure
     strncpy(str, (char*)candidate, candidateLength);
 
-    int res = strcmp(targetValue, str);  // order matters
+    int res = strcmp(str, targetValue);  // order matters
     // I think it might be better to return this
     if (strstr(comparator, "!=")) {
       if (res != 0) return true;
@@ -1835,65 +2028,65 @@ bool Database::compare(char* targetValue, char* comparator, void* candidate, int
     short num = *(short*)candidate;
 
     if (strstr(comparator, "!=")) {
-      return tar != num;
+      return num != tar;
     }
     if (strstr(comparator, "<=")) {
-      return tar <= num;
+      return num <= tar;
     }
     if (strstr(comparator, ">=")) {
-      return tar >= num;
+      return num >= tar;
     }
     if (strstr(comparator, "=")) {
-      return tar == num;
+      return num == tar;
     }
     if (strstr(comparator, "<")) {
-      return tar < num;
+      return num < tar;
     }
     if (strstr(comparator, ">")) {
-      return tar > num;
+      return num > tar;
     }
   } else if (type == INTEGER) {
     int tar = atoi(targetValue);
     int num = *(int*)candidate;
     // cout << "target " << tar << " num " << num << endl;
     if (strstr(comparator, "!=")) {
-      return tar != num;
+      return num != tar;
     }
     if (strstr(comparator, "<=")) {
-      return tar <= num;
+      return num <= tar;
     }
     if (strstr(comparator, ">=")) {
-      return tar >= num;
+      return num >= tar;
     }
     if (strstr(comparator, "=")) {
-      return tar == num;
+      return num == tar;
     }
     if (strstr(comparator, "<")) {
-      return tar < num;
+      return num < tar;
     }
     if (strstr(comparator, ">")) {
-      return tar > num;
+      return num > tar;
     }
   } else if (type == REAL) {
     float tar = (float)atof(targetValue);
     float num = *(float*)candidate;
     if (strstr(comparator, "!=")) {
-      return tar != num;
+      return num != tar;
     }
     if (strstr(comparator, "<=")) {
-      return tar <= num;
+      return num <= tar;
     }
     if (strstr(comparator, ">=")) {
-      return tar >= num;
+      return num >= tar;
     }
     if (strstr(comparator, "=")) {
-      return tar == num;
+      return num == tar;
     }
     if (strstr(comparator, "<")) {
-      return tar < num;
+      return num < tar;
     }
     if (strstr(comparator, ">")) {
-      return tar > num;
+      return num > tar;
     }
   }
   return false;

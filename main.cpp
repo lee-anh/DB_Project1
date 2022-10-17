@@ -144,11 +144,14 @@ int main(int argc, char* argv[]) {
   db->insert("movies", 3, 272, "Thor", 4.2);
   db->insert("movies", 3, 283, "Antman", 3.0);
 
-  // db->select("movies", 1, "title, rating");
-  // db->select("movies", 2, "id, title", "id = 27");
-  // db->select("movies", 2, "*", "id = 27");
+  db->select("movies", 1, "title, rating");
+  db->select("movies", 2, "id, title", "id = 27");
+  db->update("movies", 3, "rating", "5.0", "id > 27");
+  db->select("movies", 2, "*", "id = 27");
 
   db->select("critics", 2, "fname, lname", "id = 115");
+  db->update("critics", 3, "lname", "Rosy", "id = 115");
+  db->updateTest("critics", 3, "lname", "Rosy", "id < 115");
 
   /*
     db->insert("movies", 3, 27, "Star Wars", 4.2);

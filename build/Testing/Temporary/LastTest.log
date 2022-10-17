@@ -1,10 +1,10 @@
-Start testing: Oct 16 23:24 EDT
+Start testing: Oct 17 11:51 EDT
 ----------------------------------------------------------
-1/25 Testing: DatabaseTest.CreateTable
-1/25 Test: DatabaseTest.CreateTable
+1/37 Testing: DatabaseTest.CreateTable
+1/37 Test: DatabaseTest.CreateTable
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.CreateTable" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.CreateTable" start time: Oct 16 23:24 EDT
+"DatabaseTest.CreateTable" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -28,15 +28,15 @@ CREATE TABLE movies
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.CreateTable" end time: Oct 16 23:24 EDT
+"DatabaseTest.CreateTable" end time: Oct 17 11:51 EDT
 "DatabaseTest.CreateTable" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-2/25 Testing: DatabaseTest.RetrieveDBPrimaryRecordOnly
-2/25 Test: DatabaseTest.RetrieveDBPrimaryRecordOnly
+2/37 Testing: DatabaseTest.RetrieveDBPrimaryRecordOnly
+2/37 Test: DatabaseTest.RetrieveDBPrimaryRecordOnly
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.RetrieveDBPrimaryRecordOnly" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.RetrieveDBPrimaryRecordOnly" start time: Oct 16 23:24 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordOnly" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -60,15 +60,15 @@ CREATE TABLE movies
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.RetrieveDBPrimaryRecordOnly" end time: Oct 16 23:24 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordOnly" end time: Oct 17 11:51 EDT
 "DatabaseTest.RetrieveDBPrimaryRecordOnly" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-3/25 Testing: DatabaseTest.RetrieveDBPrimaryRecordFirst
-3/25 Test: DatabaseTest.RetrieveDBPrimaryRecordFirst
+3/37 Testing: DatabaseTest.RetrieveDBPrimaryRecordFirst
+3/37 Test: DatabaseTest.RetrieveDBPrimaryRecordFirst
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.RetrieveDBPrimaryRecordFirst" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.RetrieveDBPrimaryRecordFirst" start time: Oct 16 23:24 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordFirst" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -102,15 +102,15 @@ CREATE TABLE bstars
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.RetrieveDBPrimaryRecordFirst" end time: Oct 16 23:24 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordFirst" end time: Oct 17 11:51 EDT
 "DatabaseTest.RetrieveDBPrimaryRecordFirst" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-4/25 Testing: DatabaseTest.RetrieveDBPrimaryRecordMiddle
-4/25 Test: DatabaseTest.RetrieveDBPrimaryRecordMiddle
+4/37 Testing: DatabaseTest.RetrieveDBPrimaryRecordMiddle
+4/37 Test: DatabaseTest.RetrieveDBPrimaryRecordMiddle
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.RetrieveDBPrimaryRecordMiddle" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.RetrieveDBPrimaryRecordMiddle" start time: Oct 16 23:24 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordMiddle" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -144,15 +144,15 @@ CREATE TABLE bstars
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.RetrieveDBPrimaryRecordMiddle" end time: Oct 16 23:24 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordMiddle" end time: Oct 17 11:51 EDT
 "DatabaseTest.RetrieveDBPrimaryRecordMiddle" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-5/25 Testing: DatabaseTest.RetrieveDBPrimaryRecordEnd
-5/25 Test: DatabaseTest.RetrieveDBPrimaryRecordEnd
+5/37 Testing: DatabaseTest.RetrieveDBPrimaryRecordEnd
+5/37 Test: DatabaseTest.RetrieveDBPrimaryRecordEnd
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.RetrieveDBPrimaryRecordEnd" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.RetrieveDBPrimaryRecordEnd" start time: Oct 16 23:24 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordEnd" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -186,15 +186,15 @@ CREATE TABLE movies
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.RetrieveDBPrimaryRecordEnd" end time: Oct 16 23:24 EDT
+"DatabaseTest.RetrieveDBPrimaryRecordEnd" end time: Oct 17 11:51 EDT
 "DatabaseTest.RetrieveDBPrimaryRecordEnd" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-6/25 Testing: DatabaseTest.NoDuplicateTableNames
-6/25 Test: DatabaseTest.NoDuplicateTableNames
+6/37 Testing: DatabaseTest.NoDuplicateTableNames
+6/37 Test: DatabaseTest.NoDuplicateTableNames
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicateTableNames" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicateTableNames" start time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicateTableNames" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -219,15 +219,15 @@ Table of same name has already been created
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicateTableNames" end time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicateTableNames" end time: Oct 17 11:51 EDT
 "DatabaseTest.NoDuplicateTableNames" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-7/25 Testing: DatabaseTest.NoDuplicateTableAttributes
-7/25 Test: DatabaseTest.NoDuplicateTableAttributes
+7/37 Testing: DatabaseTest.NoDuplicateTableAttributes
+7/37 Test: DatabaseTest.NoDuplicateTableAttributes
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicateTableAttributes" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicateTableAttributes" start time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicateTableAttributes" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -247,15 +247,15 @@ Error creating movies. Attributes cannot have the same name.
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicateTableAttributes" end time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicateTableAttributes" end time: Oct 17 11:51 EDT
 "DatabaseTest.NoDuplicateTableAttributes" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-8/25 Testing: DatabaseTest.LoadTestForDBPrimaryAndDBAttributes
-8/25 Test: DatabaseTest.LoadTestForDBPrimaryAndDBAttributes
+8/37 Testing: DatabaseTest.LoadTestForDBPrimaryAndDBAttributes
+8/37 Test: DatabaseTest.LoadTestForDBPrimaryAndDBAttributes
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.LoadTestForDBPrimaryAndDBAttributes" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.LoadTestForDBPrimaryAndDBAttributes" start time: Oct 16 23:24 EDT
+"DatabaseTest.LoadTestForDBPrimaryAndDBAttributes" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -349,15 +349,15 @@ CREATE TABLE gastars
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.LoadTestForDBPrimaryAndDBAttributes" end time: Oct 16 23:24 EDT
+"DatabaseTest.LoadTestForDBPrimaryAndDBAttributes" end time: Oct 17 11:51 EDT
 "DatabaseTest.LoadTestForDBPrimaryAndDBAttributes" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-9/25 Testing: DatabaseTest.NoDuplicatePrimaryKeyFixedInteger
-9/25 Test: DatabaseTest.NoDuplicatePrimaryKeyFixedInteger
+9/37 Testing: DatabaseTest.NoDuplicatePrimaryKeyFixedInteger
+9/37 Test: DatabaseTest.NoDuplicatePrimaryKeyFixedInteger
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicatePrimaryKeyFixedInteger" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicatePrimaryKeyFixedInteger" start time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyFixedInteger" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -390,15 +390,15 @@ insertion error: duplicate primary key
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicatePrimaryKeyFixedInteger" end time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyFixedInteger" end time: Oct 17 11:51 EDT
 "DatabaseTest.NoDuplicatePrimaryKeyFixedInteger" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-10/25 Testing: DatabaseTest.NoDuplicatePrimaryKeyFixedSmallInt
-10/25 Test: DatabaseTest.NoDuplicatePrimaryKeyFixedSmallInt
+10/37 Testing: DatabaseTest.NoDuplicatePrimaryKeyFixedSmallInt
+10/37 Test: DatabaseTest.NoDuplicatePrimaryKeyFixedSmallInt
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicatePrimaryKeyFixedSmallInt" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicatePrimaryKeyFixedSmallInt" start time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyFixedSmallInt" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -425,15 +425,15 @@ insertion error: duplicate primary key
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicatePrimaryKeyFixedSmallInt" end time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyFixedSmallInt" end time: Oct 17 11:51 EDT
 "DatabaseTest.NoDuplicatePrimaryKeyFixedSmallInt" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-11/25 Testing: DatabaseTest.NoDuplicatePrimaryKeyFixedFloat
-11/25 Test: DatabaseTest.NoDuplicatePrimaryKeyFixedFloat
+11/37 Testing: DatabaseTest.NoDuplicatePrimaryKeyFixedFloat
+11/37 Test: DatabaseTest.NoDuplicatePrimaryKeyFixedFloat
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicatePrimaryKeyFixedFloat" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicatePrimaryKeyFixedFloat" start time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyFixedFloat" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -460,15 +460,15 @@ insertion error: duplicate primary key
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicatePrimaryKeyFixedFloat" end time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyFixedFloat" end time: Oct 17 11:51 EDT
 "DatabaseTest.NoDuplicatePrimaryKeyFixedFloat" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-12/25 Testing: DatabaseTest.NoDuplicatePrimaryKeyFixedChar
-12/25 Test: DatabaseTest.NoDuplicatePrimaryKeyFixedChar
+12/37 Testing: DatabaseTest.NoDuplicatePrimaryKeyFixedChar
+12/37 Test: DatabaseTest.NoDuplicatePrimaryKeyFixedChar
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicatePrimaryKeyFixedChar" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicatePrimaryKeyFixedChar" start time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyFixedChar" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -495,15 +495,15 @@ insertion error: duplicate primary key
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicatePrimaryKeyFixedChar" end time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyFixedChar" end time: Oct 17 11:51 EDT
 "DatabaseTest.NoDuplicatePrimaryKeyFixedChar" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-13/25 Testing: DatabaseTest.NoDuplicatePrimaryKeyVariableInteger
-13/25 Test: DatabaseTest.NoDuplicatePrimaryKeyVariableInteger
+13/37 Testing: DatabaseTest.NoDuplicatePrimaryKeyVariableInteger
+13/37 Test: DatabaseTest.NoDuplicatePrimaryKeyVariableInteger
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicatePrimaryKeyVariableInteger" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicatePrimaryKeyVariableInteger" start time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableInteger" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -531,15 +531,15 @@ insertion error: duplicate primary key
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicatePrimaryKeyVariableInteger" end time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableInteger" end time: Oct 17 11:51 EDT
 "DatabaseTest.NoDuplicatePrimaryKeyVariableInteger" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-14/25 Testing: DatabaseTest.NoDuplicatePrimaryKeyVariableSmallInt
-14/25 Test: DatabaseTest.NoDuplicatePrimaryKeyVariableSmallInt
+14/37 Testing: DatabaseTest.NoDuplicatePrimaryKeyVariableSmallInt
+14/37 Test: DatabaseTest.NoDuplicatePrimaryKeyVariableSmallInt
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicatePrimaryKeyVariableSmallInt" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicatePrimaryKeyVariableSmallInt" start time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableSmallInt" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -568,15 +568,15 @@ insertion error: duplicate primary key
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicatePrimaryKeyVariableSmallInt" end time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableSmallInt" end time: Oct 17 11:51 EDT
 "DatabaseTest.NoDuplicatePrimaryKeyVariableSmallInt" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-15/25 Testing: DatabaseTest.NoDuplicatePrimaryKeyVariableFloat
-15/25 Test: DatabaseTest.NoDuplicatePrimaryKeyVariableFloat
+15/37 Testing: DatabaseTest.NoDuplicatePrimaryKeyVariableFloat
+15/37 Test: DatabaseTest.NoDuplicatePrimaryKeyVariableFloat
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicatePrimaryKeyVariableFloat" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicatePrimaryKeyVariableFloat" start time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableFloat" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -604,15 +604,15 @@ insertion error: duplicate primary key
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicatePrimaryKeyVariableFloat" end time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableFloat" end time: Oct 17 11:51 EDT
 "DatabaseTest.NoDuplicatePrimaryKeyVariableFloat" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-16/25 Testing: DatabaseTest.NoDuplicatePrimaryKeyVariableChar
-16/25 Test: DatabaseTest.NoDuplicatePrimaryKeyVariableChar
+16/37 Testing: DatabaseTest.NoDuplicatePrimaryKeyVariableChar
+16/37 Test: DatabaseTest.NoDuplicatePrimaryKeyVariableChar
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicatePrimaryKeyVariableChar" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicatePrimaryKeyVariableChar" start time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableChar" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -641,15 +641,15 @@ insertion error: duplicate primary key
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicatePrimaryKeyVariableChar" end time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableChar" end time: Oct 17 11:51 EDT
 "DatabaseTest.NoDuplicatePrimaryKeyVariableChar" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-17/25 Testing: DatabaseTest.NoDuplicatePrimaryKeyVariableVarChar
-17/25 Test: DatabaseTest.NoDuplicatePrimaryKeyVariableVarChar
+17/37 Testing: DatabaseTest.NoDuplicatePrimaryKeyVariableVarChar
+17/37 Test: DatabaseTest.NoDuplicatePrimaryKeyVariableVarChar
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.NoDuplicatePrimaryKeyVariableVarChar" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTest.NoDuplicatePrimaryKeyVariableVarChar" start time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableVarChar" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -678,15 +678,897 @@ insertion error: duplicate primary key
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTest.NoDuplicatePrimaryKeyVariableVarChar" end time: Oct 16 23:24 EDT
+"DatabaseTest.NoDuplicatePrimaryKeyVariableVarChar" end time: Oct 17 11:51 EDT
 "DatabaseTest.NoDuplicatePrimaryKeyVariableVarChar" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-18/25 Testing: DatabaseTestUnordered.InsertIntoTableFixed
-18/25 Test: DatabaseTestUnordered.InsertIntoTableFixed
+18/37 Testing: DatabaseTest.UpdateFixedEqual
+18/37 Test: DatabaseTest.UpdateFixedEqual
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateFixedEqual" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTest.UpdateFixedEqual" start time: Oct 17 11:51 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTest.UpdateFixedEqual
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTest
+[ RUN      ] DatabaseTest.UpdateFixedEqual
+CREATE TABLE movies
+ id                   integer, 
+ title                char(32), 
+ rating               real, 
+ PRIMARY KEY          id, 
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+INSERT INTO movies VALUES 28, Rouge One, 3
+INSERT INTO movies VALUES 25, The Last Starfighter, 3
+INSERT INTO movies VALUES 26, Princess Diaries, 5
+INSERT INTO movies VALUES 127, Frozen, 4.2
+INSERT INTO movies VALUES 228, Big Hero 6, 3
+INSERT INTO movies VALUES 237, Cars, 4.2
+INSERT INTO movies VALUES 248, Cars 2, 3
+INSERT INTO movies VALUES 257, Toy Story, 4.2
+INSERT INTO movies VALUES 268, Tarzan, 3
+INSERT INTO movies VALUES 277, Little Shop of Horrors, 4.2
+INSERT INTO movies VALUES 288, Cinderella, 3
+INSERT INTO movies VALUES 297, Sleeping Beauty, 4.2
+INSERT INTO movies VALUES 208, Tangled, 3
+INSERT INTO movies VALUES 217, Honey I Shrunk the Kids, 4.2
+INSERT INTO movies VALUES 281, Back to the Future, 3
+INSERT INTO movies VALUES 272, Father of the Bride, 4.2
+INSERT INTO movies VALUES 283, Cheaper by the Dozen, 3
+INSERT INTO movies VALUES 274, Avengers, 4.2
+INSERT INTO movies VALUES 285, Joy Luck Club, 3
+INSERT INTO movies VALUES 276, Crazy Rich Asians, 4.2
+INSERT INTO movies VALUES 287, Solo, 3
+INSERT INTO movies VALUES 278, Captain America, 4.2
+INSERT INTO movies VALUES 280, Iron Man, 3
+INSERT INTO movies VALUES 272, Thor, 4.2
+INSERT INTO movies VALUES 283, Antman, 3
+UPDATE movies SET rating = 5.0 WHERE id = 27
+You have made changes to the database. Rows affected: 1
+[       OK ] DatabaseTest.UpdateFixedEqual (0 ms)
+[----------] 1 test from DatabaseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTest.UpdateFixedEqual" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateFixedEqual" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/37 Testing: DatabaseTest.UpdateFixedNotEqual
+19/37 Test: DatabaseTest.UpdateFixedNotEqual
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateFixedNotEqual" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTest.UpdateFixedNotEqual" start time: Oct 17 11:51 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTest.UpdateFixedNotEqual
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTest
+[ RUN      ] DatabaseTest.UpdateFixedNotEqual
+CREATE TABLE movies
+ id                   integer, 
+ title                char(32), 
+ rating               real, 
+ PRIMARY KEY          id, 
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+INSERT INTO movies VALUES 28, Rouge One, 3
+INSERT INTO movies VALUES 25, The Last Starfighter, 3
+INSERT INTO movies VALUES 26, Princess Diaries, 5
+INSERT INTO movies VALUES 127, Frozen, 4.2
+INSERT INTO movies VALUES 228, Big Hero 6, 3
+INSERT INTO movies VALUES 237, Cars, 4.2
+INSERT INTO movies VALUES 248, Cars 2, 3
+INSERT INTO movies VALUES 257, Toy Story, 4.2
+INSERT INTO movies VALUES 268, Tarzan, 3
+INSERT INTO movies VALUES 277, Little Shop of Horrors, 4.2
+INSERT INTO movies VALUES 288, Cinderella, 3
+INSERT INTO movies VALUES 297, Sleeping Beauty, 4.2
+INSERT INTO movies VALUES 208, Tangled, 3
+INSERT INTO movies VALUES 217, Honey I Shrunk the Kids, 4.2
+INSERT INTO movies VALUES 281, Back to the Future, 3
+INSERT INTO movies VALUES 272, Father of the Bride, 4.2
+INSERT INTO movies VALUES 283, Cheaper by the Dozen, 3
+INSERT INTO movies VALUES 274, Avengers, 4.2
+INSERT INTO movies VALUES 285, Joy Luck Club, 3
+INSERT INTO movies VALUES 276, Crazy Rich Asians, 4.2
+INSERT INTO movies VALUES 287, Solo, 3
+INSERT INTO movies VALUES 278, Captain America, 4.2
+INSERT INTO movies VALUES 280, Iron Man, 3
+INSERT INTO movies VALUES 272, Thor, 4.2
+INSERT INTO movies VALUES 283, Antman, 3
+UPDATE movies SET rating = 5.0 WHERE id != 27
+You have made changes to the database. Rows affected: 25
+[       OK ] DatabaseTest.UpdateFixedNotEqual (0 ms)
+[----------] 1 test from DatabaseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTest.UpdateFixedNotEqual" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateFixedNotEqual" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/37 Testing: DatabaseTest.UpdateFixedGreaterThan
+20/37 Test: DatabaseTest.UpdateFixedGreaterThan
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateFixedGreaterThan" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTest.UpdateFixedGreaterThan" start time: Oct 17 11:51 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTest.UpdateFixedGreaterThan
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTest
+[ RUN      ] DatabaseTest.UpdateFixedGreaterThan
+CREATE TABLE movies
+ id                   integer, 
+ title                char(32), 
+ rating               real, 
+ PRIMARY KEY          id, 
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+INSERT INTO movies VALUES 28, Rouge One, 3
+INSERT INTO movies VALUES 25, The Last Starfighter, 3
+INSERT INTO movies VALUES 26, Princess Diaries, 5
+INSERT INTO movies VALUES 127, Frozen, 4.2
+INSERT INTO movies VALUES 228, Big Hero 6, 3
+INSERT INTO movies VALUES 237, Cars, 4.2
+INSERT INTO movies VALUES 248, Cars 2, 3
+INSERT INTO movies VALUES 257, Toy Story, 4.2
+INSERT INTO movies VALUES 268, Tarzan, 3
+INSERT INTO movies VALUES 277, Little Shop of Horrors, 4.2
+INSERT INTO movies VALUES 288, Cinderella, 3
+INSERT INTO movies VALUES 297, Sleeping Beauty, 4.2
+INSERT INTO movies VALUES 208, Tangled, 3
+INSERT INTO movies VALUES 217, Honey I Shrunk the Kids, 4.2
+INSERT INTO movies VALUES 281, Back to the Future, 3
+INSERT INTO movies VALUES 272, Father of the Bride, 4.2
+INSERT INTO movies VALUES 283, Cheaper by the Dozen, 3
+INSERT INTO movies VALUES 274, Avengers, 4.2
+INSERT INTO movies VALUES 285, Joy Luck Club, 3
+INSERT INTO movies VALUES 276, Crazy Rich Asians, 4.2
+INSERT INTO movies VALUES 287, Solo, 3
+INSERT INTO movies VALUES 278, Captain America, 4.2
+INSERT INTO movies VALUES 280, Iron Man, 3
+INSERT INTO movies VALUES 272, Thor, 4.2
+INSERT INTO movies VALUES 283, Antman, 3
+UPDATE movies SET rating = 5.0 WHERE id > 27
+You have made changes to the database. Rows affected: 23
+[       OK ] DatabaseTest.UpdateFixedGreaterThan (0 ms)
+[----------] 1 test from DatabaseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTest.UpdateFixedGreaterThan" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateFixedGreaterThan" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/37 Testing: DatabaseTest.UpdateFixedGreaterThanOrEqualTo
+21/37 Test: DatabaseTest.UpdateFixedGreaterThanOrEqualTo
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateFixedGreaterThanOrEqualTo" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTest.UpdateFixedGreaterThanOrEqualTo" start time: Oct 17 11:51 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTest.UpdateFixedGreaterThanOrEqualTo
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTest
+[ RUN      ] DatabaseTest.UpdateFixedGreaterThanOrEqualTo
+CREATE TABLE movies
+ id                   integer, 
+ title                char(32), 
+ rating               real, 
+ PRIMARY KEY          id, 
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+INSERT INTO movies VALUES 28, Rouge One, 3
+INSERT INTO movies VALUES 25, The Last Starfighter, 3
+INSERT INTO movies VALUES 26, Princess Diaries, 5
+INSERT INTO movies VALUES 127, Frozen, 4.2
+INSERT INTO movies VALUES 228, Big Hero 6, 3
+INSERT INTO movies VALUES 237, Cars, 4.2
+INSERT INTO movies VALUES 248, Cars 2, 3
+INSERT INTO movies VALUES 257, Toy Story, 4.2
+INSERT INTO movies VALUES 268, Tarzan, 3
+INSERT INTO movies VALUES 277, Little Shop of Horrors, 4.2
+INSERT INTO movies VALUES 288, Cinderella, 3
+INSERT INTO movies VALUES 297, Sleeping Beauty, 4.2
+INSERT INTO movies VALUES 208, Tangled, 3
+INSERT INTO movies VALUES 217, Honey I Shrunk the Kids, 4.2
+INSERT INTO movies VALUES 281, Back to the Future, 3
+INSERT INTO movies VALUES 272, Father of the Bride, 4.2
+INSERT INTO movies VALUES 283, Cheaper by the Dozen, 3
+INSERT INTO movies VALUES 274, Avengers, 4.2
+INSERT INTO movies VALUES 285, Joy Luck Club, 3
+INSERT INTO movies VALUES 276, Crazy Rich Asians, 4.2
+INSERT INTO movies VALUES 287, Solo, 3
+INSERT INTO movies VALUES 278, Captain America, 4.2
+INSERT INTO movies VALUES 280, Iron Man, 3
+INSERT INTO movies VALUES 272, Thor, 4.2
+INSERT INTO movies VALUES 283, Antman, 3
+UPDATE movies SET rating = 5.0 WHERE id >= 27
+You have made changes to the database. Rows affected: 24
+[       OK ] DatabaseTest.UpdateFixedGreaterThanOrEqualTo (0 ms)
+[----------] 1 test from DatabaseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTest.UpdateFixedGreaterThanOrEqualTo" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateFixedGreaterThanOrEqualTo" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/37 Testing: DatabaseTest.UpdateFixedLessThan
+22/37 Test: DatabaseTest.UpdateFixedLessThan
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateFixedLessThan" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTest.UpdateFixedLessThan" start time: Oct 17 11:51 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTest.UpdateFixedLessThan
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTest
+[ RUN      ] DatabaseTest.UpdateFixedLessThan
+CREATE TABLE movies
+ id                   integer, 
+ title                char(32), 
+ rating               real, 
+ PRIMARY KEY          id, 
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+INSERT INTO movies VALUES 28, Rouge One, 3
+INSERT INTO movies VALUES 25, The Last Starfighter, 3
+INSERT INTO movies VALUES 26, Princess Diaries, 5
+INSERT INTO movies VALUES 127, Frozen, 4.2
+INSERT INTO movies VALUES 228, Big Hero 6, 3
+INSERT INTO movies VALUES 237, Cars, 4.2
+INSERT INTO movies VALUES 248, Cars 2, 3
+INSERT INTO movies VALUES 257, Toy Story, 4.2
+INSERT INTO movies VALUES 268, Tarzan, 3
+INSERT INTO movies VALUES 277, Little Shop of Horrors, 4.2
+INSERT INTO movies VALUES 288, Cinderella, 3
+INSERT INTO movies VALUES 297, Sleeping Beauty, 4.2
+INSERT INTO movies VALUES 208, Tangled, 3
+INSERT INTO movies VALUES 217, Honey I Shrunk the Kids, 4.2
+INSERT INTO movies VALUES 281, Back to the Future, 3
+INSERT INTO movies VALUES 272, Father of the Bride, 4.2
+INSERT INTO movies VALUES 283, Cheaper by the Dozen, 3
+INSERT INTO movies VALUES 274, Avengers, 4.2
+INSERT INTO movies VALUES 285, Joy Luck Club, 3
+INSERT INTO movies VALUES 276, Crazy Rich Asians, 4.2
+INSERT INTO movies VALUES 287, Solo, 3
+INSERT INTO movies VALUES 278, Captain America, 4.2
+INSERT INTO movies VALUES 280, Iron Man, 3
+INSERT INTO movies VALUES 272, Thor, 4.2
+INSERT INTO movies VALUES 283, Antman, 3
+UPDATE movies SET rating = 5.0 WHERE id < 27
+You have made changes to the database. Rows affected: 2
+[       OK ] DatabaseTest.UpdateFixedLessThan (0 ms)
+[----------] 1 test from DatabaseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTest.UpdateFixedLessThan" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateFixedLessThan" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/37 Testing: DatabaseTest.UpdateFixedLessThanOrEqualTo
+23/37 Test: DatabaseTest.UpdateFixedLessThanOrEqualTo
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateFixedLessThanOrEqualTo" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTest.UpdateFixedLessThanOrEqualTo" start time: Oct 17 11:51 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTest.UpdateFixedLessThanOrEqualTo
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTest
+[ RUN      ] DatabaseTest.UpdateFixedLessThanOrEqualTo
+CREATE TABLE movies
+ id                   integer, 
+ title                char(32), 
+ rating               real, 
+ PRIMARY KEY          id, 
+INSERT INTO movies VALUES 27, Star Wars, 4.2
+INSERT INTO movies VALUES 28, Rouge One, 3
+INSERT INTO movies VALUES 25, The Last Starfighter, 3
+INSERT INTO movies VALUES 26, Princess Diaries, 5
+INSERT INTO movies VALUES 127, Frozen, 4.2
+INSERT INTO movies VALUES 228, Big Hero 6, 3
+INSERT INTO movies VALUES 237, Cars, 4.2
+INSERT INTO movies VALUES 248, Cars 2, 3
+INSERT INTO movies VALUES 257, Toy Story, 4.2
+INSERT INTO movies VALUES 268, Tarzan, 3
+INSERT INTO movies VALUES 277, Little Shop of Horrors, 4.2
+INSERT INTO movies VALUES 288, Cinderella, 3
+INSERT INTO movies VALUES 297, Sleeping Beauty, 4.2
+INSERT INTO movies VALUES 208, Tangled, 3
+INSERT INTO movies VALUES 217, Honey I Shrunk the Kids, 4.2
+INSERT INTO movies VALUES 281, Back to the Future, 3
+INSERT INTO movies VALUES 272, Father of the Bride, 4.2
+INSERT INTO movies VALUES 283, Cheaper by the Dozen, 3
+INSERT INTO movies VALUES 274, Avengers, 4.2
+INSERT INTO movies VALUES 285, Joy Luck Club, 3
+INSERT INTO movies VALUES 276, Crazy Rich Asians, 4.2
+INSERT INTO movies VALUES 287, Solo, 3
+INSERT INTO movies VALUES 278, Captain America, 4.2
+INSERT INTO movies VALUES 280, Iron Man, 3
+INSERT INTO movies VALUES 272, Thor, 4.2
+INSERT INTO movies VALUES 283, Antman, 3
+UPDATE movies SET rating = 5.0 WHERE id <= 27
+You have made changes to the database. Rows affected: 3
+[       OK ] DatabaseTest.UpdateFixedLessThanOrEqualTo (0 ms)
+[----------] 1 test from DatabaseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTest.UpdateFixedLessThanOrEqualTo" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateFixedLessThanOrEqualTo" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/37 Testing: DatabaseTest.UpdateVariableEqual
+24/37 Test: DatabaseTest.UpdateVariableEqual
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateVariableEqual" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTest.UpdateVariableEqual" start time: Oct 17 11:51 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTest.UpdateVariableEqual
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTest
+[ RUN      ] DatabaseTest.UpdateVariableEqual
+CREATE TABLE critics
+ id                   integer, 
+ fname                varchar(32), 
+ lname                varchar(32), 
+ PRIMARY KEY          id, 
+INSERT INTO critics VALUES 123, Mario, Bros
+nullptr :(
+INSERT INTO critics VALUES 100, Princess, Peach
+INSERT INTO critics VALUES 125, Luigi, Bros
+INSERT INTO critics VALUES 124, Toad, Mushroom
+INSERT INTO critics VALUES 145, Donkey, Kong
+INSERT INTO critics VALUES 180, Bowser, Monster
+INSERT INTO critics VALUES 5, Boo, Ghost
+INSERT INTO critics VALUES 113, Princess, Daisy
+INSERT INTO critics VALUES 114, Princess, Zelda
+INSERT INTO critics VALUES 115, Princess, Rosalina
+INSERT INTO critics VALUES 116, Evil, Waluigi
+INSERT INTO critics VALUES 117, Toadette, Mushroom
+INSERT INTO critics VALUES 118, Evil, Wario
+INSERT INTO critics VALUES 1100, Goomba, Fiend
+INSERT INTO critics VALUES 1125, Koopa, Troopa
+INSERT INTO critics VALUES 1124, Shy, Guy
+INSERT INTO critics VALUES 1145, Yoshi, Kong
+INSERT INTO critics VALUES 1180, Bowser, Dragon
+INSERT INTO critics VALUES 15, Baby, Mario
+INSERT INTO critics VALUES 1113, Baby, Luigi
+INSERT INTO critics VALUES 1114, Baby, Zelda
+INSERT INTO critics VALUES 1115, Baby, Daisy
+INSERT INTO critics VALUES 1116, Kirby, Pink
+INSERT INTO critics VALUES 1117, Diddy, Kong
+INSERT INTO critics VALUES 1118, Princess, Daisy
+INSERT INTO critics VALUES 2123, Mario, Bros
+INSERT INTO critics VALUES 1223, Mario, Bros
+INSERT INTO critics VALUES 1200, Princess, Peach
+INSERT INTO critics VALUES 1225, Luigi, Bros
+INSERT INTO critics VALUES 1224, Toad, Factory
+INSERT INTO critics VALUES 1245, Donkey, Kong
+INSERT INTO critics VALUES 1280, Bowser, Monster
+INSERT INTO critics VALUES 52, Boo, Ghost
+INSERT INTO critics VALUES 1213, Princess, Daisy
+INSERT INTO critics VALUES 1214, Princess, Zelda
+INSERT INTO critics VALUES 1215, Princess, Daisy
+INSERT INTO critics VALUES 1216, Princess, Daisy
+INSERT INTO critics VALUES 1217, Princess, Daisy
+INSERT INTO critics VALUES 1218, Princess, Daisy
+INSERT INTO critics VALUES 12100, Princess, Peach
+INSERT INTO critics VALUES 12125, Luigi, Bros
+INSERT INTO critics VALUES 12124, Toad, Factory
+INSERT INTO critics VALUES 12145, Donkey, Kong
+INSERT INTO critics VALUES 12180, Bowser, Monster
+INSERT INTO critics VALUES 125, Boo, Ghost
+insertion error: duplicate primary key
+INSERT INTO critics VALUES 12113, Princess, Daisy
+INSERT INTO critics VALUES 122114, Princess, Zelda
+INSERT INTO critics VALUES 11125, Princess, Daisy
+INSERT INTO critics VALUES 12116, Princess, Daisy
+INSERT INTO critics VALUES 12117, Princess, Daisy
+INSERT INTO critics VALUES 12118, Princess, Daisy
+UPDATE critics SET lname = Rosy WHERE id = 115
+You have made changes to the database. Rows affected: 1
+[       OK ] DatabaseTest.UpdateVariableEqual (0 ms)
+[----------] 1 test from DatabaseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTest.UpdateVariableEqual" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateVariableEqual" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/37 Testing: DatabaseTest.UpdateVariableNotEqual
+25/37 Test: DatabaseTest.UpdateVariableNotEqual
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateVariableNotEqual" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTest.UpdateVariableNotEqual" start time: Oct 17 11:51 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTest.UpdateVariableNotEqual
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTest
+[ RUN      ] DatabaseTest.UpdateVariableNotEqual
+CREATE TABLE critics
+ id                   integer, 
+ fname                varchar(32), 
+ lname                varchar(32), 
+ PRIMARY KEY          id, 
+INSERT INTO critics VALUES 123, Mario, Bros
+nullptr :(
+INSERT INTO critics VALUES 100, Princess, Peach
+INSERT INTO critics VALUES 125, Luigi, Bros
+INSERT INTO critics VALUES 124, Toad, Mushroom
+INSERT INTO critics VALUES 145, Donkey, Kong
+INSERT INTO critics VALUES 180, Bowser, Monster
+INSERT INTO critics VALUES 5, Boo, Ghost
+INSERT INTO critics VALUES 113, Princess, Daisy
+INSERT INTO critics VALUES 114, Princess, Zelda
+INSERT INTO critics VALUES 115, Princess, Rosalina
+INSERT INTO critics VALUES 116, Evil, Waluigi
+INSERT INTO critics VALUES 117, Toadette, Mushroom
+INSERT INTO critics VALUES 118, Evil, Wario
+INSERT INTO critics VALUES 1100, Goomba, Fiend
+INSERT INTO critics VALUES 1125, Koopa, Troopa
+INSERT INTO critics VALUES 1124, Shy, Guy
+INSERT INTO critics VALUES 1145, Yoshi, Kong
+INSERT INTO critics VALUES 1180, Bowser, Dragon
+INSERT INTO critics VALUES 15, Baby, Mario
+INSERT INTO critics VALUES 1113, Baby, Luigi
+INSERT INTO critics VALUES 1114, Baby, Zelda
+INSERT INTO critics VALUES 1115, Baby, Daisy
+INSERT INTO critics VALUES 1116, Kirby, Pink
+INSERT INTO critics VALUES 1117, Diddy, Kong
+INSERT INTO critics VALUES 1118, Princess, Daisy
+INSERT INTO critics VALUES 2123, Mario, Bros
+INSERT INTO critics VALUES 1223, Mario, Bros
+INSERT INTO critics VALUES 1200, Princess, Peach
+INSERT INTO critics VALUES 1225, Luigi, Bros
+INSERT INTO critics VALUES 1224, Toad, Factory
+INSERT INTO critics VALUES 1245, Donkey, Kong
+INSERT INTO critics VALUES 1280, Bowser, Monster
+INSERT INTO critics VALUES 52, Boo, Ghost
+INSERT INTO critics VALUES 1213, Princess, Daisy
+INSERT INTO critics VALUES 1214, Princess, Zelda
+INSERT INTO critics VALUES 1215, Princess, Daisy
+INSERT INTO critics VALUES 1216, Princess, Daisy
+INSERT INTO critics VALUES 1217, Princess, Daisy
+INSERT INTO critics VALUES 1218, Princess, Daisy
+INSERT INTO critics VALUES 12100, Princess, Peach
+INSERT INTO critics VALUES 12125, Luigi, Bros
+INSERT INTO critics VALUES 12124, Toad, Factory
+INSERT INTO critics VALUES 12145, Donkey, Kong
+INSERT INTO critics VALUES 12180, Bowser, Monster
+INSERT INTO critics VALUES 125, Boo, Ghost
+insertion error: duplicate primary key
+INSERT INTO critics VALUES 12113, Princess, Daisy
+INSERT INTO critics VALUES 122114, Princess, Zelda
+INSERT INTO critics VALUES 11125, Princess, Daisy
+INSERT INTO critics VALUES 12116, Princess, Daisy
+INSERT INTO critics VALUES 12117, Princess, Daisy
+INSERT INTO critics VALUES 12118, Princess, Daisy
+UPDATE critics SET lname = Rosy WHERE id != 115
+You have made changes to the database. Rows affected: 49
+[       OK ] DatabaseTest.UpdateVariableNotEqual (0 ms)
+[----------] 1 test from DatabaseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTest.UpdateVariableNotEqual" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateVariableNotEqual" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/37 Testing: DatabaseTest.UpdateVariableGreaterThan
+26/37 Test: DatabaseTest.UpdateVariableGreaterThan
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateVariableGreaterThan" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTest.UpdateVariableGreaterThan" start time: Oct 17 11:51 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTest.UpdateVariableGreaterThan
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTest
+[ RUN      ] DatabaseTest.UpdateVariableGreaterThan
+CREATE TABLE critics
+ id                   integer, 
+ fname                varchar(32), 
+ lname                varchar(32), 
+ PRIMARY KEY          id, 
+INSERT INTO critics VALUES 123, Mario, Bros
+nullptr :(
+INSERT INTO critics VALUES 100, Princess, Peach
+INSERT INTO critics VALUES 125, Luigi, Bros
+INSERT INTO critics VALUES 124, Toad, Mushroom
+INSERT INTO critics VALUES 145, Donkey, Kong
+INSERT INTO critics VALUES 180, Bowser, Monster
+INSERT INTO critics VALUES 5, Boo, Ghost
+INSERT INTO critics VALUES 113, Princess, Daisy
+INSERT INTO critics VALUES 114, Princess, Zelda
+INSERT INTO critics VALUES 115, Princess, Rosalina
+INSERT INTO critics VALUES 116, Evil, Waluigi
+INSERT INTO critics VALUES 117, Toadette, Mushroom
+INSERT INTO critics VALUES 118, Evil, Wario
+INSERT INTO critics VALUES 1100, Goomba, Fiend
+INSERT INTO critics VALUES 1125, Koopa, Troopa
+INSERT INTO critics VALUES 1124, Shy, Guy
+INSERT INTO critics VALUES 1145, Yoshi, Kong
+INSERT INTO critics VALUES 1180, Bowser, Dragon
+INSERT INTO critics VALUES 15, Baby, Mario
+INSERT INTO critics VALUES 1113, Baby, Luigi
+INSERT INTO critics VALUES 1114, Baby, Zelda
+INSERT INTO critics VALUES 1115, Baby, Daisy
+INSERT INTO critics VALUES 1116, Kirby, Pink
+INSERT INTO critics VALUES 1117, Diddy, Kong
+INSERT INTO critics VALUES 1118, Princess, Daisy
+INSERT INTO critics VALUES 2123, Mario, Bros
+INSERT INTO critics VALUES 1223, Mario, Bros
+INSERT INTO critics VALUES 1200, Princess, Peach
+INSERT INTO critics VALUES 1225, Luigi, Bros
+INSERT INTO critics VALUES 1224, Toad, Factory
+INSERT INTO critics VALUES 1245, Donkey, Kong
+INSERT INTO critics VALUES 1280, Bowser, Monster
+INSERT INTO critics VALUES 52, Boo, Ghost
+INSERT INTO critics VALUES 1213, Princess, Daisy
+INSERT INTO critics VALUES 1214, Princess, Zelda
+INSERT INTO critics VALUES 1215, Princess, Daisy
+INSERT INTO critics VALUES 1216, Princess, Daisy
+INSERT INTO critics VALUES 1217, Princess, Daisy
+INSERT INTO critics VALUES 1218, Princess, Daisy
+INSERT INTO critics VALUES 12100, Princess, Peach
+INSERT INTO critics VALUES 12125, Luigi, Bros
+INSERT INTO critics VALUES 12124, Toad, Factory
+INSERT INTO critics VALUES 12145, Donkey, Kong
+INSERT INTO critics VALUES 12180, Bowser, Monster
+INSERT INTO critics VALUES 125, Boo, Ghost
+insertion error: duplicate primary key
+INSERT INTO critics VALUES 12113, Princess, Daisy
+INSERT INTO critics VALUES 122114, Princess, Zelda
+INSERT INTO critics VALUES 11125, Princess, Daisy
+INSERT INTO critics VALUES 12116, Princess, Daisy
+INSERT INTO critics VALUES 12117, Princess, Daisy
+INSERT INTO critics VALUES 12118, Princess, Daisy
+UPDATE critics SET lname = Rosy WHERE id > 115
+You have made changes to the database. Rows affected: 43
+[       OK ] DatabaseTest.UpdateVariableGreaterThan (0 ms)
+[----------] 1 test from DatabaseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTest.UpdateVariableGreaterThan" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateVariableGreaterThan" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/37 Testing: DatabaseTest.UpdateVariableGreaterThanOrEqualTo
+27/37 Test: DatabaseTest.UpdateVariableGreaterThanOrEqualTo
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateVariableGreaterThanOrEqualTo" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTest.UpdateVariableGreaterThanOrEqualTo" start time: Oct 17 11:51 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTest.UpdateVariableGreaterThanOrEqualTo
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTest
+[ RUN      ] DatabaseTest.UpdateVariableGreaterThanOrEqualTo
+CREATE TABLE critics
+ id                   integer, 
+ fname                varchar(32), 
+ lname                varchar(32), 
+ PRIMARY KEY          id, 
+INSERT INTO critics VALUES 123, Mario, Bros
+nullptr :(
+INSERT INTO critics VALUES 100, Princess, Peach
+INSERT INTO critics VALUES 125, Luigi, Bros
+INSERT INTO critics VALUES 124, Toad, Mushroom
+INSERT INTO critics VALUES 145, Donkey, Kong
+INSERT INTO critics VALUES 180, Bowser, Monster
+INSERT INTO critics VALUES 5, Boo, Ghost
+INSERT INTO critics VALUES 113, Princess, Daisy
+INSERT INTO critics VALUES 114, Princess, Zelda
+INSERT INTO critics VALUES 115, Princess, Rosalina
+INSERT INTO critics VALUES 116, Evil, Waluigi
+INSERT INTO critics VALUES 117, Toadette, Mushroom
+INSERT INTO critics VALUES 118, Evil, Wario
+INSERT INTO critics VALUES 1100, Goomba, Fiend
+INSERT INTO critics VALUES 1125, Koopa, Troopa
+INSERT INTO critics VALUES 1124, Shy, Guy
+INSERT INTO critics VALUES 1145, Yoshi, Kong
+INSERT INTO critics VALUES 1180, Bowser, Dragon
+INSERT INTO critics VALUES 15, Baby, Mario
+INSERT INTO critics VALUES 1113, Baby, Luigi
+INSERT INTO critics VALUES 1114, Baby, Zelda
+INSERT INTO critics VALUES 1115, Baby, Daisy
+INSERT INTO critics VALUES 1116, Kirby, Pink
+INSERT INTO critics VALUES 1117, Diddy, Kong
+INSERT INTO critics VALUES 1118, Princess, Daisy
+INSERT INTO critics VALUES 2123, Mario, Bros
+INSERT INTO critics VALUES 1223, Mario, Bros
+INSERT INTO critics VALUES 1200, Princess, Peach
+INSERT INTO critics VALUES 1225, Luigi, Bros
+INSERT INTO critics VALUES 1224, Toad, Factory
+INSERT INTO critics VALUES 1245, Donkey, Kong
+INSERT INTO critics VALUES 1280, Bowser, Monster
+INSERT INTO critics VALUES 52, Boo, Ghost
+INSERT INTO critics VALUES 1213, Princess, Daisy
+INSERT INTO critics VALUES 1214, Princess, Zelda
+INSERT INTO critics VALUES 1215, Princess, Daisy
+INSERT INTO critics VALUES 1216, Princess, Daisy
+INSERT INTO critics VALUES 1217, Princess, Daisy
+INSERT INTO critics VALUES 1218, Princess, Daisy
+INSERT INTO critics VALUES 12100, Princess, Peach
+INSERT INTO critics VALUES 12125, Luigi, Bros
+INSERT INTO critics VALUES 12124, Toad, Factory
+INSERT INTO critics VALUES 12145, Donkey, Kong
+INSERT INTO critics VALUES 12180, Bowser, Monster
+INSERT INTO critics VALUES 125, Boo, Ghost
+insertion error: duplicate primary key
+INSERT INTO critics VALUES 12113, Princess, Daisy
+INSERT INTO critics VALUES 122114, Princess, Zelda
+INSERT INTO critics VALUES 11125, Princess, Daisy
+INSERT INTO critics VALUES 12116, Princess, Daisy
+INSERT INTO critics VALUES 12117, Princess, Daisy
+INSERT INTO critics VALUES 12118, Princess, Daisy
+UPDATE critics SET lname = Rosy WHERE id >= 115
+You have made changes to the database. Rows affected: 44
+[       OK ] DatabaseTest.UpdateVariableGreaterThanOrEqualTo (0 ms)
+[----------] 1 test from DatabaseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTest.UpdateVariableGreaterThanOrEqualTo" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateVariableGreaterThanOrEqualTo" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/37 Testing: DatabaseTest.UpdateVariableLessThan
+28/37 Test: DatabaseTest.UpdateVariableLessThan
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateVariableLessThan" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTest.UpdateVariableLessThan" start time: Oct 17 11:51 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTest.UpdateVariableLessThan
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTest
+[ RUN      ] DatabaseTest.UpdateVariableLessThan
+CREATE TABLE critics
+ id                   integer, 
+ fname                varchar(32), 
+ lname                varchar(32), 
+ PRIMARY KEY          id, 
+INSERT INTO critics VALUES 123, Mario, Bros
+nullptr :(
+INSERT INTO critics VALUES 100, Princess, Peach
+INSERT INTO critics VALUES 125, Luigi, Bros
+INSERT INTO critics VALUES 124, Toad, Mushroom
+INSERT INTO critics VALUES 145, Donkey, Kong
+INSERT INTO critics VALUES 180, Bowser, Monster
+INSERT INTO critics VALUES 5, Boo, Ghost
+INSERT INTO critics VALUES 113, Princess, Daisy
+INSERT INTO critics VALUES 114, Princess, Zelda
+INSERT INTO critics VALUES 115, Princess, Rosalina
+INSERT INTO critics VALUES 116, Evil, Waluigi
+INSERT INTO critics VALUES 117, Toadette, Mushroom
+INSERT INTO critics VALUES 118, Evil, Wario
+INSERT INTO critics VALUES 1100, Goomba, Fiend
+INSERT INTO critics VALUES 1125, Koopa, Troopa
+INSERT INTO critics VALUES 1124, Shy, Guy
+INSERT INTO critics VALUES 1145, Yoshi, Kong
+INSERT INTO critics VALUES 1180, Bowser, Dragon
+INSERT INTO critics VALUES 15, Baby, Mario
+INSERT INTO critics VALUES 1113, Baby, Luigi
+INSERT INTO critics VALUES 1114, Baby, Zelda
+INSERT INTO critics VALUES 1115, Baby, Daisy
+INSERT INTO critics VALUES 1116, Kirby, Pink
+INSERT INTO critics VALUES 1117, Diddy, Kong
+INSERT INTO critics VALUES 1118, Princess, Daisy
+INSERT INTO critics VALUES 2123, Mario, Bros
+INSERT INTO critics VALUES 1223, Mario, Bros
+INSERT INTO critics VALUES 1200, Princess, Peach
+INSERT INTO critics VALUES 1225, Luigi, Bros
+INSERT INTO critics VALUES 1224, Toad, Factory
+INSERT INTO critics VALUES 1245, Donkey, Kong
+INSERT INTO critics VALUES 1280, Bowser, Monster
+INSERT INTO critics VALUES 52, Boo, Ghost
+INSERT INTO critics VALUES 1213, Princess, Daisy
+INSERT INTO critics VALUES 1214, Princess, Zelda
+INSERT INTO critics VALUES 1215, Princess, Daisy
+INSERT INTO critics VALUES 1216, Princess, Daisy
+INSERT INTO critics VALUES 1217, Princess, Daisy
+INSERT INTO critics VALUES 1218, Princess, Daisy
+INSERT INTO critics VALUES 12100, Princess, Peach
+INSERT INTO critics VALUES 12125, Luigi, Bros
+INSERT INTO critics VALUES 12124, Toad, Factory
+INSERT INTO critics VALUES 12145, Donkey, Kong
+INSERT INTO critics VALUES 12180, Bowser, Monster
+INSERT INTO critics VALUES 125, Boo, Ghost
+insertion error: duplicate primary key
+INSERT INTO critics VALUES 12113, Princess, Daisy
+INSERT INTO critics VALUES 122114, Princess, Zelda
+INSERT INTO critics VALUES 11125, Princess, Daisy
+INSERT INTO critics VALUES 12116, Princess, Daisy
+INSERT INTO critics VALUES 12117, Princess, Daisy
+INSERT INTO critics VALUES 12118, Princess, Daisy
+UPDATE critics SET lname = Rosy WHERE id < 115
+You have made changes to the database. Rows affected: 6
+[       OK ] DatabaseTest.UpdateVariableLessThan (0 ms)
+[----------] 1 test from DatabaseTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTest.UpdateVariableLessThan" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateVariableLessThan" time elapsed: 00:00:00
+----------------------------------------------------------
+
+29/37 Testing: DatabaseTest.UpdateVariableLessThanOrEqualTo
+29/37 Test: DatabaseTest.UpdateVariableLessThanOrEqualTo
+Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTest.UpdateVariableLessThanOrEqualTo" "--gtest_also_run_disabled_tests"
+Directory: /Users/claireliu/Developer/Databases/p1/build
+"DatabaseTest.UpdateVariableLessThanOrEqualTo" start time: Oct 17 11:51 EDT
+Output:
+----------------------------------------------------------
+Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = DatabaseTest.UpdateVariableLessThanOrEqualTo
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from DatabaseTest
+[ RUN      ] DatabaseTest.UpdateVariableLessThanOrEqualTo
+CREATE TABLE critics
+ id                   integer, 
+ fname                varchar(32), 
+ lname                varchar(32), 
+ PRIMARY KEY          id, 
+INSERT INTO critics VALUES 123, Mario, Bros
+nullptr :(
+INSERT INTO critics VALUES 100, Princess, Peach
+INSERT INTO critics VALUES 125, Luigi, Bros
+INSERT INTO critics VALUES 124, Toad, Mushroom
+INSERT INTO critics VALUES 145, Donkey, Kong
+INSERT INTO critics VALUES 180, Bowser, Monster
+INSERT INTO critics VALUES 5, Boo, Ghost
+INSERT INTO critics VALUES 113, Princess, Daisy
+INSERT INTO critics VALUES 114, Princess, Zelda
+INSERT INTO critics VALUES 115, Princess, Rosalina
+INSERT INTO critics VALUES 116, Evil, Waluigi
+INSERT INTO critics VALUES 117, Toadette, Mushroom
+INSERT INTO critics VALUES 118, Evil, Wario
+INSERT INTO critics VALUES 1100, Goomba, Fiend
+INSERT INTO critics VALUES 1125, Koopa, Troopa
+INSERT INTO critics VALUES 1124, Shy, Guy
+INSERT INTO critics VALUES 1145, Yoshi, Kong
+INSERT INTO critics VALUES 1180, Bowser, Dragon
+INSERT INTO critics VALUES 15, Baby, Mario
+INSERT INTO critics VALUES 1113, Baby, Luigi
+INSERT INTO critics VALUES 1114, Baby, Zelda
+INSERT INTO critics VALUES 1115, Baby, Daisy
+INSERT INTO critics VALUES 1116, Kirby, Pink
+INSERT INTO critics VALUES 1117, Diddy, Kong
+INSERT INTO critics VALUES 1118, Princess, Daisy
+INSERT INTO critics VALUES 2123, Mario, Bros
+INSERT INTO critics VALUES 1223, Mario, Bros
+INSERT INTO critics VALUES 1200, Princess, Peach
+INSERT INTO critics VALUES 1225, Luigi, Bros
+INSERT INTO critics VALUES 1224, Toad, Factory
+INSERT INTO critics VALUES 1245, Donkey, Kong
+INSERT INTO critics VALUES 1280, Bowser, Monster
+INSERT INTO critics VALUES 52, Boo, Ghost
+INSERT INTO critics VALUES 1213, Princess, Daisy
+INSERT INTO critics VALUES 1214, Princess, Zelda
+INSERT INTO critics VALUES 1215, Princess, Daisy
+INSERT INTO critics VALUES 1216, Princess, Daisy
+INSERT INTO critics VALUES 1217, Princess, Daisy
+INSERT INTO critics VALUES 1218, Princess, Daisy
+INSERT INTO critics VALUES 12100, Princess, Peach
+INSERT INTO critics VALUES 12125, Luigi, Bros
+INSERT INTO critics VALUES 12124, Toad, Factory
+INSERT INTO critics VALUES 12145, Donkey, Kong
+INSERT INTO critics VALUES 12180, Bowser, Monster
+INSERT INTO critics VALUES 125, Boo, Ghost
+insertion error: duplicate primary key
+INSERT INTO critics VALUES 12113, Princess, Daisy
+INSERT INTO critics VALUES 122114, Princess, Zelda
+INSERT INTO critics VALUES 11125, Princess, Daisy
+INSERT INTO critics VALUES 12116, Princess, Daisy
+INSERT INTO critics VALUES 12117, Princess, Daisy
+INSERT INTO critics VALUES 12118, Princess, Daisy
+UPDATE critics SET lname = Rosy WHERE id <= 115
+You have made changes to the database. Rows affected: 7
+[       OK ] DatabaseTest.UpdateVariableLessThanOrEqualTo (1 ms)
+[----------] 1 test from DatabaseTest (1 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"DatabaseTest.UpdateVariableLessThanOrEqualTo" end time: Oct 17 11:51 EDT
+"DatabaseTest.UpdateVariableLessThanOrEqualTo" time elapsed: 00:00:00
+----------------------------------------------------------
+
+30/37 Testing: DatabaseTestUnordered.InsertIntoTableFixed
+30/37 Test: DatabaseTestUnordered.InsertIntoTableFixed
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.InsertIntoTableFixed" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTestUnordered.InsertIntoTableFixed" start time: Oct 16 23:24 EDT
+"DatabaseTestUnordered.InsertIntoTableFixed" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -715,15 +1597,15 @@ INSERT INTO movies VALUES 127, Frozen, 4.2
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTestUnordered.InsertIntoTableFixed" end time: Oct 16 23:24 EDT
+"DatabaseTestUnordered.InsertIntoTableFixed" end time: Oct 17 11:51 EDT
 "DatabaseTestUnordered.InsertIntoTableFixed" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-19/25 Testing: DatabaseTestUnordered.InsertIntoTableFixedLoadTest
-19/25 Test: DatabaseTestUnordered.InsertIntoTableFixedLoadTest
+31/37 Testing: DatabaseTestUnordered.InsertIntoTableFixedLoadTest
+31/37 Test: DatabaseTestUnordered.InsertIntoTableFixedLoadTest
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.InsertIntoTableFixedLoadTest" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTestUnordered.InsertIntoTableFixedLoadTest" start time: Oct 16 23:24 EDT
+"DatabaseTestUnordered.InsertIntoTableFixedLoadTest" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -773,15 +1655,15 @@ INSERT INTO movies VALUES 283, Antman, 3
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTestUnordered.InsertIntoTableFixedLoadTest" end time: Oct 16 23:24 EDT
+"DatabaseTestUnordered.InsertIntoTableFixedLoadTest" end time: Oct 17 11:51 EDT
 "DatabaseTestUnordered.InsertIntoTableFixedLoadTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-20/25 Testing: DatabaseTestUnordered.InsertIntoTableVariable
-20/25 Test: DatabaseTestUnordered.InsertIntoTableVariable
+32/37 Testing: DatabaseTestUnordered.InsertIntoTableVariable
+32/37 Test: DatabaseTestUnordered.InsertIntoTableVariable
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.InsertIntoTableVariable" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTestUnordered.InsertIntoTableVariable" start time: Oct 16 23:24 EDT
+"DatabaseTestUnordered.InsertIntoTableVariable" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -811,15 +1693,15 @@ INSERT INTO critics VALUES 180, Bowser, Monster
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTestUnordered.InsertIntoTableVariable" end time: Oct 16 23:24 EDT
+"DatabaseTestUnordered.InsertIntoTableVariable" end time: Oct 17 11:51 EDT
 "DatabaseTestUnordered.InsertIntoTableVariable" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-21/25 Testing: DatabaseTestUnordered.InsertIntoTableVariableLoadTest
-21/25 Test: DatabaseTestUnordered.InsertIntoTableVariableLoadTest
+33/37 Testing: DatabaseTestUnordered.InsertIntoTableVariableLoadTest
+33/37 Test: DatabaseTestUnordered.InsertIntoTableVariableLoadTest
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestUnordered.InsertIntoTableVariableLoadTest" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTestUnordered.InsertIntoTableVariableLoadTest" start time: Oct 16 23:24 EDT
+"DatabaseTestUnordered.InsertIntoTableVariableLoadTest" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -896,15 +1778,15 @@ INSERT INTO critics VALUES 12118, Princess, Daisy
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTestUnordered.InsertIntoTableVariableLoadTest" end time: Oct 16 23:24 EDT
+"DatabaseTestUnordered.InsertIntoTableVariableLoadTest" end time: Oct 17 11:51 EDT
 "DatabaseTestUnordered.InsertIntoTableVariableLoadTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-22/25 Testing: DatabaseTestOrdered.InsertIntoTableFixed
-22/25 Test: DatabaseTestOrdered.InsertIntoTableFixed
+34/37 Testing: DatabaseTestOrdered.InsertIntoTableFixed
+34/37 Test: DatabaseTestOrdered.InsertIntoTableFixed
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestOrdered.InsertIntoTableFixed" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTestOrdered.InsertIntoTableFixed" start time: Oct 16 23:24 EDT
+"DatabaseTestOrdered.InsertIntoTableFixed" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -933,15 +1815,15 @@ INSERT INTO movies VALUES 127, Frozen, 4.2
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTestOrdered.InsertIntoTableFixed" end time: Oct 16 23:24 EDT
+"DatabaseTestOrdered.InsertIntoTableFixed" end time: Oct 17 11:51 EDT
 "DatabaseTestOrdered.InsertIntoTableFixed" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-23/25 Testing: DatabaseTestOrdered.InsertIntoTableFixedLoadTest
-23/25 Test: DatabaseTestOrdered.InsertIntoTableFixedLoadTest
+35/37 Testing: DatabaseTestOrdered.InsertIntoTableFixedLoadTest
+35/37 Test: DatabaseTestOrdered.InsertIntoTableFixedLoadTest
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestOrdered.InsertIntoTableFixedLoadTest" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTestOrdered.InsertIntoTableFixedLoadTest" start time: Oct 16 23:24 EDT
+"DatabaseTestOrdered.InsertIntoTableFixedLoadTest" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -981,7 +1863,7 @@ INSERT INTO movies VALUES 278, Captain America, 4.2
 INSERT INTO movies VALUES 280, Iron Man, 3
 INSERT INTO movies VALUES 572, Thor, 4.2
 INSERT INTO movies VALUES 583, Antman, 3
-dataRead 0x7fcbfa706800dataRead 0x7fcbfa706828dataRead 0x7fcbfa706850dataRead 0x7fcbfa706878dataRead 0x7fcbfa7068a0dataRead 0x7fcbfa7068c8dataRead 0x7fcbfa7068f0dataRead 0x7fcbfa706918dataRead 0x7fcbfa706940dataRead 0x7fcbfa706968dataRead 0x7fcbfa706990dataRead 0x7fcbfa7069b8dataRead 0x7fcbfa706a00dataRead 0x7fcbfa706a28dataRead 0x7fcbfa706a50dataRead 0x7fcbfa706a78dataRead 0x7fcbfa706aa0dataRead 0x7fcbfa706ac8dataRead 0x7fcbfa706af0dataRead 0x7fcbfa706b18dataRead 0x7fcbfa706b40dataRead 0x7fcbfa706b68dataRead 0x7fcbfa706b90dataRead 0x7fcbfa706bb8dataRead 0x7fcbfa706c00dataRead 0x7fcbfa706c28[       OK ] DatabaseTestOrdered.InsertIntoTableFixedLoadTest (0 ms)
+dataRead 0x7f93997074c0dataRead 0x7f93997074e8dataRead 0x7f9399707510dataRead 0x7f9399707538dataRead 0x7f9399707560dataRead 0x7f9399707588dataRead 0x7f93997075b0dataRead 0x7f93997075d8dataRead 0x7f9399707600dataRead 0x7f9399707628dataRead 0x7f9399707650dataRead 0x7f9399707678dataRead 0x7f93997076c0dataRead 0x7f93997076e8dataRead 0x7f9399707710dataRead 0x7f9399707738dataRead 0x7f9399707760dataRead 0x7f9399707788dataRead 0x7f93997077b0dataRead 0x7f93997077d8dataRead 0x7f9399707800dataRead 0x7f9399707828dataRead 0x7f9399707850dataRead 0x7f9399707878dataRead 0x7f93997078c0dataRead 0x7f93997078e8[       OK ] DatabaseTestOrdered.InsertIntoTableFixedLoadTest (0 ms)
 [----------] 1 test from DatabaseTestOrdered (0 ms total)
 
 [----------] Global test environment tear-down
@@ -991,15 +1873,15 @@ dataRead 0x7fcbfa706800dataRead 0x7fcbfa706828dataRead 0x7fcbfa706850dataRead 0x
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTestOrdered.InsertIntoTableFixedLoadTest" end time: Oct 16 23:24 EDT
+"DatabaseTestOrdered.InsertIntoTableFixedLoadTest" end time: Oct 17 11:51 EDT
 "DatabaseTestOrdered.InsertIntoTableFixedLoadTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-24/25 Testing: DatabaseTestOrdered.InsertIntoTableVariable
-24/25 Test: DatabaseTestOrdered.InsertIntoTableVariable
+36/37 Testing: DatabaseTestOrdered.InsertIntoTableVariable
+36/37 Test: DatabaseTestOrdered.InsertIntoTableVariable
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestOrdered.InsertIntoTableVariable" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTestOrdered.InsertIntoTableVariable" start time: Oct 16 23:24 EDT
+"DatabaseTestOrdered.InsertIntoTableVariable" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1019,7 +1901,7 @@ INSERT INTO critics VALUES 125, Luigi, Bros
 INSERT INTO critics VALUES 124, Toad, Factory
 INSERT INTO critics VALUES 145, Donkey, Kong
 INSERT INTO critics VALUES 180, Bowser, Monster
-dataRead 0x7f81bb1048e0dataRead 0x7f81bb1048f4dataRead 0x7f81bb104906dataRead 0x7f81bb104916dataRead 0x7f81bb104927[       OK ] DatabaseTestOrdered.InsertIntoTableVariable (0 ms)
+dataRead 0x7ff64e7076c0dataRead 0x7ff64e7076d4dataRead 0x7ff64e7076e6dataRead 0x7ff64e7076f6dataRead 0x7ff64e707707[       OK ] DatabaseTestOrdered.InsertIntoTableVariable (0 ms)
 [----------] 1 test from DatabaseTestOrdered (0 ms total)
 
 [----------] Global test environment tear-down
@@ -1029,15 +1911,15 @@ dataRead 0x7f81bb1048e0dataRead 0x7f81bb1048f4dataRead 0x7f81bb104906dataRead 0x
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTestOrdered.InsertIntoTableVariable" end time: Oct 16 23:24 EDT
+"DatabaseTestOrdered.InsertIntoTableVariable" end time: Oct 17 11:51 EDT
 "DatabaseTestOrdered.InsertIntoTableVariable" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-25/25 Testing: DatabaseTestOrdered.InsertIntoTableVariableLoadTest
-25/25 Test: DatabaseTestOrdered.InsertIntoTableVariableLoadTest
+37/37 Testing: DatabaseTestOrdered.InsertIntoTableVariableLoadTest
+37/37 Test: DatabaseTestOrdered.InsertIntoTableVariableLoadTest
 Command: "/Users/claireliu/Developer/Databases/p1/build/database_test" "--gtest_filter=DatabaseTestOrdered.InsertIntoTableVariableLoadTest" "--gtest_also_run_disabled_tests"
 Directory: /Users/claireliu/Developer/Databases/p1/build
-"DatabaseTestOrdered.InsertIntoTableVariableLoadTest" start time: Oct 16 23:24 EDT
+"DatabaseTestOrdered.InsertIntoTableVariableLoadTest" start time: Oct 17 11:51 EDT
 Output:
 ----------------------------------------------------------
 Running main() from /Users/claireliu/Developer/Databases/p1/build/_deps/googletest-src/googletest/src/gtest_main.cc
@@ -1108,14 +1990,14 @@ INSERT INTO critics VALUES 12118, Princess, Daisy
 [----------] 1 test from DatabaseTestOrdered (0 ms total)
 
 [----------] Global test environment tear-down
-[==========] 1 test from 1 test suite ran. (0 ms total)
+[==========] 1 test from 1 test suite ran. (1 ms total)
 [  PASSED  ] 1 test.
 <end of output>
 Test time =   0.01 sec
 ----------------------------------------------------------
 Test Passed.
-"DatabaseTestOrdered.InsertIntoTableVariableLoadTest" end time: Oct 16 23:24 EDT
+"DatabaseTestOrdered.InsertIntoTableVariableLoadTest" end time: Oct 17 11:51 EDT
 "DatabaseTestOrdered.InsertIntoTableVariableLoadTest" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Oct 16 23:24 EDT
+End testing: Oct 17 11:51 EDT

@@ -16,6 +16,98 @@ class DatabaseTest : public testing::Test {
 
   // Declares the variables your tests want to use.
   Database* db = new Database(UNORDERED);  // doesn't matter if it's UNORDERED, ORDERED, OR HASHED here
+  void createSomeMovies() {
+    db->create_table("movies", "id", 6,
+                     "id", "integer",
+                     "title", "char(32)",
+                     "rating", "real");
+
+    db->insert("movies", 3, 27, "Star Wars", 4.2);
+    db->insert("movies", 3, 28, "Rouge One", 3.0);
+    db->insert("movies", 3, 25, "The Last Starfighter", 3.0);
+    db->insert("movies", 3, 26, "Princess Diaries", 5.0);
+    db->insert("movies", 3, 127, "Frozen", 4.2);
+    db->insert("movies", 3, 228, "Big Hero 6", 3.0);
+    db->insert("movies", 3, 237, "Cars", 4.2);
+    db->insert("movies", 3, 248, "Cars 2", 3.0);
+    db->insert("movies", 3, 257, "Toy Story", 4.2);
+    db->insert("movies", 3, 268, "Tarzan", 3.0);
+    db->insert("movies", 3, 277, "Little Shop of Horrors", 4.2);
+    db->insert("movies", 3, 288, "Cinderella", 3.0);
+    db->insert("movies", 3, 297, "Sleeping Beauty", 4.2);
+    db->insert("movies", 3, 208, "Tangled", 3.0);
+    db->insert("movies", 3, 217, "Honey I Shrunk the Kids", 4.2);
+    db->insert("movies", 3, 281, "Back to the Future", 3.0);
+    db->insert("movies", 3, 272, "Father of the Bride", 4.2);
+    db->insert("movies", 3, 283, "Cheaper by the Dozen", 3.0);
+    db->insert("movies", 3, 274, "Avengers", 4.2);
+    db->insert("movies", 3, 285, "Joy Luck Club", 3.0);
+    db->insert("movies", 3, 276, "Crazy Rich Asians", 4.2);
+    db->insert("movies", 3, 287, "Solo", 3.0);
+    db->insert("movies", 3, 278, "Captain America", 4.2);
+    db->insert("movies", 3, 280, "Iron Man", 3.0);
+    db->insert("movies", 3, 272, "Thor", 4.2);
+    db->insert("movies", 3, 283, "Antman", 3.0);
+  };
+
+  void createSomeCritics() {
+    db->create_table("critics", "id", 6,
+                     "id", "integer",
+                     "fname", "varchar(32)",
+                     "lname", "varchar(32)");
+
+    db->insert("critics", 3, 123, "Mario", "Bros");
+    db->insert("critics", 3, 100, "Princess", "Peach");
+    db->insert("critics", 3, 125, "Luigi", "Bros");
+    db->insert("critics", 3, 124, "Toad", "Mushroom");
+    db->insert("critics", 3, 145, "Donkey", "Kong");
+    db->insert("critics", 3, 180, "Bowser", "Monster");
+    db->insert("critics", 3, 5, "Boo", "Ghost");
+    db->insert("critics", 3, 113, "Princess", "Daisy");
+    db->insert("critics", 3, 114, "Princess", "Zelda");
+    db->insert("critics", 3, 115, "Princess", "Rosalina");
+    db->insert("critics", 3, 116, "Evil", "Waluigi");
+    db->insert("critics", 3, 117, "Toadette", "Mushroom");
+    db->insert("critics", 3, 118, "Evil", "Wario");
+    db->insert("critics", 3, 1100, "Goomba", "Fiend");
+    db->insert("critics", 3, 1125, "Koopa", "Troopa");
+    db->insert("critics", 3, 1124, "Shy", "Guy");
+    db->insert("critics", 3, 1145, "Yoshi", "Kong");
+    db->insert("critics", 3, 1180, "Bowser", "Dragon");
+    db->insert("critics", 3, 15, "Baby", "Mario");
+    db->insert("critics", 3, 1113, "Baby", "Luigi");
+    db->insert("critics", 3, 1114, "Baby", "Zelda");
+    db->insert("critics", 3, 1115, "Baby", "Daisy");
+    db->insert("critics", 3, 1116, "Kirby", "Pink");
+    db->insert("critics", 3, 1117, "Diddy", "Kong");
+    db->insert("critics", 3, 1118, "Princess", "Daisy");
+    db->insert("critics", 3, 2123, "Mario", "Bros");
+    db->insert("critics", 3, 1223, "Mario", "Bros");
+    db->insert("critics", 3, 1200, "Princess", "Peach");
+    db->insert("critics", 3, 1225, "Luigi", "Bros");
+    db->insert("critics", 3, 1224, "Toad", "Factory");
+    db->insert("critics", 3, 1245, "Donkey", "Kong");
+    db->insert("critics", 3, 1280, "Bowser", "Monster");
+    db->insert("critics", 3, 52, "Boo", "Ghost");
+    db->insert("critics", 3, 1213, "Princess", "Daisy");
+    db->insert("critics", 3, 1214, "Princess", "Zelda");
+    db->insert("critics", 3, 1215, "Princess", "Daisy");
+    db->insert("critics", 3, 1216, "Princess", "Daisy");
+    db->insert("critics", 3, 1217, "Princess", "Daisy");
+    db->insert("critics", 3, 1218, "Princess", "Daisy");
+    db->insert("critics", 3, 12100, "Princess", "Peach");
+    db->insert("critics", 3, 12125, "Luigi", "Bros");
+    db->insert("critics", 3, 12124, "Toad", "Factory");
+    db->insert("critics", 3, 12145, "Donkey", "Kong");
+    db->insert("critics", 3, 12180, "Bowser", "Monster");
+    db->insert("critics", 3, 125, "Boo", "Ghost");
+    db->insert("critics", 3, 12113, "Princess", "Daisy");
+    db->insert("critics", 3, 122114, "Princess", "Zelda");
+    db->insert("critics", 3, 11125, "Princess", "Daisy");
+    db->insert("critics", 3, 12116, "Princess", "Daisy");
+    db->insert("critics", 3, 12117, "Princess", "Daisy");
+    db->insert("critics", 3, 12118, "Princess", "Daisy");
+  }
 };
 
 class DatabaseTestUnordered : public testing::Test {
@@ -449,6 +541,55 @@ TEST_F(DatabaseTest, NoDuplicatePrimaryKeyVariableVarChar) {
   EXPECT_EQ(*(int*)((uintptr_t)record + db->data_record_count_offset), 1);
 }
 
+TEST_F(DatabaseTest, UpdateFixedEqual) {
+  createSomeMovies();
+  EXPECT_EQ(db->updateTest("movies", 3, "rating", "5.0", "id = 27"), 1);
+}
+TEST_F(DatabaseTest, UpdateFixedNotEqual) {
+  createSomeMovies();
+  EXPECT_EQ(db->updateTest("movies", 3, "rating", "5.0", "id != 27"), 25);
+}
+TEST_F(DatabaseTest, UpdateFixedGreaterThan) {
+  createSomeMovies();
+  EXPECT_EQ(db->updateTest("movies", 3, "rating", "5.0", "id > 27"), 23);
+}
+TEST_F(DatabaseTest, UpdateFixedGreaterThanOrEqualTo) {
+  createSomeMovies();
+  EXPECT_EQ(db->updateTest("movies", 3, "rating", "5.0", "id >= 27"), 24);
+}
+TEST_F(DatabaseTest, UpdateFixedLessThan) {
+  createSomeMovies();
+  EXPECT_EQ(db->updateTest("movies", 3, "rating", "5.0", "id < 27"), 2);
+}
+TEST_F(DatabaseTest, UpdateFixedLessThanOrEqualTo) {
+  createSomeMovies();
+  EXPECT_EQ(db->updateTest("movies", 3, "rating", "5.0", "id <= 27"), 3);
+}
+
+TEST_F(DatabaseTest, UpdateVariableEqual) {
+  createSomeCritics();
+  EXPECT_EQ(db->updateTest("critics", 3, "lname", "Rosy", "id = 115"), 1);
+}
+TEST_F(DatabaseTest, UpdateVariableNotEqual) {
+  createSomeCritics();
+  EXPECT_EQ(db->updateTest("critics", 3, "lname", "Rosy", "id != 115"), 49);
+}
+TEST_F(DatabaseTest, UpdateVariableGreaterThan) {
+  createSomeCritics();
+  EXPECT_EQ(db->updateTest("critics", 3, "lname", "Rosy", "id > 115"), 43);
+}
+TEST_F(DatabaseTest, UpdateVariableGreaterThanOrEqualTo) {
+  createSomeCritics();
+  EXPECT_EQ(db->updateTest("critics", 3, "lname", "Rosy", "id >= 115"), 44);
+}
+TEST_F(DatabaseTest, UpdateVariableLessThan) {
+  createSomeCritics();
+  EXPECT_EQ(db->updateTest("critics", 3, "lname", "Rosy", "id < 115"), 6);
+}
+TEST_F(DatabaseTest, UpdateVariableLessThanOrEqualTo) {
+  createSomeCritics();
+  EXPECT_EQ(db->updateTest("critics", 3, "lname", "Rosy", "id <= 115"), 7);
+}
 TEST_F(DatabaseTestUnordered, InsertIntoTableFixed) {
   db->create_table("movies", "id", 6,
                    "id", "integer",

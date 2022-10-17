@@ -97,6 +97,7 @@ class Database {
   void printTable(char* table_name);  // very closely aligned with select
   void printTableGiven(char* table_name, vector<char*> fieldsToPrint, char* specialName, char* comparator, char* target);
   int updateTableGiven(char* table_name, char* attrToUpdate, char* value, char* specialName, char* comparator, char* target);
+  int updateTest(const char* table_name, int length, ...);
   // void updateTableFixed(char* table_name, char* attrToUpdate, char* value, bool* isTarget);
   // other helper functions
   dataType getDataType(char* type);
