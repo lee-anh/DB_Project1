@@ -192,6 +192,28 @@ int main(int argc, char* argv[]) {
   cout << "db_attr " << db->db_attr << endl;
   cout << "db_attr_curr_end " << db->db_attr_curr_end << endl;
 
+  cout << "____________________________________________" << endl;
+  Database* h = new Database(HASHED);
+
+  h->create_table("movies", "id", 6,
+                  "id", "integer",
+                  "title", "char(32)",
+                  "rating", "real");
+  h->printDBPrimary();
+  h->insert("movies", 3, 27, "Star Wars", 4.2);
+  h->insert("movies", 3, 228, "Big Hero 6", 3.0);
+  h->insert("movies", 3, 237, "Cars", 4.2);
+  h->insert("movies", 3, 248, "Cars 2", 3.0);
+  h->insert("movies", 3, 257, "Toy Story", 4.2);
+  h->insert("movies", 3, 268, "Tarzan", 3.0);
+  h->insert("movies", 3, 277, "Little Shop of Horrors", 4.2);
+  h->insert("movies", 3, 288, "Cinderella", 3.0);
+  h->insert("movies", 3, 297, "Sleeping Beauty", 4.2);
+  h->insert("movies", 3, 208, "Tangled", 3.0);
+  h->insert("movies", 3, 217, "Honey I Shrunk the Kids", 4.2);
+  h->printTableHashed("movies");
+  h->printDBPrimary();
+
   /*
   // Figuring stuff out
   void* blk = calloc(BLOCK_SIZE, 1);

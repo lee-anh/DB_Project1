@@ -25,7 +25,7 @@ class Database {
   void update(const char* table_name, int length, ...);
   void select(const char* table_name, int length, ...);
 
-  // TODO: ideally would make everything below this private, but exposing it for the sake of testing
+  /*********ideally would make everything below this private, but exposing it for the sake of testing **********/
   // instance variables
   insertionMethod method;
   int BLOCK_SIZE;
@@ -68,22 +68,24 @@ class Database {
 
   int hash_curr_offset = sizeof(void*);
   int hash_curr_end_offset = sizeof(void*) * 2;
-  int hash_num_blocks_offset = sizeof(void*) * 3;
-  int hash_num_records_offset = sizeof(void*) * 3 + sizeof(int);
+  int hash_block_count_offset = sizeof(void*) * 3;
+  int hash_record_count_offset = sizeof(void*) * 3 + sizeof(int);
+  int num_hash_buckets;
 
   void initializeDB();
   void initializeNewBlock(void*& root, void*& curr, void*& currEnd, int& currBlockCount);
   void addNewBlock(void*& curr, void*& currEnd, int& currBlockCount);
   void addNewDataBlock(void*& dbPrimaryPtr);
+  void addNewDataBlockHashed(void*& bucketPtr);
   // allocate new space if needed
   void checkSpaceAdd(int spaceNeeded, void*& curr, void*& currEnd, int& currBlockCount);
   // moves pointers to the next blocks if necessary
   bool checkSpaceSearch(int fixedLength, void*& currRead, void*& currReadEnd);  // maybe this will work b/c of scoping
 
   void checkSpaceAddData(int spaceNeeded, void* dBPrimaryRecord);
-
+  void checkSpaceAddDataHashed(int spaceNeeded, void* bucketPtr);
   // DBPrimary
-  void addToDBPrimary(char* name, void* dbAttributes, int numAttributes, int primaryKeyNum);
+  void* addToDBPrimary(char* name, void* dbAttributes, int numAttributes, int primaryKeyNum);
   void addToDBPrimaryHashed(char* name, void* dbAttributes, int numAttributes, int primaryKeyNum);
   void printDBPrimary();
   void* retrieveDBPrimaryRecord(char* table_name);
@@ -99,18 +101,34 @@ class Database {
   void addVariableToTable(void* primaryKey, void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
   void addUnorderedToTable(void* bufferToWrite, int recordSize, void*& dbPrimaryPtr);
 
+  // TODO: make sure primary key is unique for hashed
+  // hash insert
+  // hash print
+  // hash select
+  // hash update
+  // free everyone
+  // free hash
+  void addUnorderedToTableHashed(void* bufferToWrite, int recordSize, void*& bucketPtr);
   void addOrderedToTableFixed(void* bufferToWrite, void* primaryKey, int recordSize, void*& dbPrimaryPtr, void* insertionPoint);
+
   void addOrderedToTableVariable(void* bufferToWrite, void* primaryKey, int recordSize, void*& dbPrimaryPtr, void* insertionPoint);
+
+  // will we need other information?
+  void addHashedToTable(void* bufferToWrite, int recordSize, void* primaryKey, void*& dbPrimaryPtr);
 
   void* findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind);
   void* findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind);
   void printTable(char* table_name);  // very closely aligned with select
+  void printTableHashed(char* table_name);
   void printTableGiven(char* table_name, vector<char*> fieldsToPrint, char* specialName, char* comparator, char* target);
   int updateTableGiven(char* table_name, char* attrToUpdate, char* value, char* specialName, char* comparator, char* target);
   int updateTest(const char* table_name, int length, ...);
   // void updateTableFixed(char* table_name, char* attrToUpdate, char* value, bool* isTarget);
   // other helper functions
   dataType getDataType(char* type);
+  dataType getPrimaryKeyType(void* dbAttributes, int numAttributes, int primaryKeyNum);
+  int getPrimaryKeyLength(void* dbAttributes, int numAttributes, int primaryKeyNum);
+  int getBucketNumber(void* pk, int pkLength, dataType pkType);
   int getN(char* str);
   int calculateMaxDataRecordSize(void* ptrToFirstAttribute, int numberOfAttributes);
   bool compare(char* targetValue, char* comparator, void* candidate, int candidateLength, dataType type);

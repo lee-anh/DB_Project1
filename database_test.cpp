@@ -186,9 +186,20 @@ TEST_F(DatabaseTest, RetrieveDBPrimaryRecordOnly) {
   EXPECT_EQ(*(int*)((uintptr_t)record + db->data_block_count_offset), 1);
   EXPECT_EQ(*(int*)((uintptr_t)record + db->data_record_count_offset), 0);
 
-  // check the db attributes as well?
-
   free(movies);
+}
+TEST_F(DatabaseTest, CheckGetPrimaryKeyType) {
+  db->create_table("movies", "id", 6,
+                   "id", "integer",
+                   "title", "char(32)",
+                   "rating", "real");
+  char* movies = (char*)calloc(strlen("movies") + 1, sizeof(char));
+  strcpy(movies, "movies");
+  void* record = db->retrieveDBPrimaryRecord(movies);
+  void* dbAttrRecord = (void*)*(long*)((uintptr_t)record + db->db_primary_db_attr_offset);
+  int numAttr = *(int*)((uintptr_t)record + db->db_primary_num_db_attr_offset);
+  int primaryKeyNumber = *(int*)((uintptr_t)record + db->primary_key_offset);
+  EXPECT_EQ(db->getPrimaryKeyType(dbAttrRecord, numAttr, primaryKeyNumber), INTEGER);
 }
 
 TEST_F(DatabaseTest, RetrieveDBPrimaryRecordFirst) {

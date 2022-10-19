@@ -67,7 +67,11 @@ void Database::create_table(const char* table_name, const char* key, int length,
 
   printf(" %-20s %s, \n", "PRIMARY KEY", key);
 
-  addToDBPrimary((char*)table_name, dbAttrStart, length / 2, primKey);
+  if (method == HASHED) {
+    addToDBPrimaryHashed((char*)table_name, dbAttrStart, length / 2, primKey);
+  } else {
+    addToDBPrimary((char*)table_name, dbAttrStart, length / 2, primKey);
+  }
 
   va_end(arg_list);
 }
@@ -216,13 +220,11 @@ void Database::insert(const char* table_name, int length, ...) {
   if (!variable) {  // fixed
     addFixedToTable(pk, tempBuffer, maxDataRecordSize, record);
   } else {  // variable
-    // TODO: variable
     *(char*)tempBufferPtr = END_RECORD_CHAR;
     ((char*&)tempBufferPtr)++;
     addVariableToTable(pk, tempBuffer, maxDataRecordSize, record);
   }
 
-  // I was thinking of using a try catch for something... what was it?
   // printTable((char*)table_name);
   va_end(arg_list);
 }
@@ -374,6 +376,10 @@ void Database::select(const char* table_name, int length, ...) {
 void Database::initializeDB() {
   initializeNewBlock(db_primary, db_primary_curr, db_primary_curr_end, db_primary_blocks);
   initializeNewBlock(db_attr, db_attr_curr, db_attr_curr_end, db_attr_blocks);
+  if (method == HASHED) {
+    int availableSpace = BLOCK_SIZE - (sizeof(long));  // last space is saved for the pointer to next
+    num_hash_buckets = availableSpace / hashed_size;
+  }
 }
 
 void Database::initializeNewBlock(void*& root, void*& curr, void*& currEnd, int& currBlockCount) {
@@ -407,6 +413,14 @@ void Database::addNewDataBlock(void*& dbPrimaryPtr) {
   *(long*)((uintptr_t)dbPrimaryPtr + data_curr_end_offset) = (uintptr_t)toAdd + (uintptr_t)BLOCK_SIZE - sizeof(long);  // put dataCurrEnd in the right place
 }
 
+void Database::addNewDataBlockHashed(void*& bucketPtr) {
+  void* toAdd = (void*)calloc(BLOCK_SIZE, 1);
+  **(long**)((uintptr_t)bucketPtr + hash_curr_end_offset) = (uintptr_t)toAdd;                                       // *dataCurrEnd = toAdd
+  *(long*)((uintptr_t)bucketPtr + hash_curr_offset) = (uintptr_t)toAdd;                                             // dataCurr = toadd
+  *(int*)((uintptr_t)bucketPtr + hash_block_count_offset) += 1;                                                     // blockCount++;
+  *(long*)((uintptr_t)bucketPtr + hash_curr_end_offset) = (uintptr_t)toAdd + (uintptr_t)BLOCK_SIZE - sizeof(long);  // put dataCurrEnd in the right place
+}
+
 void Database::checkSpaceAdd(int spaceNeeded, void*& curr, void*& currEnd, int& currBlockCount) {
   if ((uintptr_t)currEnd - (uintptr_t)curr < spaceNeeded) {
     addNewBlock(curr, currEnd, currBlockCount);
@@ -414,7 +428,7 @@ void Database::checkSpaceAdd(int spaceNeeded, void*& curr, void*& currEnd, int& 
 }
 
 // call before incrementing
-// is it safe to increment? redirects pointers to right places if it's not
+// caller asks: is it safe to increment? redirects pointers to right places if it's not
 bool Database::checkSpaceSearch(int fixedLength, void*& currRead, void*& currReadEnd) {
   if (fixedLength == -1) {  // variable length
     // search in the current block for a record terminating character
@@ -463,7 +477,20 @@ void Database::checkSpaceAddData(int spaceNeeded, void* dBPrimaryRecord) {
   }
 }
 
-void Database::addToDBPrimary(char* name, void* dbAttributes, int numAttributes, int primaryKeyNum) {
+void Database::checkSpaceAddDataHashed(int spaceNeeded, void* bucketPtr) {
+  // cout << "bucketPtr " << bucketPtr << endl;
+  // cout << "currData Root" << (void*)*(long*)bucketPtr << endl;
+  void* currData = (void*)*(long*)((uintptr_t)bucketPtr + hash_curr_offset);
+  void* currDataEnd = (void*)*(long*)((uintptr_t)bucketPtr + hash_curr_end_offset);
+
+  // cout << "checkSpaceAddDataHashed(): currData" << currData << endl;
+  // cout << "checkSpaceAddDataHashed(): currDataEnd" << currDataEnd << endl;
+  if ((long)currDataEnd - (long)currData < spaceNeeded) {
+    addNewDataBlockHashed(bucketPtr);
+  }
+}
+
+void* Database::addToDBPrimary(char* name, void* dbAttributes, int numAttributes, int primaryKeyNum) {
   // make the size of name exact
   char buffer[TABLE_NAME_SIZE];
   memset(buffer, '\0', TABLE_NAME_SIZE);  // fill it with blanks
@@ -474,7 +501,7 @@ void Database::addToDBPrimary(char* name, void* dbAttributes, int numAttributes,
   }
 
   checkSpaceAdd(db_primary_record_size, db_primary_curr, db_primary_curr_end, db_primary_blocks);
-
+  void* beginningOfRecord = db_primary_curr;
   // copy name in
   strncpy((char*)db_primary_curr, buffer, TABLE_NAME_SIZE);
   (char*&)db_primary_curr += TABLE_NAME_SIZE;
@@ -511,6 +538,45 @@ void Database::addToDBPrimary(char* name, void* dbAttributes, int numAttributes,
   ((int*&)db_primary_curr)++;
 
   db_primary_records++;
+  return beginningOfRecord;
+}
+
+void Database::addToDBPrimaryHashed(char* name, void* dbAttributes, int numAttributes, int primaryKeyNum) {
+  // TODO:  maybe we could store the primary key type? would be very useful
+  dataType type = getPrimaryKeyType(dbAttributes, numAttributes, primaryKeyNum);
+
+  void* dbPrimaryPtr = addToDBPrimary(name, dbAttributes, numAttributes, primaryKeyNum);
+  void* bucketBlock = (void*)*(long*)((uintptr_t)dbPrimaryPtr + data_root_offset);
+  // now do the hashing part
+  cout << "num_hash_bucket: " << num_hash_buckets << endl;
+
+  // get each bucket ready to accept records
+  for (int i = 0; i < num_hash_buckets; i++) {
+    // we don't have to check the add because we know that it's going to all fit in one block
+    // make a new block
+    void* dataRoot = NULL;
+    void* dataCurr = NULL;
+    void* dataCurrEnd = NULL;
+    int dataCurrBlockCount = 0;  // printing this stuff out
+    initializeNewBlock(dataRoot, dataCurr, dataCurrEnd, dataCurrBlockCount);
+    // cout << "i: " << i << endl;
+    // cout << "bucketBlock " << bucketBlock << endl;
+    // cout << "dataRoot " << dataRoot << endl;  // why didn't this work?
+    // cout << "dataCurr " << dataCurr << endl;
+
+    *(long*)bucketBlock = (uintptr_t)dataRoot;
+    *(long*)((uintptr_t)bucketBlock + hash_curr_offset) = (uintptr_t)dataCurr;
+    *(long*)((uintptr_t)bucketBlock + hash_curr_end_offset) = (uintptr_t)dataCurrEnd;
+    *(int*)((uintptr_t)bucketBlock + hash_block_count_offset) = dataCurrBlockCount;
+
+    // cout << (void*)*(long*)((uintptr_t)bucketBlock + hash_curr_offset) << endl;
+    // cout << (void*)*(long*)((uintptr_t)bucketBlock + hash_curr_end_offset) << endl;
+    bucketBlock = (void*)((uintptr_t)bucketBlock + hashed_size);  // increment the pointer
+  }
+
+  // void* dataCurr = (void*)*(long*)((uintptr_t)dbPrimaryPtr + data_curr_offset);
+
+  // did we not finish this function?
 }
 
 void Database::printDBPrimary() {
@@ -654,6 +720,11 @@ void Database::addFixedToTable(void* primaryKey, void* bufferToWrite, int record
       return;
     }
     addOrderedToTableFixed(bufferToWrite, primaryKey, recordSize, dbPrimaryPtr, insertionPoint);
+  } else if (method == HASHED) {
+    cout << "insert(): insert hashed" << endl;
+    // TODO: check for primary key
+    // TODO: free the primary key
+    addHashedToTable(bufferToWrite, recordSize, primaryKey, dbPrimaryPtr);
   }
 
   free(primaryKey);
@@ -707,6 +778,26 @@ void Database::addUnorderedToTable(void* bufferToWrite, int recordSize, void*& d
   *(long*)((uintptr_t)dbPrimaryPtr + data_curr_offset) = (uintptr_t)dataCurr + recordSize;
   // increment number of dataRecords
   *(int*)((uintptr_t)dbPrimaryPtr + data_record_count_offset) = dataRecordCount + 1;
+}
+
+void Database::addUnorderedToTableHashed(void* bufferToWrite, int recordSize, void*& bucketPtr) {
+  // cout << "addUnorderedToTableHashed(): got here" << endl;
+  // cout << "addUnorderedToTableHashed() : bucketPtr " << bucketPtr << endl;
+  // cout << *(long*)((uintptr_t)bucketPtr) << endl;
+  // cout << *(long*)((uintptr_t)bucketPtr + hash_curr_offset) << endl;
+  // cout << *(long*)((uintptr_t)bucketPtr + hash_curr_end_offset) << endl;
+  checkSpaceAddDataHashed(recordSize, bucketPtr);
+  // cout << "addUnorderedToTableHashed(): got here 2" << endl;
+  void* dataCurr = (void*)*(long*)((uintptr_t)bucketPtr + hash_curr_offset);
+  int dataRecordCount = *(int*)((uintptr_t)bucketPtr + hash_record_count_offset);
+
+  // copy into correct place
+  memcpy(dataCurr, bufferToWrite, recordSize);
+
+  // increment dataCurr (write head)
+  *(long*)((uintptr_t)bucketPtr + hash_curr_offset) = (uintptr_t)dataCurr + recordSize;
+  // increment number of dataRecords
+  *(int*)((uintptr_t)bucketPtr + hash_record_count_offset) = dataRecordCount + 1;
 }
 
 // maybe this is what's broken
@@ -829,6 +920,29 @@ void Database::addOrderedToTableVariable(void* bufferToWrite, void* primaryKey, 
   }
 
   freeDataTable(dataRoot, dataCurrBlockCount);
+}
+
+void Database::addHashedToTable(void* bufferToWrite, int recordSize, void* primaryKey, void*& dbPrimaryPtr) {
+  void* dbAttrPtr = (void*)*(long*)((uintptr_t)dbPrimaryPtr + db_primary_db_attr_offset);
+  int numDbAttr = *(int*)((uintptr_t)dbPrimaryPtr + db_primary_num_db_attr_offset);
+  int primaryKeyNumber = *(int*)((uintptr_t)dbPrimaryPtr + primary_key_offset);
+  dataType type = getPrimaryKeyType(dbAttrPtr, numDbAttr, primaryKeyNumber);
+  int pkLength = getPrimaryKeyLength(dbAttrPtr, numDbAttr, primaryKeyNumber);
+  int bucket = getBucketNumber(primaryKey, pkLength, type);
+  // cout << "bucket #" << bucket << endl;
+
+  void* dataRoot = (void*)*(long*)((uintptr_t)dbPrimaryPtr + data_root_offset);  // go to root of hash table
+  // cout << "dataRoot " << dataRoot << endl;
+  /// is this guy right? I think so
+  void* bucketPtr = (void*)((uintptr_t)dataRoot + (bucket * hashed_size));  // increment to the right bucket
+  // now we could just treat that as a regular unordered insert of sorts
+  // cout << "bucketPtr " << bucketPtr << endl;
+  // cout << "addHashedToTable: got here" << endl;
+
+  // cout << *(long*)((uintptr_t)bucketPtr) << endl;
+  // cout << *(long*)((uintptr_t)bucketPtr + hash_curr_offset) << endl;
+  // cout << *(long*)((uintptr_t)bucketPtr + hash_curr_end_offset) << endl;
+  addUnorderedToTableHashed(bufferToWrite, recordSize, bucketPtr);
 }
 
 // primary key can be modified to be a search for a certain attribute?
@@ -1229,7 +1343,7 @@ void* Database::findPrimaryKeyVariable(void* dbPrimaryPtr, void* pkToFind) {
 }
 
 void Database::printTable(char* table_name) {
-  printDBPrimary();
+  // printDBPrimary();
   // just do a select all from table? maybe do a select helper
   void* record = retrieveDBPrimaryRecord(table_name);
 
@@ -1338,6 +1452,129 @@ void Database::printTable(char* table_name) {
       }
     }
     if (variable) ((char*&)dataRead)++;
+  }
+}
+
+void Database::printTableHashed(char* table_name) {
+  // printDBPrimary();
+  // just do a select all from table? maybe do a select helper
+  void* record = retrieveDBPrimaryRecord(table_name);
+
+  void* dbAttrRecord = (void*)*(long*)((uintptr_t)record + db_primary_db_attr_offset);
+  int numAttr = *(int*)((uintptr_t)record + db_primary_num_db_attr_offset);
+  int primaryKeyNumber = *(int*)((uintptr_t)record + primary_key_offset);
+  void* dataRoot = (void*)*(long*)((uintptr_t)record + data_root_offset);
+  int dataCurrRecordCount = *(int*)((uintptr_t)record + data_record_count_offset);
+
+  // print out all of the attributes
+  bool variable = false;  // useful to know I guess... how are we going to do variable records? special ending for a varchar and special ending for a record?
+  dataType attrTypes[numAttr];
+  void* attrRecords[numAttr];  // pointer to each attribute
+  void* readDBAttr = dbAttrRecord;
+  void* readDBAttrEnd = findEndOfBlock(dbAttrRecord);
+
+  // print out the headers
+  for (int i = 0; i < numAttr; i++) {
+    checkSpaceSearch(db_attr_record_size, readDBAttr, readDBAttrEnd);
+
+    attrRecords[i] = readDBAttr;
+
+    char attrName[TABLE_NAME_SIZE];
+    strncpy(attrName, (char*)attrRecords[i], TABLE_NAME_SIZE);
+
+    dataType type = *(dataType*)((uintptr_t)attrRecords[i] + attr_type_offset);
+    attrTypes[i] = type;
+    if (type == VARCHAR) {
+      variable = true;
+    }
+
+    cout << attrName;
+    if (i == primaryKeyNumber) {
+      cout << "*";
+    }
+    if (i == numAttr - 1) {
+      cout << endl;
+    } else {
+      cout << " | ";
+    }
+
+    // the next is our next record
+    readDBAttr = (void*)((uintptr_t)readDBAttr + db_attr_record_size);
+  }
+
+  // set up read heads
+
+  int fixedLength = -1;
+  if (!variable) {
+    fixedLength = calculateMaxDataRecordSize(attrRecords[0], numAttr);  // hopefully that works!
+  }
+
+  // for each of the hash buckets
+  void* bucketBlock = (void*)*(long*)((uintptr_t)record + data_root_offset);
+
+  for (int k = 0; k < num_hash_buckets; k++) {
+    void* dataRead = (void*)(*(long*)bucketBlock);  // data root
+    void* dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
+    int recordsInBlock = *(int*)((uintptr_t)bucketBlock + hash_record_count_offset);
+
+    // we just need the attribute types so we know what to cast it into
+    for (int i = 0; i < recordsInBlock; i++) {
+      checkSpaceSearch(fixedLength, dataRead, dataReadEnd);
+
+      // cout << "dataReadHead 2: " << dataRead << endl;
+      for (int j = 0; j < numAttr; j++) {
+        dataType type = attrTypes[j];
+        if (type == VARCHAR) {
+          // get max, set up a buffer
+          int buffSize = *(int*)((uintptr_t)attrRecords[j] + attr_length_offset);
+          char buff[buffSize];
+          memset(buff, '\0', buffSize);
+
+          // copy
+          // go character by character
+          for (int k = 0; k < buffSize; k++) {
+            char a = *(char*)dataRead;
+            ((char*&)dataRead)++;  // move on to next byte regardless
+            if (a == END_FIELD_CHAR) {
+              break;
+            }
+            buff[k] = a;
+          }
+          // cout
+          cout << buff;
+
+        } else if (type == CHAR) {
+          // get char length, set up a buffer
+          int buffSize = *(int*)((uintptr_t)attrRecords[j] + attr_length_offset);
+          char buff[buffSize];
+          memset(buff, '\0', buffSize);
+
+          // copy
+          strncpy(buff, (char*)dataRead, buffSize);
+          // cout
+          cout << buff;
+          ((char*&)dataRead) += buffSize;
+
+        } else if (type == SMALLINT) {
+          cout << *(short*)dataRead;
+          ((short*&)dataRead)++;
+        } else if (type == INTEGER) {
+          cout << *(int*)dataRead;
+          ((int*&)dataRead)++;
+        } else if (type == REAL) {
+          cout << *(float*)dataRead;
+          ((float*&)dataRead)++;
+        }
+        if (j == numAttr - 1) {
+          cout << endl;
+        } else {
+          cout << " | ";
+        }
+      }
+      if (variable) ((char*&)dataRead)++;
+    }
+
+    bucketBlock = (void*)((uintptr_t)bucketBlock + hashed_size);
   }
 }
 
@@ -1890,6 +2127,27 @@ dataType Database::getDataType(char* type) {
   return INVALID;
 }
 
+// TODO: test
+int Database::getBucketNumber(void* pk, int pkLength, dataType pkType) {
+  int hashCode = -1;
+  if (pkType == VARCHAR || pkType == CHAR) {
+    char buffer[pkLength];
+    strncpy(buffer, (char*)pk, pkLength);
+    // taken from https://stackoverflow.com/questions/2624192/good-hash-function-for-strings
+    hashCode = 7;
+    for (int i = 0; i < pkLength; i++) {
+      hashCode = hashCode * 31 + buffer[i];
+    }
+  } else if (pkType == SMALLINT) {
+    hashCode = (*(short*)pk * 100) % num_hash_buckets;
+  } else if (pkType == INTEGER) {
+    hashCode = (*(int*)pk * 100) % num_hash_buckets;
+  } else if (pkType == REAL) {
+    hashCode = ((int)*(float*)pk * 100) % num_hash_buckets;
+  }
+  return hashCode;
+}
+
 int Database::getN(char* str) {
   // we can find the opening ( and closing ) and then return between the two
   char* open = strstr(str, "(");
@@ -1904,6 +2162,31 @@ int Database::getN(char* str) {
     open++;
   }
   return atoi(toInt);
+}
+
+dataType Database::getPrimaryKeyType(void* dbAttributes, int numAttributes, int primaryKeyNum) {
+  void* readDbAttr = dbAttributes;
+  void* readDbAttrEnd = findEndOfBlock(readDbAttr);
+  for (int i = 0; i < numAttributes; i++) {
+    checkSpaceSearch(db_attr_record_size, readDbAttr, readDbAttrEnd);
+    if (i == primaryKeyNum) {
+      return *(dataType*)((uintptr_t)readDbAttr + attr_type_offset);
+    }
+  }
+  return INVALID;
+}
+
+// TODO: test
+int Database::getPrimaryKeyLength(void* dbAttributes, int numAttributes, int primaryKeyNum) {
+  void* readDbAttr = dbAttributes;
+  void* readDbAttrEnd = findEndOfBlock(readDbAttr);
+  for (int i = 0; i < numAttributes; i++) {
+    checkSpaceSearch(db_attr_record_size, readDbAttr, readDbAttrEnd);
+    if (i == primaryKeyNum) {
+      return *(int*)((uintptr_t)readDbAttr + attr_length_offset);
+    }
+  }
+  return -2;
 }
 
 int Database::calculateMaxDataRecordSize(void* ptrToFirstAttribute, int numberOfAttributes) {
