@@ -766,8 +766,8 @@ TEST_F(DatabaseTestUnordered, InsertIntoTableFixedLoadTest) {
   strcpy(movies, "movies");
   void* record = db->retrieveDBPrimaryRecord(movies);
 
-  EXPECT_EQ(*(int*)((uintptr_t)record + db->data_block_count_offset), 3);
-  EXPECT_EQ(*(int*)((uintptr_t)record + db->data_record_count_offset), 26);
+  EXPECT_EQ(*(int*)((uintptr_t)record + db->data_block_count_offset), 2);
+  EXPECT_EQ(*(int*)((uintptr_t)record + db->data_record_count_offset), 24);
 }
 
 TEST_F(DatabaseTestUnordered, InsertIntoTableVariable) {

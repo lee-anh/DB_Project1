@@ -1130,11 +1130,14 @@ void* Database::findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind) {
   void* dataRoot = (void*)*(long*)((uintptr_t)dbPrimaryPtr + data_root_offset);
 
   int dataCurrRecordCount = *(int*)((uintptr_t)dbPrimaryPtr + data_record_count_offset);
-
+  // cout << "dataCurrRecordCount " << dataCurrRecordCount << endl;
   void* dataRead = dataRoot;
   void* dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
   void* dataReadNext = dataRoot;
   void* dataReadNextEnd = dataReadEnd;
+
+  void* toReturn = nullptr;
+  //  bool foundInsertionPoint = false;
   // checkSpaceSearch(fixedSize, dataReadNext, dataReadNextEnd);  // no harm done if there's only one record here?
   dataReadNext = (void*)((intptr_t)dataReadNext + fixedSize);
   for (int i = 0; i < dataCurrRecordCount; i++) {
@@ -1149,26 +1152,27 @@ void* Database::findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind) {
         if (strncmp((char*)pkToFind, (char*)pk, pkSize) == 0) {
           return dataRead;
         } else if (strncmp((char*)pkToFind, (char*)pk, pkSize) < 0) {
-          return (void*)(-1 * (uintptr_t)dataRead);  // flip the bits for the insertion point
+          toReturn = (void*)(-1 * (uintptr_t)dataRead);  // flip the bits for the insertion point
         }
 
       } else if (pkType == SMALLINT) {
         if (*(short*)pkToFind == *(short*)pk) {
           return dataRead;
         } else if ((*(short*)pkToFind < *(short*)pk)) {
-          return (void*)(-1 * (uintptr_t)dataRead);  // flip the bits for the insertion point
+          toReturn = (void*)(-1 * (uintptr_t)dataRead);  // flip the bits for the insertion point
         }
       } else if (pkType == INTEGER) {
+        // cout << "pkToFind: " << *(int*)pkToFind << " pk: " << *(int*)pk << endl;
         if (*(int*)pkToFind == *(int*)pk) {
           return dataRead;
         } else if ((*(int*)pkToFind < *(int*)pk)) {
-          return (void*)(-1 * (uintptr_t)dataRead);  // flip the bits for the insertion point
+          toReturn = (void*)(-1 * (uintptr_t)dataRead);  // flip the bits for the insertion point
         }
       } else if (pkType == REAL) {
         if (*(float*)pkToFind == *(float*)pk) {
           return dataRead;
         } else if ((*(float*)pkToFind < *(float*)pk)) {
-          return (void*)(-1 * (uintptr_t)dataRead);  // flip the bits for the insertion point
+          toReturn = (void*)(-1 * (uintptr_t)dataRead);  // flip the bits for the insertion point
         }
       }
     }
@@ -1178,26 +1182,27 @@ void* Database::findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind) {
         if (strncmp((char*)pkToFind, (char*)pk, pkSize) == 0) {
           return dataRead;
         } else if (strncmp((char*)pkToFind, (char*)pk, pkSize) > 0 && strncmp((char*)pkToFind, (char*)pkNext, pkSize) < 0) {
-          return (void*)(-1 * (uintptr_t)dataReadNext);  // flip the bits for the insertion point
+          toReturn = (void*)(-1 * (uintptr_t)dataReadNext);  // flip the bits for the insertion point
         }
 
       } else if (pkType == SMALLINT) {
         if (*(short*)pkToFind == *(short*)pk) {
           return dataRead;
         } else if ((*(short*)pkToFind > *(short*)pk) && (*(short*)pkToFind < *(short*)pkNext)) {
-          return (void*)(-1 * (uintptr_t)dataReadNext);  // flip the bits for the insertion point
+          toReturn = (void*)(-1 * (uintptr_t)dataReadNext);  // flip the bits for the insertion point
         }
       } else if (pkType == INTEGER) {
+        // cout << "pkToFind: " << *(int*)pkToFind << " pk: " << *(int*)pk << endl;
         if (*(int*)pkToFind == *(int*)pk) {
           return dataRead;
         } else if ((*(int*)pkToFind > *(int*)pk) && (*(int*)pkToFind < *(int*)pkNext)) {
-          return (void*)(-1 * (uintptr_t)dataReadNext);  // flip the bits for the insertion point
+          toReturn = (void*)(-1 * (uintptr_t)dataReadNext);  // flip the bits for the insertion point
         }
       } else if (pkType == REAL) {
         if (*(float*)pkToFind == *(float*)pk) {
           return dataRead;
         } else if ((*(float*)pkToFind > *(float*)pk) && (*(float*)pkToFind < *(float*)pkNext)) {
-          return (void*)(-1 * (uintptr_t)dataReadNext);  // flip the bits for the insertion point
+          toReturn = (void*)(-1 * (uintptr_t)dataReadNext);  // flip the bits for the insertion point
         }
       }
     }
@@ -1206,34 +1211,37 @@ void* Database::findPrimaryKeyFixed(void* dbPrimaryPtr, void* pkToFind) {
         if (strncmp((char*)pk, (char*)pkToFind, pkSize) == 0) {
           return dataRead;
         } else if (strncmp((char*)pk, (char*)pkToFind, pkSize) < 0) {
-          return (void*)(-1 * (uintptr_t)dataReadNext);  // flip the bits for the insertion point
+          toReturn = (void*)(-1 * (uintptr_t)dataReadNext);  // flip the bits for the insertion point
         }
 
       } else if (pkType == SMALLINT) {
         if (*(short*)pkToFind == *(short*)pk) {
           return dataRead;
         } else if (*(short*)pkToFind > *(short*)pk) {
-          return (void*)(-1 * (uintptr_t)dataReadNext);  // flip the bits for the insertion point
+          toReturn = (void*)(-1 * (uintptr_t)dataReadNext);  // flip the bits for the insertion point
         }
       } else if (pkType == INTEGER) {
+        // cout << "pkToFind: " << *(int*)pkToFind << " pk: " << *(int*)pk << endl;
         if (*(int*)pkToFind == *(int*)pk) {
           return dataRead;
         } else if (*(int*)pkToFind > *(int*)pk) {
-          return (void*)(-1 * (uintptr_t)dataReadNext);  // flip the bits for the insertion point
+          toReturn = (void*)(-1 * (uintptr_t)dataReadNext);  // flip the bits for the insertion point
         }
       } else if (pkType == REAL) {
         if (*(float*)pkToFind == *(float*)pk) {
           return dataRead;
         } else if (*(float*)pkToFind > *(float*)pk) {
-          return (void*)(-1 * (uintptr_t)dataReadNext);  // flip the bits for the insertion point
+          toReturn = (void*)(-1 * (uintptr_t)dataReadNext);  // flip the bits for the insertion point
         }
       }
+      // cout << "got here?!" << endl;
     }
     // increment to the next record
     dataRead = (void*)((intptr_t)dataRead + fixedSize);
     dataReadNext = (void*)((intptr_t)dataReadNext + fixedSize);
   }
-  return nullptr;  // empty insert
+  return toReturn;
+  // return nullptr;  // empty insert
 }
 
 /// @brief find the record with the given primary key for fixed records when hashing is used

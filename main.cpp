@@ -124,7 +124,7 @@ int main(int argc, char* argv[]) {
     db1->insert("movies", 3, 287, "Solo", 3.0);
     db1->insert("movies", 3, 278, "Captain America", 4.2);
     db1->insert("movies", 3, 280, "Iron Man", 3.0);
-    db1->insert("movies", 3, 273, "Thor", 4.2);
+    db1->insert("movies", 3, 272, "Thor", 4.2);
     db1->insert("movies", 3, 284, "Antman", 3.0);
 
     db1->select("movies", 1, "title, rating");

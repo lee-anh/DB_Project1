@@ -1,3 +1,1 @@
-44:DatabaseTestHashed.UpdateFixedNotEqual
-45:DatabaseTestHashed.UpdateFixedGreaterThan
-46:DatabaseTestHashed.UpdateFixedGreaterThanOrEqualTo
+32:DatabaseTestUnordered.InsertIntoTableFixedLoadTest
