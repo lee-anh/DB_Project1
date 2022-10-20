@@ -1,2 +1,3 @@
-28:DatabaseTest.UpdateVariableLessThan
-29:DatabaseTest.UpdateVariableLessThanOrEqualTo
+44:DatabaseTestHashed.UpdateFixedNotEqual
+45:DatabaseTestHashed.UpdateFixedGreaterThan
+46:DatabaseTestHashed.UpdateFixedGreaterThanOrEqualTo

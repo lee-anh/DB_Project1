@@ -53,6 +53,9 @@ class Database {
   /// @param  attributes to print out given a condition
   void select(const char* table_name, int length, ...);
 
+  /// @brief free all the allocated memory associated with the database
+  void closeDB();
+
   /*********ideally would make everything below this private, but exposing it for the sake of testing **********/
   // instance variables
   insertionMethod method;
@@ -416,8 +419,6 @@ class Database {
   /// @param dataRoot
   /// @param dataCurrBlockCount
   void freeDataTable(void* dataRoot, int dataCurrBlockCount);
-
-  // TODO: free everyone
 };
 
 #endif

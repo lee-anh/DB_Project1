@@ -398,6 +398,35 @@ void Database::select(const char* table_name, int length, ...) {
   va_end(arg_list);
 }
 
+/// @brief free all the allocated memory associated with the database
+void Database::closeDB() {
+  // free all the tables
+  void* dbPrimaryPtr = db_primary;
+  for (int i = 0; i < db_primary_records; i++) {
+    void* dataRoot = (void*)*(long*)((uintptr_t)dbPrimaryPtr + data_root_offset);
+    int dataCurrBlockCount = *(int*)((uintptr_t)dbPrimaryPtr + data_block_count_offset);
+
+    if (method == HASHED) {
+      void* temp = dataRoot;  // ptr to first bucket
+      for (int j = 0; j < num_hash_buckets; j++) {
+        void* bucketRoot = (void*)*(long*)((uintptr_t)temp);
+        int bucketBlockCount = *(int*)((uintptr_t)temp + hash_block_count_offset);
+
+        freeDataTable(bucketRoot, bucketBlockCount);
+        temp = (void*)((uintptr_t)temp + hashed_size);
+      }
+    }
+
+    freeDataTable(dataRoot, dataCurrBlockCount);
+
+    dbPrimaryPtr = (void*)((uintptr_t)dbPrimaryPtr + db_primary_record_size);
+  }
+  // free all the db primary
+  freeDataTable(db_primary, db_primary_blocks);
+  freeDataTable(db_attr, db_attr_blocks);
+  exit(0);
+  // free all the dbAttr
+}
 /// @brief initialize db_primary and db_attr blocks
 void Database::initializeDB() {
   initializeNewBlock(db_primary, db_primary_curr, db_primary_curr_end, db_primary_blocks);
@@ -1249,7 +1278,6 @@ bool Database::findPrimaryKeyHashedFixed(void* dbPrimaryPtr, void* pkToFind) {
 
   int fixedSize = calculateMaxDataRecordSize(dbAttrPtr, numDbAttr);
   void* dataRoot = (void*)*(long*)((uintptr_t)bucketBlock);
-
   int dataCurrRecordCount = *(int*)((uintptr_t)bucketBlock + hash_record_count_offset);
   void* dataRead = dataRoot;
   void* dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
@@ -1547,8 +1575,8 @@ bool Database::findPrimaryKeyHashedVariable(void* dbPrimaryPtr, void* pkToFind) 
   void* dbAttrRecord = (void*)*(long*)((uintptr_t)dbPrimaryPtr + db_primary_db_attr_offset);
   int numAttr = *(int*)((uintptr_t)dbPrimaryPtr + db_primary_num_db_attr_offset);
   int primaryKeyNumber = *(int*)((uintptr_t)dbPrimaryPtr + primary_key_offset);
-  void* dataRoot = (void*)*(long*)((uintptr_t)dbPrimaryPtr + data_root_offset);
-  int dataCurrRecordCount = *(int*)((uintptr_t)dbPrimaryPtr + data_record_count_offset);
+  // void* dataRoot = (void*)*(long*)((uintptr_t)dbPrimaryPtr + data_root_offset);
+  // int dataCurrRecordCount = *(int*)((uintptr_t)dbPrimaryPtr + data_record_count_offset);
 
   dataType attrTypes[numAttr];
   void* attrRecords[numAttr];  // pointer to each attribute
@@ -1578,7 +1606,7 @@ bool Database::findPrimaryKeyHashedVariable(void* dbPrimaryPtr, void* pkToFind) 
   bucketBlock = (void*)((uintptr_t)bucketBlock + (bucket * hashed_size));  // get to the right bucket
   int recordsInBlock = *(int*)((uintptr_t)bucketBlock + hash_record_count_offset);
   // cout << "the right bucket: " << bucketBlock << endl;
-  cout << "bucket: " << bucket << endl;
+  // cout << "bucket: " << bucket << endl;
 
   // set up read heads
   void* dataRead = (void*)*(long*)bucketBlock;
@@ -1587,7 +1615,7 @@ bool Database::findPrimaryKeyHashedVariable(void* dbPrimaryPtr, void* pkToFind) 
   // we just need the attribute types so we know what to cast it into
   for (int i = 0; i < recordsInBlock; i++) {
     checkSpaceSearch(-1, dataRead, dataReadEnd);
-    void* recordBegin = dataRead;
+    //  void* recordBegin = dataRead;
 
     for (int j = 0; j < numAttr; j++) {
       dataType type = attrTypes[j];
@@ -1633,7 +1661,6 @@ bool Database::findPrimaryKeyHashedVariable(void* dbPrimaryPtr, void* pkToFind) 
         }
       } else if (type == INTEGER) {
         if (j == primaryKeyNumber) {
-          cout << "primary key: " << *(int*)dataRead << endl;
           if (*(int*)pkToFind == *(int*)dataRead) return true;
         }
         ((int*&)dataRead)++;
@@ -1652,8 +1679,10 @@ bool Database::findPrimaryKeyHashedVariable(void* dbPrimaryPtr, void* pkToFind) 
 /// @brief print the contents of a table
 /// @param table_name
 void Database::printTable(char* table_name) {
+  cout << endl;
   if (method == HASHED) {
     printTableHashed(table_name);
+    cout << endl;
     return;
   }
   // printDBPrimary();
@@ -1672,8 +1701,9 @@ void Database::printTable(char* table_name) {
   void* attrRecords[numAttr];  // pointer to each attribute
   void* readDBAttr = dbAttrRecord;
   void* readDBAttrEnd = findEndOfBlock(dbAttrRecord);
-
+  cout << table_name << " system dump: " << endl;
   // print out the headers
+  cout << "record address | ";
   for (int i = 0; i < numAttr; i++) {
     checkSpaceSearch(db_attr_record_size, readDBAttr, readDBAttrEnd);
 
@@ -1713,7 +1743,7 @@ void Database::printTable(char* table_name) {
   // we just need the attribute types so we know what to cast it into
   for (int i = 0; i < dataCurrRecordCount; i++) {
     checkSpaceSearch(fixedLength, dataRead, dataReadEnd);
-
+    cout << dataRead << " | ";
     // cout << "dataReadHead 2: " << dataRead << endl;
     for (int j = 0; j < numAttr; j++) {
       dataType type = attrTypes[j];
@@ -1766,20 +1796,19 @@ void Database::printTable(char* table_name) {
     }
     if (variable) ((char*&)dataRead)++;
   }
+  cout << endl;
 }
 
 /// @brief print the contents of a hashed table
 /// @param table_name
 void Database::printTableHashed(char* table_name) {
-  // printDBPrimary();
-  // just do a select all from table? maybe do a select helper
   void* record = retrieveDBPrimaryRecord(table_name);
 
   void* dbAttrRecord = (void*)*(long*)((uintptr_t)record + db_primary_db_attr_offset);
   int numAttr = *(int*)((uintptr_t)record + db_primary_num_db_attr_offset);
   int primaryKeyNumber = *(int*)((uintptr_t)record + primary_key_offset);
-  void* dataRoot = (void*)*(long*)((uintptr_t)record + data_root_offset);
-  int dataCurrRecordCount = *(int*)((uintptr_t)record + data_record_count_offset);
+  // void* dataRoot = (void*)*(long*)((uintptr_t)record + data_root_offset);
+  // int dataCurrRecordCount = *(int*)((uintptr_t)record + data_record_count_offset);
 
   // print out all of the attributes
   bool variable = false;  // useful to know I guess... how are we going to do variable records? special ending for a varchar and special ending for a record?
@@ -1831,7 +1860,7 @@ void Database::printTableHashed(char* table_name) {
     void* dataRead = (void*)(*(long*)bucketBlock);  // data root
     void* dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
     int recordsInBlock = *(int*)((uintptr_t)bucketBlock + hash_record_count_offset);
-
+    cout << bucketBlock << " | bucket number: " << k << " | numRecords: " << recordsInBlock << endl;
     // we just need the attribute types so we know what to cast it into
     for (int i = 0; i < recordsInBlock; i++) {
       checkSpaceSearch(fixedLength, dataRead, dataReadEnd);
@@ -2058,8 +2087,8 @@ void Database::printTableGivenHashed(char* table_name, vector<char*> fieldsToPri
   void* dbAttrRecord = (void*)*(long*)((uintptr_t)record + db_primary_db_attr_offset);
   int numAttr = *(int*)((uintptr_t)record + db_primary_num_db_attr_offset);
   int primaryKeyNumber = *(int*)((uintptr_t)record + primary_key_offset);
-  void* dataRoot = (void*)*(long*)((uintptr_t)record + data_root_offset);
-  int dataCurrRecordCount = *(int*)((uintptr_t)record + data_record_count_offset);
+  // void* dataRoot = (void*)*(long*)((uintptr_t)record + data_root_offset);
+  // int dataCurrRecordCount = *(int*)((uintptr_t)record + data_record_count_offset);
 
   // print out all of the attributes
   bool variable = false;
@@ -2422,8 +2451,8 @@ int Database::updateTableGivenHashed(char* table_name, char* attrToUpdate, char*
   void* record = retrieveDBPrimaryRecord(table_name);
   void* dbAttrRecord = (void*)*(long*)((uintptr_t)record + db_primary_db_attr_offset);
   int numAttr = *(int*)((uintptr_t)record + db_primary_num_db_attr_offset);
-  void* dataRoot = (void*)*(long*)((uintptr_t)record + data_root_offset);
-  int dataCurrRecordCount = *(int*)((uintptr_t)record + data_record_count_offset);
+  // void* dataRoot = (void*)*(long*)((uintptr_t)record + data_root_offset);
+  // int dataCurrRecordCount = *(int*)((uintptr_t)record + data_record_count_offset);
 
   // print out all of the attributes
   bool variable = false;
@@ -2522,7 +2551,7 @@ int Database::updateTableGivenHashed(char* table_name, char* attrToUpdate, char*
         } else if (type == INTEGER) {
           if (j == special) {
             isTarget[i] = compare(target, comparator, dataRead, -1, INTEGER);
-            cout << "res: " << *(int*)dataRead << " ";
+            // cout << "res: " << *(int*)dataRead << " ";
           }
           ((int*&)dataRead)++;
         } else if (type == REAL) {
@@ -2533,7 +2562,7 @@ int Database::updateTableGivenHashed(char* table_name, char* attrToUpdate, char*
       if (isTarget[i]) numUpdate++;
       if (variable) ((char*&)dataRead)++;
 
-      cout << "target " << isTarget[i] << endl;
+      // cout << "target " << isTarget[i] << endl;
       // cout << endl;
     }
 
@@ -2647,7 +2676,12 @@ int Database::updateTest(const char* table_name, int length, ...) {
   cout << "comparator " << comparator << endl;
   cout << "target " << target << endl;
   */
-  int numUpdated = updateTableGiven((char*)table_name, attrToUpdate, value, attrName, comparator, target);
+  int numUpdated = 0;
+  if (method == HASHED) {
+    numUpdated = updateTableGivenHashed((char*)table_name, attrToUpdate, value, attrName, comparator, target);
+  } else {
+    numUpdated = updateTableGiven((char*)table_name, attrToUpdate, value, attrName, comparator, target);
+  }
 
   cout << " WHERE " << sentence;
 
@@ -2767,7 +2801,6 @@ void Database::updateTableGivenVariableHelper(void*& record, int numAttr, void* 
   }
 }
 
-// TODO: fix
 /// @brief helper to updateTableGivenHashed, changes variable records
 /// @param bucketBlock the bucket number to update
 /// @param numAttr number of attributes associated with record
@@ -2781,6 +2814,7 @@ void Database::updateTableGivenVariableHelper(void*& record, int numAttr, void* 
 void Database::updateTableGivenVariableHelperHashed(void*& bucketBlock, int numAttr, void* attrRecords[], bool isTarget[], dataType attrTypes[], int fixedLength, int recordsInBlock, int toUpdate, char* value) {
   // get each bucket ready to accept records
   void* oldBucketRoot = (void*)(*(long*)bucketBlock);  // keep track of the old bucket
+  int oldNumBlocks = *(int*)((uintptr_t)bucketBlock + hash_block_count_offset);
   // cout << "bucketBlock " << bucketBlock << endl;
   // we only have to do this for one bucket
   void* dataRoot = NULL;
@@ -2876,11 +2910,9 @@ void Database::updateTableGivenVariableHelperHashed(void*& bucketBlock, int numA
     int actualRecordSize = (uintptr_t)bufferPtr - (uintptr_t)bufferToSend;
 
     addUnorderedToTableHashed(bufferToSend, actualRecordSize, bucketBlock);
-
-    //  cout << "after add" << endl;
-    //  printTable(table_name);
-    //  TODO: free the old tables
   }
+
+  freeDataTable(oldBucketRoot, oldNumBlocks);
 }
 
 /// @brief get the data type given a string describing the type

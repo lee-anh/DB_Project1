@@ -5,7 +5,9 @@ OBJS = main.o Database.o
 
 all: $(OBJS)
 	$(CC) $(CFLAGS) -o p1 *.o 
-	./p1
+	./p1 1
+	./p1 2 
+	./p1 3
 
 test: 
 	cmake -S . -B build

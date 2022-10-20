@@ -46,8 +46,8 @@ class DatabaseTest : public testing::Test {
     db->insert("movies", 3, 287, "Solo", 3.0);
     db->insert("movies", 3, 278, "Captain America", 4.2);
     db->insert("movies", 3, 280, "Iron Man", 3.0);
-    db->insert("movies", 3, 272, "Thor", 4.2);
-    db->insert("movies", 3, 283, "Antman", 3.0);
+    db->insert("movies", 3, 273, "Thor", 4.2);    // duplicate primary key
+    db->insert("movies", 3, 284, "Antman", 3.0);  // duplicate primary key
   };
 
   void createSomeCritics() {
@@ -134,6 +134,111 @@ class DatabaseTestOrdered : public testing::Test {
 
   // Declares the variables your tests want to use.
   Database* db = new Database(ORDERED);
+};
+
+class DatabaseTestHashed : public testing::Test {
+ protected:  // You should make the members protected s.t. they can be
+             // accessed from sub-classes.
+  // virtual void SetUp() will be called before each test is run.  You
+  // should define it if you need to initialize the variables.
+  // Otherwise, this can be skipped.
+  void SetUp() override {
+  }
+
+  // Declares the variables your tests want to use.
+  Database* db = new Database(HASHED);
+  void createSomeMovies() {
+    db->create_table("movies", "id", 6,
+                     "id", "integer",
+                     "title", "char(32)",
+                     "rating", "real");
+
+    db->insert("movies", 3, 27, "Star Wars", 4.2);
+    db->insert("movies", 3, 28, "Rouge One", 3.0);
+    db->insert("movies", 3, 25, "The Last Starfighter", 3.0);
+    db->insert("movies", 3, 26, "Princess Diaries", 5.0);
+    db->insert("movies", 3, 127, "Frozen", 4.2);
+    db->insert("movies", 3, 228, "Big Hero 6", 3.0);
+    db->insert("movies", 3, 237, "Cars", 4.2);
+    db->insert("movies", 3, 248, "Cars 2", 3.0);
+    db->insert("movies", 3, 257, "Toy Story", 4.2);
+    db->insert("movies", 3, 268, "Tarzan", 3.0);
+    db->insert("movies", 3, 277, "Little Shop of Horrors", 4.2);
+    db->insert("movies", 3, 288, "Cinderella", 3.0);
+    db->insert("movies", 3, 297, "Sleeping Beauty", 4.2);
+    db->insert("movies", 3, 208, "Tangled", 3.0);
+    db->insert("movies", 3, 217, "Honey I Shrunk the Kids", 4.2);
+    db->insert("movies", 3, 281, "Back to the Future", 3.0);
+    db->insert("movies", 3, 272, "Father of the Bride", 4.2);
+    db->insert("movies", 3, 283, "Cheaper by the Dozen", 3.0);
+    db->insert("movies", 3, 274, "Avengers", 4.2);
+    db->insert("movies", 3, 285, "Joy Luck Club", 3.0);
+    db->insert("movies", 3, 276, "Crazy Rich Asians", 4.2);
+    db->insert("movies", 3, 287, "Solo", 3.0);
+    db->insert("movies", 3, 278, "Captain America", 4.2);
+    db->insert("movies", 3, 280, "Iron Man", 3.0);
+    db->insert("movies", 3, 272, "Thor", 4.2);    // duplicate primary key
+    db->insert("movies", 3, 283, "Antman", 3.0);  // duplicate primary key
+  };
+
+  void createSomeCritics() {
+    db->create_table("critics", "id", 6,
+                     "id", "integer",
+                     "fname", "varchar(32)",
+                     "lname", "varchar(32)");
+
+    db->insert("critics", 3, 123, "Mario", "Bros");
+    db->insert("critics", 3, 100, "Princess", "Peach");
+    db->insert("critics", 3, 125, "Luigi", "Bros");
+    db->insert("critics", 3, 124, "Toad", "Mushroom");
+    db->insert("critics", 3, 145, "Donkey", "Kong");
+    db->insert("critics", 3, 180, "Bowser", "Monster");
+    db->insert("critics", 3, 5, "Boo", "Ghost");
+    db->insert("critics", 3, 113, "Princess", "Daisy");
+    db->insert("critics", 3, 114, "Princess", "Zelda");
+    db->insert("critics", 3, 115, "Princess", "Rosalina");
+    db->insert("critics", 3, 116, "Evil", "Waluigi");
+    db->insert("critics", 3, 117, "Toadette", "Mushroom");
+    db->insert("critics", 3, 118, "Evil", "Wario");
+    db->insert("critics", 3, 1100, "Goomba", "Fiend");
+    db->insert("critics", 3, 1125, "Koopa", "Troopa");
+    db->insert("critics", 3, 1124, "Shy", "Guy");
+    db->insert("critics", 3, 1145, "Yoshi", "Kong");
+    db->insert("critics", 3, 1180, "Bowser", "Dragon");
+    db->insert("critics", 3, 15, "Baby", "Mario");
+    db->insert("critics", 3, 1113, "Baby", "Luigi");
+    db->insert("critics", 3, 1114, "Baby", "Zelda");
+    db->insert("critics", 3, 1115, "Baby", "Daisy");
+    db->insert("critics", 3, 1116, "Kirby", "Pink");
+    db->insert("critics", 3, 1117, "Diddy", "Kong");
+    db->insert("critics", 3, 1118, "Princess", "Daisy");
+    db->insert("critics", 3, 2123, "Mario", "Bros");
+    db->insert("critics", 3, 1223, "Mario", "Bros");
+    db->insert("critics", 3, 1200, "Princess", "Peach");
+    db->insert("critics", 3, 1225, "Luigi", "Bros");
+    db->insert("critics", 3, 1224, "Toad", "Factory");
+    db->insert("critics", 3, 1245, "Donkey", "Kong");
+    db->insert("critics", 3, 1280, "Bowser", "Monster");
+    db->insert("critics", 3, 52, "Boo", "Ghost");
+    db->insert("critics", 3, 1213, "Princess", "Daisy");
+    db->insert("critics", 3, 1214, "Princess", "Zelda");
+    db->insert("critics", 3, 1215, "Princess", "Daisy");
+    db->insert("critics", 3, 1216, "Princess", "Daisy");
+    db->insert("critics", 3, 1217, "Princess", "Daisy");
+    db->insert("critics", 3, 1218, "Princess", "Daisy");
+    db->insert("critics", 3, 12100, "Princess", "Peach");
+    db->insert("critics", 3, 12125, "Luigi", "Bros");
+    db->insert("critics", 3, 12124, "Toad", "Factory");
+    db->insert("critics", 3, 12145, "Donkey", "Kong");
+    db->insert("critics", 3, 12180, "Bowser", "Monster");
+    db->insert("critics", 3, 125, "Boo", "Ghost");
+    db->insert("critics", 3, 12113, "Princess", "Daisy");
+    db->insert("critics", 3, 122114, "Princess", "Zelda");
+    db->insert("critics", 3, 11125, "Princess", "Daisy");
+    db->insert("critics", 3, 12116, "Princess", "Daisy");
+    db->insert("critics", 3, 12117, "Princess", "Daisy");
+    db->insert("critics", 3, 12118, "Princess", "Daisy");
+  }
 };
 
 // create_table
@@ -1005,10 +1110,246 @@ TEST_F(DatabaseTestOrdered, InsertIntoTableVariableLoadTest) {
 
   free(critics);
 }
-// TODO:
-// error inserts where the attributes don't match? what kind of error checking do we have in place?
-// more tests focusing on the primary keys
-// primary key based on each data type
-// ordered will have more tests since we'll have to pay attention to the different
-// select/update - test out all of the conditionals
+
+TEST_F(DatabaseTestHashed, InsertIntoTableFixed) {
+  db->create_table("movies", "id", 6,
+                   "id", "integer",
+                   "title", "char(32)",
+                   "rating", "real");
+
+  db->insert("movies", 3, 27, "Star Wars", 4.2);
+  db->insert("movies", 3, 28, "Rouge One", 3.0);
+  db->insert("movies", 3, 25, "The Last Starfighter", 3.0);
+  db->insert("movies", 3, 26, "Princess Diaries", 5.0);
+  db->insert("movies", 3, 127, "Frozen", 4.2);
+
+  char* movies = (char*)calloc(strlen("movies") + 1, sizeof(char));
+  strcpy(movies, "movies");
+  void* record = db->retrieveDBPrimaryRecord(movies);
+
+  void* dataRoot = (void*)*(long*)((uintptr_t)record + db->data_root_offset);
+  void* temp = dataRoot;  // ptr to first bucket
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 0" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 1" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 2" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 3" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 4" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 5" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 6" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 1) << "bucket 7" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 8" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 9" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 1) << "bucket 10" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 1) << "bucket 11" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 1) << "bucket 12" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 1) << "bucket 13" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 14" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+
+  free(movies);
+}
+
+TEST_F(DatabaseTestHashed, InsertIntoTableFixedLoadTest) {
+  // indirectly tests findPrimaryKeyFixed
+  createSomeMovies();
+  char* movies = (char*)calloc(strlen("movies") + 1, sizeof(char));
+  strcpy(movies, "movies");
+  void* record = db->retrieveDBPrimaryRecord(movies);
+
+  void* dataRoot = (void*)*(long*)((uintptr_t)record + db->data_root_offset);
+  void* temp = dataRoot;  // ptr to first bucket
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 1) << "bucket 0" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 1" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 3) << "bucket 2" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 2) << "bucket 3" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 1) << "bucket 4" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 5" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 1) << "bucket 6" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 3) << "bucket 7" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 2) << "bucket 8" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 9" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 2) << "bucket 10" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 2) << "bucket 11" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 3) << "bucket 12" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 4) << "bucket 13" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 14" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  free(movies);
+}
+
+TEST_F(DatabaseTestHashed, InsertIntoTableVariable) {
+  db->create_table("critics", "id", 6,
+                   "id", "integer",
+                   "fname", "varchar(32)",
+                   "lname", "varchar(32)");
+
+  db->insert("critics", 3, 100, "Princess", "Peach");
+  db->insert("critics", 3, 125, "Luigi", "Bros");
+  db->insert("critics", 3, 124, "Toad", "Factory");
+  db->insert("critics", 3, 145, "Donkey", "Kong");
+  db->insert("critics", 3, 180, "Bowser", "Monster");
+
+  char* critics = (char*)calloc(strlen("critics") + 1, sizeof(char));
+  strcpy(critics, "critics");
+  void* record = db->retrieveDBPrimaryRecord(critics);
+
+  void* dataRoot = (void*)*(long*)((uintptr_t)record + db->data_root_offset);
+  void* temp = dataRoot;  // ptr to first bucket
+
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 1) << "bucket 0" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 1" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 2" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 3" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 1) << "bucket 4" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 1) << "bucket 5" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 6" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 7" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 8" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 9" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 2) << "bucket 10" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 11" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 12" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 13" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 0) << "bucket 14" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+
+  free(critics);
+}
+
+TEST_F(DatabaseTestHashed, InsertIntoTableVariableLoadTest) {
+  // indirectly tests findPrimaryKeyFixed
+  createSomeCritics();
+  char* critics = (char*)calloc(strlen("critics") + 1, sizeof(char));
+  strcpy(critics, "critics");
+  void* record = db->retrieveDBPrimaryRecord(critics);
+
+  void* dataRoot = (void*)*(long*)((uintptr_t)record + db->data_root_offset);
+  void* temp = dataRoot;  // ptr to first bucket
+
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 7) << "bucket 0" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 1) << "bucket 1" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 1) << "bucket 2" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 3) << "bucket 3" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 3) << "bucket 4" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 7) << "bucket 5" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 1) << "bucket 6" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 2) << "bucket 7" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 5) << "bucket 8" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 2) << "bucket 9" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 8) << "bucket 10" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 2) << "bucket 11" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 2) << "bucket 12" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 3) << "bucket 13" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  EXPECT_EQ(*(int*)((uintptr_t)temp + db->hash_record_count_offset), 3) << "bucket 14" << endl;
+  temp = (void*)((uintptr_t)temp + db->hashed_size);
+  // total = 50 records inserted
+  free(critics);
+}
+
+TEST_F(DatabaseTestHashed, UpdateFixedEqual) {
+  createSomeMovies();
+  EXPECT_EQ(db->updateTest("movies", 3, "rating", "5.0", "id = 27"), 1);
+}
+TEST_F(DatabaseTestHashed, UpdateFixedNotEqual) {
+  createSomeMovies();
+  EXPECT_EQ(db->updateTest("movies", 3, "rating", "5.0", "id != 27"), 23);
+}
+TEST_F(DatabaseTestHashed, UpdateFixedGreaterThan) {
+  createSomeMovies();
+  EXPECT_EQ(db->updateTest("movies", 3, "rating", "5.0", "id > 27"), 21);
+}
+TEST_F(DatabaseTestHashed, UpdateFixedGreaterThanOrEqualTo) {
+  createSomeMovies();
+  EXPECT_EQ(db->updateTest("movies", 3, "rating", "5.0", "id >= 27"), 22);
+}
+TEST_F(DatabaseTestHashed, UpdateFixedLessThan) {
+  createSomeMovies();
+  EXPECT_EQ(db->updateTest("movies", 3, "rating", "5.0", "id < 27"), 2);
+}
+TEST_F(DatabaseTestHashed, UpdateFixedLessThanOrEqualTo) {
+  createSomeMovies();
+  EXPECT_EQ(db->updateTest("movies", 3, "rating", "5.0", "id <= 27"), 3);
+}
+
+TEST_F(DatabaseTestHashed, UpdateVariableEqual) {
+  createSomeCritics();
+  EXPECT_EQ(db->updateTest("critics", 3, "lname", "Rosy", "id = 115"), 1);
+}
+TEST_F(DatabaseTestHashed, UpdateVariableNotEqual) {
+  createSomeCritics();
+  EXPECT_EQ(db->updateTest("critics", 3, "lname", "Rosy", "id != 115"), 49);
+}
+TEST_F(DatabaseTestHashed, UpdateVariableGreaterThan) {
+  createSomeCritics();
+  EXPECT_EQ(db->updateTest("critics", 3, "lname", "Rosy", "id > 115"), 43);
+}
+TEST_F(DatabaseTestHashed, UpdateVariableGreaterThanOrEqualTo) {
+  createSomeCritics();
+  EXPECT_EQ(db->updateTest("critics", 3, "lname", "Rosy", "id >= 115"), 44);
+}
+TEST_F(DatabaseTestHashed, UpdateVariableLessThan) {
+  createSomeCritics();
+  EXPECT_EQ(db->updateTest("critics", 3, "lname", "Rosy", "id < 115"), 6);
+}
+TEST_F(DatabaseTestHashed, UpdateVariableLessThanOrEqualTo) {
+  createSomeCritics();
+  EXPECT_EQ(db->updateTest("critics", 3, "lname", "Rosy", "id <= 115"), 7);
+}
+
 }  // namespace
