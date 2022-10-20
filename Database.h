@@ -334,6 +334,13 @@ class Database {
   /// @param value the target value that we want the specialName attribute to be compared with
   void updateTableGivenFixedHelper(int dataCurrRecordCount, int fixedLength, void* dataRead, void* dataReadEnd, int numAttr, void* attrRecords[], dataType attrTypes[], bool isTarget[], int toUpdate, char* value);
 
+  /// @brief a duplicate of update() but returns number of values update, used for testing
+  /// @param table_name the table to update
+  /// @param length should be 3
+  /// @param  first should be the attribute to update, second is the conditional
+  /// @return number of records updated
+  int updateTest(const char* table_name, int length, ...);
+
   /// @brief helper to updateTableGiven, changes variable records
   /// @param record to update
   /// @param numAttr number of attributes associated with record
@@ -360,12 +367,6 @@ class Database {
   /// @param value the target value that we want the specialName attribute to be compared with
   void updateTableGivenVariableHelperHashed(void*& bucketBlock, int numAttr, void* attrRecords[], bool isTarget[], dataType attrTypes[], int fixedLength, int recordsInBlock, int toUpdate, char* value);
 
-  /// @brief a duplicate of update() but returns number of values update, used for testing
-  /// @param table_name the table to updat e
-  /// @param length should be 2
-  /// @param  first should be the attribute to update, second is the conditional
-  /// @return number of records updated
-  int updateTest(const char* table_name, int length, ...);
   // void updateTableFixed(char* table_name, char* attrToUpdate, char* value, bool* isTarget);
   // other helper functions
 
