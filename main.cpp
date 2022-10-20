@@ -146,7 +146,8 @@ int main(int argc, char* argv[]) {
 
   db->select("movies", 1, "title, rating");
   db->select("movies", 2, "id, title", "id = 27");
-  db->update("movies", 3, "rating", "5.0", "id > 27");
+  // db->update("movies", 3, "rating", "5.0", "id > 27");
+  db->update("movies", 3, "rating", "5.0", "title = Frozen");
   db->select("movies", 2, "*", "id = 27");
 
   db->select("critics", 2, "fname, lname", "id = 115");
@@ -211,8 +212,34 @@ int main(int argc, char* argv[]) {
   h->insert("movies", 3, 297, "Sleeping Beauty", 4.2);
   h->insert("movies", 3, 208, "Tangled", 3.0);
   h->insert("movies", 3, 217, "Honey I Shrunk the Kids", 4.2);
-  h->printTableHashed("movies");
+  h->insert("movies", 3, 228, "Big Hero 6", 3.0);
+
+  h->update("movies", 3, "rating", "5.0", "id > 27");
+
+  h->printTable("movies");
+
   h->printDBPrimary();
+  h->select("movies", 2, "id, title", "id = 27");
+
+  h->create_table("critics", "id", 6,
+                  "id", "integer",
+                  "fname", "varchar(32)",
+                  "lname", "varchar(32)");
+
+  h->insert("critics", 3, 27, "Mario", "Bros");
+  h->insert("critics", 3, 27, "Mario", "Bros");
+  h->insert("critics", 3, 28, "Princess", "Peach");
+  h->insert("critics", 3, 25, "Luigi", "Bros");
+  h->insert("critics", 3, 26, "Toad", "Mushroom");
+  h->insert("critics", 3, 145, "Donkey", "Kong");
+  h->insert("critics", 3, 180, "Bowser", "Monster");
+  h->insert("critics", 3, 5, "Boo", "Ghost");
+  h->insert("critics", 3, 113, "Princess", "Daisy");
+  h->printTable("critics");
+  h->printDBPrimary();
+  h->update("critics", 3, "lname", "Rosy", "id <= 28");
+
+  h->printTable("critics");
 
   /*
   // Figuring stuff out
