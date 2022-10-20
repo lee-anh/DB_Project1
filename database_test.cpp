@@ -46,8 +46,8 @@ class DatabaseTest : public testing::Test {
     db->insert("movies", 3, 287, "Solo", 3.0);
     db->insert("movies", 3, 278, "Captain America", 4.2);
     db->insert("movies", 3, 280, "Iron Man", 3.0);
-    db->insert("movies", 3, 273, "Thor", 4.2);    // duplicate primary key
-    db->insert("movies", 3, 284, "Antman", 3.0);  // duplicate primary key
+    db->insert("movies", 3, 273, "Thor", 4.2);
+    db->insert("movies", 3, 284, "Antman", 3.0);
   };
 
   void createSomeCritics() {
