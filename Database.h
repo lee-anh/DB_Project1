@@ -1,12 +1,8 @@
 #ifndef DATABASE
 #define DATABASE
 
-// c
-
 #include <stdint.h>
 #include <string.h>
-
-// cpp
 
 #include <iostream>
 #include <vector>

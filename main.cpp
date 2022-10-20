@@ -1,18 +1,15 @@
-// c
 #include <stdint.h>
 #include <string.h>
 
-// cpp
 #include <iostream>
 
-// local
 #include "Database.h"
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
-  cout << "SIZE OF FLOAT " << sizeof(float) << endl;
   // Database* db = new Database(UNORDERED);
+  cout << "____________________ORDERED________________________" << endl;
   Database* db = new Database(ORDERED);
   db->printDBPrimary();
   db->create_table("movies", "id", 6,
@@ -107,21 +104,11 @@ int main(int argc, char* argv[]) {
   db->insert("critics", 3, 12117, "Princess10", "Daisy");
   db->insert("critics", 3, 12118, "Princess11", "Daisy");
 
-  /*
-
-      db->insert("critics", 3, 100, "Princess", "Peach");
-      db->insert("critics", 3, 125, "Luigi", "Bros");
-      db->insert("critics", 3, 124, "Toad", "Factory");
-      db->insert("critics", 3, 145, "Donkey", "Kong");
-      db->insert("critics", 3, 180, "Bowser", "Monster");
-    */
-
   db->insert("movies", 3, 27, "Star Wars", 4.2);
   db->insert("movies", 3, 28, "Rouge One", 3.0);
   db->insert("movies", 3, 25, "The Last Starfighter", 3.0);
   db->insert("movies", 3, 26, "Princess Diaries", 5.0);
   db->insert("movies", 3, 127, "Frozen", 4.2);
-
   db->insert("movies", 3, 228, "Big Hero 6", 3.0);
   db->insert("movies", 3, 237, "Cars", 4.2);
   db->insert("movies", 3, 248, "Cars 2", 3.0);
@@ -146,54 +133,20 @@ int main(int argc, char* argv[]) {
 
   db->select("movies", 1, "title, rating");
   db->select("movies", 2, "id, title", "id = 27");
-  // db->update("movies", 3, "rating", "5.0", "id > 27");
-  db->update("movies", 3, "rating", "5.0", "title = Frozen");
+  db->update("movies", 3, "rating", "5.0", "id > 27");
+  db->update("movies", 3, "rating", "4.0", "title = Frozen");
   db->select("movies", 2, "*", "id = 27");
 
   db->select("critics", 2, "fname, lname", "id = 115");
   db->update("critics", 3, "lname", "Rosy", "id = 115");
   db->updateTest("critics", 3, "lname", "Rosy", "id < 115");
 
-  /*
-    db->insert("movies", 3, 27, "Star Wars", 4.2);
-    db->insert("movies", 3, 28, "Rouge One", 3.0);
-    db->insert("movies", 3, 25, "The Last Starfighter", 3.0);
-    db->insert("movies", 3, 26, "Princess Diaries", 5.0);
-    db->insert("movies", 3, 127, "Frozen", 4.2);
-    db->insert("movies", 3, 228, "Big Hero 6", 3.0);
-    db->insert("movies", 3, 237, "Cars", 4.2);
-    db->insert("movies", 3, 248, "Cars 2", 3.0);
-    db->insert("movies", 3, 257, "Toy Story", 4.2);
-    db->insert("movies", 3, 268, "Tarzan", 3.0);
-    db->insert("movies", 3, 277, "Little Shop of Horrors", 4.2);
-    db->insert("movies", 3, 288, "Cinderella", 3.0);
-    db->insert("movies", 3, 297, "Sleeping Beauty", 4.2);
-    db->insert("movies", 3, 208, "Tangled", 3.0);
-    db->insert("movies", 3, 217, "Honey I Shrunk the Kids", 4.2);
-    db->insert("movies", 3, 281, "Back to the Future", 3.0);
-    db->insert("movies", 3, 272, "Father of the Bride", 4.2);
-    db->insert("movies", 3, 283, "Cheaper by the Dozen", 3.0);
-    db->insert("movies", 3, 274, "Avengers", 4.2);
-    db->insert("movies", 3, 285, "Joy Luck Club", 3.0);
-    db->insert("movies", 3, 276, "Crazy Rich Asians", 4.2);
-    db->insert("movies", 3, 287, "Solo", 3.0);
-    db->insert("movies", 3, 278, "Captain America", 4.2);
-    db->insert("movies", 3, 280, "Iron Man", 3.0);
-    db->insert("movies", 3, 572, "Thor", 4.2);
-    db->insert("movies", 3, 583, "Antman", 3.0);
-    */
-
   db->printTable("critics");
   db->printTable("movies");
 
   db->printDBPrimary();
-  cout << "Num db primary blocks " << db->db_primary_blocks << endl;
 
-  cout << "Num db attribute blocks " << db->db_attr_blocks << endl;
-  cout << "db_attr " << db->db_attr << endl;
-  cout << "db_attr_curr_end " << db->db_attr_curr_end << endl;
-
-  cout << "____________________________________________" << endl;
+  cout << "____________________HASHED________________________" << endl;
   Database* h = new Database(HASHED);
 
   h->create_table("movies", "id", 6,
@@ -237,12 +190,12 @@ int main(int argc, char* argv[]) {
   h->insert("critics", 3, 113, "Princess", "Daisy");
   h->printTable("critics");
   h->printDBPrimary();
-  h->update("critics", 3, "lname", "Rosy", "id <= 28");
+  h->update("critics", 3, "lname", "Rosy", "id < 28");
 
   h->printTable("critics");
 
-  /*
   // Figuring stuff out
+  /*
   void* blk = calloc(BLOCK_SIZE, 1);
 
   void* ptr = blk;

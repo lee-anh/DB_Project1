@@ -1573,12 +1573,19 @@ bool Database::findPrimaryKeyHashedVariable(void* dbPrimaryPtr, void* pkToFind) 
     readDBAttr = (void*)((uintptr_t)readDBAttr + db_attr_record_size);
   }
 
+  int bucket = getBucketNumber(pkToFind, pkSize, attrTypes[primaryKeyNumber]);  // where it would be
+  void* bucketBlock = (void*)*(long*)((uintptr_t)dbPrimaryPtr + data_root_offset);
+  bucketBlock = (void*)((uintptr_t)bucketBlock + (bucket * hashed_size));  // get to the right bucket
+  int recordsInBlock = *(int*)((uintptr_t)bucketBlock + hash_record_count_offset);
+  // cout << "the right bucket: " << bucketBlock << endl;
+  cout << "bucket: " << bucket << endl;
+
   // set up read heads
-  void* dataRead = dataRoot;
+  void* dataRead = (void*)*(long*)bucketBlock;
   void* dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
 
   // we just need the attribute types so we know what to cast it into
-  for (int i = 0; i < dataCurrRecordCount; i++) {
+  for (int i = 0; i < recordsInBlock; i++) {
     checkSpaceSearch(-1, dataRead, dataReadEnd);
     void* recordBegin = dataRead;
 
@@ -1626,6 +1633,7 @@ bool Database::findPrimaryKeyHashedVariable(void* dbPrimaryPtr, void* pkToFind) 
         }
       } else if (type == INTEGER) {
         if (j == primaryKeyNumber) {
+          cout << "primary key: " << *(int*)dataRead << endl;
           if (*(int*)pkToFind == *(int*)dataRead) return true;
         }
         ((int*&)dataRead)++;
@@ -2512,9 +2520,10 @@ int Database::updateTableGivenHashed(char* table_name, char* attrToUpdate, char*
           if (j == special) isTarget[i] = compare(target, comparator, dataRead, -1, SMALLINT);
           ((short*&)dataRead)++;
         } else if (type == INTEGER) {
-          cout << "integer" << endl;
-          if (j == special) isTarget[i] = compare(target, comparator, dataRead, -1, INTEGER);
-          cout << "done" << endl;
+          if (j == special) {
+            isTarget[i] = compare(target, comparator, dataRead, -1, INTEGER);
+            cout << "res: " << *(int*)dataRead << " ";
+          }
           ((int*&)dataRead)++;
         } else if (type == REAL) {
           if (j == special) isTarget[i] = compare(target, comparator, dataRead, -1, REAL);
@@ -2524,7 +2533,7 @@ int Database::updateTableGivenHashed(char* table_name, char* attrToUpdate, char*
       if (isTarget[i]) numUpdate++;
       if (variable) ((char*&)dataRead)++;
 
-      // cout << "target" << isTarget[i] << " ";
+      cout << "target " << isTarget[i] << endl;
       // cout << endl;
     }
 
@@ -2771,8 +2780,8 @@ void Database::updateTableGivenVariableHelper(void*& record, int numAttr, void* 
 /// @param value the target value that we want the specialName attribute to be compared with
 void Database::updateTableGivenVariableHelperHashed(void*& bucketBlock, int numAttr, void* attrRecords[], bool isTarget[], dataType attrTypes[], int fixedLength, int recordsInBlock, int toUpdate, char* value) {
   // get each bucket ready to accept records
-  void* oldBucketBlock = bucketBlock;  // keep track of the old bucket
-  cout << "bucketBlock " << bucketBlock << endl;
+  void* oldBucketRoot = (void*)(*(long*)bucketBlock);  // keep track of the old bucket
+  // cout << "bucketBlock " << bucketBlock << endl;
   // we only have to do this for one bucket
   void* dataRoot = NULL;
   void* dataCurr = NULL;
@@ -2781,20 +2790,18 @@ void Database::updateTableGivenVariableHelperHashed(void*& bucketBlock, int numA
   initializeNewBlock(dataRoot, dataCurr, dataCurrEnd, dataCurrBlockCount);
   // cout << "i: " << i << endl;
   // cout << "bucketBlock " << bucketBlock << endl;
-  cout << "dataRoot " << dataRoot << endl;
-  cout << "dataCurr " << dataCurr << endl;
+  // cout << "dataRoot " << dataRoot << endl;
+  // cout << "dataCurr " << dataCurr << endl;
 
   *(long*)bucketBlock = (uintptr_t)dataRoot;
   *(long*)((uintptr_t)bucketBlock + hash_curr_offset) = (uintptr_t)dataCurr;
   *(long*)((uintptr_t)bucketBlock + hash_curr_end_offset) = (uintptr_t)dataCurrEnd;
   *(int*)((uintptr_t)bucketBlock + hash_block_count_offset) = dataCurrBlockCount;
-
-  // so annoying
+  *(int*)((uintptr_t)bucketBlock + hash_record_count_offset) = 0;
 
   int maxRecordSize = calculateMaxDataRecordSize(attrRecords[0], numAttr);
-  // cout << "got here" << endl;
 
-  void* dataRead = bucketBlock;
+  void* dataRead = oldBucketRoot;
   void* dataReadEnd = (void*)(((long*)((uintptr_t)dataRead + (uintptr_t)BLOCK_SIZE)) - 1);
   for (int i = 0; i < recordsInBlock; i++) {
     checkSpaceSearch(fixedLength, dataRead, dataReadEnd);
@@ -2867,9 +2874,9 @@ void Database::updateTableGivenVariableHelperHashed(void*& bucketBlock, int numA
     ((char*&)dataRead)++;   // END_RECORD_CHAR
                             // cout << "before add" << endl;
     int actualRecordSize = (uintptr_t)bufferPtr - (uintptr_t)bufferToSend;
-    // cout << "before unordered add" << endl;
+
     addUnorderedToTableHashed(bufferToSend, actualRecordSize, bucketBlock);
-    // cout << "after unordered add" << endl;
+
     //  cout << "after add" << endl;
     //  printTable(table_name);
     //  TODO: free the old tables
@@ -2947,11 +2954,11 @@ int Database::getBucketNumber(void* pk, int pkLength, dataType pkType) {
       hashCode = hashCode * 31 + buffer[i];
     }
   } else if (pkType == SMALLINT) {
-    hashCode = (*(short*)pk * 100) % num_hash_buckets;
+    hashCode = (*(short*)pk * 31) % num_hash_buckets;
   } else if (pkType == INTEGER) {
-    hashCode = (*(int*)pk * 100) % num_hash_buckets;
+    hashCode = (*(int*)pk * 31) % num_hash_buckets;
   } else if (pkType == REAL) {
-    hashCode = ((int)*(float*)pk * 100) % num_hash_buckets;
+    hashCode = ((int)*(float*)pk * 31) % num_hash_buckets;
   }
   return hashCode;
 }
@@ -3078,11 +3085,11 @@ bool Database::compare(char* targetValue, char* comparator, void* candidate, int
       return num > tar;
     }
   } else if (type == INTEGER) {
-    cout << "hello int" << endl;
+    // cout << "hello int" << endl;
     int tar = atoi(targetValue);
-    cout << "mid" << endl;
+    // cout << "mid" << endl;
     int num = *(int*)candidate;
-    cout << "target " << tar << " num " << num << endl;
+    // cout << "target " << tar << " num " << num << endl;
     if (strstr(comparator, "!=")) {
       return num != tar;
     }
